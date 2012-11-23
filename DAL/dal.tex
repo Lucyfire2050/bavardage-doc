@@ -1,0 +1,166 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{tikz-uml}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+
+\usepgflibrary{arrows} % for pgf-umlsd
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
+\newcommand{\hmwkClass}{Master 1 SSI } % Course/class
+\newcommand{\hmwkClassInstructor}{Jones} % Teacher/lecturer
+\newcommand{\hmwkAuthorName}{Yves Nouafo} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Architecture du logiciel} % Document name
+
+\newcommand{\version}{0.1} % Document version
+\newcommand{\docDate}{23 novembre 2012} % Document date
+\newcommand{\checked}{} % Checker name
+\newcommand{\approved}{} % Approver name
+
+\newcommand{\fiche}[9] {
+	\noindent
+\begin{tabular}{|p{3.5cm}| p{1cm} | p{3cm} | p{.5cm} | p{7cm}|} 
+\hline
+\rowcolor{blue}
+\multicolumn{2}{|l|}{\color{white}\bfseries{Nom}} & \multicolumn{3}{l|}{\color{white}\bfseries{#1}}\\
+\hline
+\multicolumn{2}{|l|}{\bfseries{Acteurs concernés}} & \multicolumn{3}{m{10.5cm}|}{#2}\\
+\hline
+\multicolumn{2}{|l|}{\bfseries{Description}} & \multicolumn{3}{m{10.5cm}|}{#3}\\
+\hline
+\multicolumn{2}{|l|}{\bfseries{Préconditions}} & \multicolumn{3}{m{10.5cm}|}{#4}\\
+\hline
+\multicolumn{2}{|l|}{\bfseries{Evénements déclenchants}} & \multicolumn{3}{m{10.5cm}|}{#5}\\
+\hline
+\multicolumn{2}{|l|}{\bfseries{Conditions d'arrêt}} & \multicolumn{3}{m{10.5cm}|}{#6}\\
+\hline
+\rowcolor{gray}
+\multicolumn{5}{|c|}{\bfseries{Description du flot d'événements principal}}\\
+\hline
+\rowcolor{gray}
+\multicolumn{3}{|c|}{\bfseries{Acteur(s)}} & \multicolumn{2}{c|}{\bfseries{Système}}\\
+\hline
+\multicolumn{3}{|p{7.5cm}|}{#7} & \multicolumn{2}{p{7.5cm}|}{#8}\\
+\hline
+\multicolumn{2}{|l}{\bfseries{Flots d'exceptions}} & \multicolumn{3}{|p{11.5cm}|}{#9}\\
+\hline
+\end{tabular}
+\\
+}
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\begin{document}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{7cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	0.1 & 23/11/2011 & Création\\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+\section{Objet}
+\section{Documents applicables et de référecnce}
+\section{Terminologie et sigles utilisés}
+\section{Configuration requise}
+\section{Architecture statique}
+\subsection{Structure}
+\subsection{Description du constituant "X"}
+\subsection{Justifications techniques}
+
+\section{Fonctionnement dynamique}
+
+\section{Traçabilité}
+
+\begin{tikzpicture} 
+\begin{umlseqdiag} 
+\umlobject[class=A]{a} 
+\umlcreatecall[class=B]{a}{b} 
+\begin{umlfragment}[type=alt, label=i>5, inner xsep=5] 
+\begin{umlcall}[op={tata(i,k)}, dt=7, return=2]{a}{b} 
+\end{umlcall} 
+\umlfpart[default] 
+\begin{umlcall}[op={titi(a,k)}, return=4]{a}{b} 
+\end{umlcall} 
+\end{umlfragment} 
+\end{umlseqdiag} 
+\end{tikzpicture}
+
+
+
+
+\end{document}
