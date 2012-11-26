@@ -1,0 +1,134 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage{lmodern}
+\usepackage{hyperref}
+
+\usetheme{Hannover}
+\usecolortheme{seagull}
+
+\author{Julien Legras}
+\title{Présentation Git}
+\titlegraphic{\includegraphics[height=5em]{logo-git.png}}
+
+\date{26/11/2012}
+
+\begin{document}
+\maketitle
+\begin{frame}
+\frametitle{Sommaire}
+\tableofcontents
+\end{frame}
+
+\section{Qu'est-ce que Git ?}
+\begin{frame}
+\frametitle{Qu'est-ce que Git ?}
+\begin{block}{Wikipedia}
+Git est un logiciel de gestion de versions décentralisé. C'est un logiciel libre créé par Linus Torvalds en 2005.
+\end{block}
+
+\begin{block}{Wikipedia}
+Un logiciel de gestion de versions (ou VCS en anglais, pour Version Control System) est un logiciel qui permet de stocker un ensemble de fichiers en conservant la chronologie de toutes les modifications qui ont été effectuées dessus. Il permet notamment de retrouver les différentes versions d'un lot de fichiers connexes.
+\end{block}
+\end{frame}
+
+\section{Installation}
+\frame[containsverbatim]{
+\frametitle{Installation}
+\begin{block}{Ubuntu}
+\verb+sudo apt-get install git+
+\end{block}
+\begin{block}{Mac}
+\verb+sudo port install git-core ++\verb+bash_completion+
+\end{block}
+}
+\section{Configuration}
+\frame[containsverbatim]{
+\frametitle{Configuration}
+\begin{block}{Génération d'une clef}
+\verb+ssh-keygen -t rsa -C "your_email@youremail.com"+
+\end{block}
+\begin{block}{Informations commiter}
+\verb+git config --global user.name "Toto Truc"+\\
+\verb+git config --global user.email "toto@truc.com"+
+\end{block}
+}
+
+\section{Commandes principales}
+\subsection{Récupérer un repository}
+\frame[containsverbatim]{
+\frametitle{Récupérer un repository}
+\begin{block}{Clonage par HTTPS}
+\small{
+\verb+git clone https://github.com/legrajul/bavardage-doc.git+
+}
+\end{block}
+
+\begin{block}{Clonage par SSH}
+\small{
+\verb+git clone git@github.com:legrajul/bavardage-doc.git+
+}
+\end{block}
+}
+
+\subsection{Commiter des modifications}
+\frame[containsverbatim]{
+\frametitle{Commiter des modifications}
+\begin{block}{Afficher les fichiers modifiés}
+\verb+git status+
+\end{block}
+\begin{block}{Ajouter un fichier modifié au prochain commit}
+\verb+git add file1 file2...+
+\end{block}
+\begin{block}{Créer le commmit}
+\verb+git commit -m "Commentaire du commit"+
+\end{block}
+\begin{block}{Mettre à jour le serveur}
+\verb+git push origin <branchname>+
+\end{block}
+}
+
+\subsection{Récupérer des modifications}
+\frame[containsverbatim]{
+\frametitle{Récupérer des modifications}
+\begin{block}{Vérifier l'existence de modifications}
+\verb+git fetch origin+
+\end{block}
+
+\begin{block}{Appliquer les modifications}
+\verb+git pull origin <branchname>+
+\end{block}
+}
+
+\section{Les conflits}
+\frame[containsverbatim]{
+\frametitle{Les conflits}
+\begin{block}{Avant de pull}
+S'il y a des changements non commités (\verb+git status+), on ne peut pas faire de \verb+git pull+\\
+On peut mettre sur une pile nos modifications : \verb+git stash+ et réappliquer nos modifications après le \verb+pull+ avec : \verb+git stash pop+ ou \verb+git stash apply stash@numero_stash+
+\end{block}
+
+\begin{block}{Avant le push}
+Il est indispensable de se mettre à jour et de régler les conflits avant de \verb+push+
+\end{block}
+
+\begin{block}{Géré les conflits}
+Il faut éditer notre fichier en conséquence avec un éditeur ou un diff-éditeur puis on \verb+add+ chaque fichier.
+\end{block}
+}
+
+\section{S'entraîner}
+\frame[containsverbatim]{
+\frametitle{S'entraîner}
+\begin{block}{La bonne adresse}
+\url{http://try.github.com/}
+\end{block}
+}
+\section{Conclusion}
+\frame{
+\frametitle{Conclusion}
+\includegraphics[width=25em]{git_all_the_things.png}
+}
+
+\end{document}
