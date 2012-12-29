@@ -1,0 +1,161 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
+\newcommand{\hmwkClass}{Master 1 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Charles Ango -- Jean-Baptiste Souchal} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Cahier de recette} % Document name
+
+\newcommand{\version}{0.3} % Document version
+\newcommand{\docDate}{16 décembre 2012} % Document date
+\newcommand{\checked}{Julien Legras} % Checker name
+\newcommand{\approved}{} % Approver name
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\begin{document}
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{7cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	0.1 & 23/11/2011 & Création\\
+	\hline
+	0.2 & 30/11/12 & Ajout des procédures de test\\
+	\hline
+	0.3 & 07/12/12 & Modifications et suppression de procédures de test\\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+\tableofcontents
+\clearpage
+
+% OBJET
+\section{Objet}
+Ce document a pour but de présenter une série de scénarios décrivant avec précision les démarches à suivre dans le cadre de l’utilisation du logiciel «chat sécurisé». Les différents tests s’exécuteront dans un environnement physique et virtuel (des machines virtuelles seront utilisées pour tester les différents modules clients de l’application).
+
+\section{Documents applicables et de référence}
+\begin{itemize}
+\item Spécification technique des besoins
+\item Document d'architecture logicielle
+\item RFC 2810 à 2813 d'avril 2000
+\end{itemize}
+
+\section{Terminologie et sigles utilisés}
+\begin{itemize}
+\item \textbf{AC} : Autorité de certification
+\item \textbf{DAL} : Document d'architecture logicielle
+\end{itemize}
+
+\section{Environnement de test}
+Les tests se feront dans un réseau local et par internet (pour tester les protocoles déjà existants ie. IRC, XMPP). Nous disposerons de  machines dont l’utilisation sera faite comme suit :
+\begin{itemize}
+\item un serveur sécurisé (machine virtuelle)
+\item un serveur local (pour les tests sur réseau local, machine virtuelle)
+\item 5 machines clients (machines physiques ou virtuelles)
+\item une connexion internet (pour les tests sur internet)
+\end{itemize}
+La configuration matérielle utilisée a été détaillée dans le DAL. Les tests seront effectués sur le site de la faculté.
+
+\section{Responsabilités}
+\begin{itemize}
+\item Testeur : Charles Ango
+\item [$\hookrightarrow$] Le testeur sera chargé de faire les tests des différentes itérations des développeurs.
+\item Client : Jean-Baptiste Souchal
+\item [$\hookrightarrow$] Le client valide les tests effectués par le testeur.
+\end{itemize}
+
+\section{Stratégie de tests}
+Le testeur met en place l’architecture de test de l’application. Il débute les tests dans l’ordre qui était destiné d’importance des exigences fonctionnelles. 
+
+Un test est validé par le testeur lorsqu’il répond à l’exigence fonctionnelle à laquelle il est lié. Si le test n’est pas validé, alors les tests sont arrêtés. Un document sera rempli afin de gérer l’historique des tests qui n’ont pas été validé. 
+
+Les tests non validés seront renvoyé aux développeurs. Quand les développeurs auront terminé les corrections, les tests reprendront là où ils s’étaient arrêtés.
+
+Après avoir effectué tous les tests, les résultats des tests seront envoyés au client pour une validation.
+
+\section{Gestion des anomalies}
+Lors des tests, chaque anomalie découverte sera consignée dans un tableur. Ce tableur contiendra :
+\begin{itemize}
+\item le cas de test
+\item la tâche impliquée
+\item la description de l'erreur
+\item les développeurs assignés à cette tâche
+\item le statut de l'erreur
+\end{itemize}
+
+\section{Procédures de test}
+cf. Document Excel annexe
+\end{document}

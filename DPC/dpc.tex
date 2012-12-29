@@ -1,0 +1,157 @@
+\documentclass[a4paper,11pt,french]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ / \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
+\newcommand{\hmwkClass}{Master 1 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Ambroise Ismael Kabore} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Déclaration des pratiques de certification} % Document name
+
+\newcommand{\version}{0.1} % Document version
+\newcommand{\docDate}{19 Décembre 2012} % Document date
+\newcommand{\checked}{} % Checker name
+\newcommand{\approved}{} % Approver name
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+
+\begin{document}
+
+\pagestyle{fancy}
+
+\vspace*{5cm}
+\begin{center}\textbf{\Huge{\hmwkDocName}}\end{center}
+\vspace*{7cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXl}
+	\bfseries{Version} & & \version\\
+	& & \\
+	\bfseries{Date} & & \docDate\\
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{Relu par} & & \checked \\
+	& & \\
+	\bfseries{Approuvé par} & & \approved \\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+%Tableau de mises à jour
+\vspace*{1cm}
+\begin{center}
+\textbf{\huge{MISES À JOUR}}\\
+\vspace*{3cm}
+	\begin{tabularx}{16cm}{|c|c|X|}
+	\hline
+	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
+	\hline
+	0.1 & 19/12/2012 & Création\\
+	\hline
+	\end{tabularx}
+\end{center}
+
+%La table des matières
+\clearpage
+
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+\subsection{Contexte Général}
+La PKI mise en place pour le projet de chat sécurisé fournit des certificats (Durée : 2 ans) aux utilisateurs sécurisés du chat.
+Ces certificats sont utilisés sur le chat pour s'authentifier.
+
+\subsection{Délégation d'autorité d'enregistrement}
+Pas de délégation du rôle d’Autorité d’Enregistrement dans notre cas. La PKI assurera ce rôle.
+
+\subsection{Souscripteur}
+Le souscripteur est l’utilisateur du chat souhaitant se connecter au chat sécurisé. Le souscripteur est identifié dans chaque certificat. Une fois acceptée, l’adhésion au service pour le souscripteur est valable pour la totalité de la période de validité du certificat.
+
+\section{Pre requis pour les demandes}
+\subsection{Enregistrement d'un souscripteur}
+\begin{itemize}
+\item Le souscripteur fournit à l’AE toutes les informations nécessaires à son enregistrement. 
+\item Le souscripteur s'engage à fournir des informations correctes et précises et avertir l’AE en cas de mise à jour nécessaire de ces informations tout au long de la période de validité du certificat par le moyen de communication le plus adapté.
+\end{itemize}
+
+\subsection{Vérification}
+L’AE doit :
+\begin{itemize}
+\item Vérifier le remplissage correct de tous les champs par le souscripteur en respectant les conventions.
+\item Enregistrer le souscripteur.
+\item Transmettre la demande à l'AC.
+\end{itemize}
+L’AE a le droit de refuser toute demande.
+
+\section{Pratiques et procédures}
+\subsection{Demande de certificats}
+Lorsque l'utilisateur fait une demande de certificat, l’AE vérifie si les informations respectent les conventions, si les données
+respectent, la demande est automatiquement envoyée à l'autorité de certification pour génération du certificat. La demande se fait via un formulaire disponible sur l'application cliente du chat.
+
+\subsection{Validation  des demandes}
+Le délai moyen entre la réception des demandes complètes et la délivrance d'un certificat est de 1 jour. En cas de non validation des informations, l’AE rejette la demande. Le demandeur peut refaire sa demande suite à un rejet.
+
+\subsection{Révocation des certificats}
+La révocation entraîne la fin de validité du certificat avant la date de fin initialement prévue. L’AE vérifie que la demande de révocation est :
+\begin{itemize}
+\item Soit faite par l'utilisateur ayant fait la demande de certificat :  la demande de révocation sera traitée.
+\item Soit faite par une entité disposant des droits nécessaires: l'AE révoquera le certificat. La demande de révocation et l'identité de l'entité seront conservées.
+\end{itemize}
+
+\subsection{Expiration}
+La PKI doit s'efforcer de prévenir le souscripteur par email, 30 jours avant l'expiration de son certificat.
+
+\subsection{Renouvellement}
+Idem que pour demande de certificat.
+
+\section{Conservation et Protection des données}
+La PKI conserve les données relatives aux certificats pendant 2 ans minimum après expiration ou révocation des certificats. La PKI garde des copies des certificats quelque soit leur statut et conserve les logs pendant une période de 2 ans ou pour une période conforme à la loi. 
+\\La PKI respecte les règles applicables sur la protection des données personnelles jugées par la loi comme confidentielles.
+
+\end{document}

@@ -34,13 +34,12 @@
 
 \newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
 \newcommand{\hmwkClass}{Master 1 SSI } % Course/class
-\newcommand{\hmwkClassInstructor}{Jones} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Julien Legras} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Analyse des risques} % Document name
 
-\newcommand{\version}{0.1} % Document version
-\newcommand{\docDate}{23 novembre 2012} % Document date
+\newcommand{\version}{0.3} % Document version
+\newcommand{\docDate}{29 décembre 2012} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -94,7 +93,11 @@
 	\hline
 	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
 	\hline
-	0.1 & 23/11/2011 & Création\\
+	0.1 & 23/11/2012 & Création\\
+	\hline
+	0.2 & 29/11/2012 & Ajout de R1 à R5	\\
+	\hline
+	0.3 & 29/12/2012 & Ajout de R6 et R7\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -104,20 +107,78 @@
 \tableofcontents
 \clearpage
 \section{Objet}
+Document réunissant les différents risques qui pourraient arriver pendant ce projet ainsi que des plans d'actions pour les risque MAJEUR/CRITIQUE.
 \section{Documents applicables et de référecnce}
 \section{Terminologie et sigles utilisés}
+\begin{itemize}
+\item Calcul de la criticité :\\
+$$ CRITICITÉ = PROBABILITÉ \times IMPACT $$
+\item Table des correspondances PROBABILITÉ/valeur et IMPACT/valeur :
 
+\begin{center}
+\begin{tabular}{|l|l|c|l|l|}
+\hline
+\textbf{Nom probabilité}&\textbf{Valeur}&&\textbf{Nom impact}&\textbf{Valeur}\\
+\hline
+FAIBLE&2&&MINEUR&4\\
+\hline
+MAJEUR&3&&MAJEUR&5\\
+\hline
+FORT&4&&CRITIQUE&6\\
+\hline
+\end{tabular}
+\end{center}
+\item []
+\item Gtk : ensemble de bibliothèques permettant de réaliser des interfaces graphiques.
+\item Git : Git est un logiciel libre de gestion de versions décentralisé.
+\item Vala : Vala est un langage de programmation compilé orientée objet.
+\item OpenSSL : bibliothèque offrant des solutions de chiffrement.
+\item PKI : (Public Key Infrastructure) gère le cycle de vie des certificats numériques/électroniques.
+\end{itemize}
 \section{Registre des risques}
 
 \begin{center}
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\begin{tabular}{|l|p{2.5cm}|p{2.5cm}|l|l|l|l|}
 \hline
-Réf. & Date & Description & Facteurs & Type & Probabilité & Impact & Criticité \\
+\textbf{Réf.} & \textbf{Description} & \textbf{Facteurs} & \textbf{Type} & \textbf{Probabilité} & \textbf{Impact} & \textbf{Criticité} \\
 \hline
-&&&&&&&\\
+R1&Utilisation de Git&Une seule personne sait l'utiliser&Technique&FORT&MAJEUR&20\\
+\hline
+R2&Apprentissage de Gtk, Vala&3 ont déjà fait du Vala, 1 du Gtk&Technique&MAJEUR&MAJEUR&15\\
+\hline
+R3&Apprentissage d'OpenSSL&Personne n'a déjà utilisé OpenSSL&Technique&FORT&MAJEUR&20\\
+\hline
+R4&Membre de l'équipe gravement malade&Environnement&RH&FAIBLE&MAJEUR&10\\
+\hline
+R5&Vol/Incident matériel&&RH&FAIBLE&CRITIQUE&12\\
+\hline
+R6&Utilisation d'une PKI (tinyca/EJBCA)&Faibles connaissances des PKI&Technique&MAJEUR&MAJEUR&15\\
+\hline
+R7 & Retard dans la livraison & Retard du développement d'une tâche bloquante & RH/Technique & MAJEUR & MAJEUR & 15\\
+\hline
 \end{tabular}
 \end{center}
 
-\section{Plan d'action}
-
+\section{Plans d'actions}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Réf.}&\textbf{Action}\\
+\hline
+R1&Présentation de Git et installation le 26/11/12 à 10h30 par Julien.\\
+\hline
+R2&Présentation de Vala et Gtk par Julien (date à fixer).\\
+\hline
+R3&Toute l'équipe doit s'informer sur OpenSSL (date limite à fixer).\\
+\hline
+R4&Répartition de la charge de travail sur les membres.\\
+\hline
+R5&2 PCs portables de secours sont disponibles.\\
+\hline
+R6&Présentation des PKI + politique de certification par Charles et Ismael le 06/12/12.\\
+\hline
+R7& Renfort de l'équipe en charge de la tâche si possible\\
+\hline
+\end{tabular}
+\end{center}
 \end{document}

@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage[T1]{fontenc}
-\usepackage[francais]{babel} 
+\usepackage[francais]{babel}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
 \usepackage{lmodern}
 \usepackage{pict2e}
@@ -33,14 +33,13 @@
 
 \newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
 \newcommand{\hmwkClass}{Master 1 SSI } % Course/class
-\newcommand{\hmwkClassInstructor}{Jones} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Jean-Baptiste Souchal} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Spécification technique des besoins} % Document name
 
-\newcommand{\version}{0.1} % Document version
-\newcommand{\docDate}{23 novembre 2012} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\version}{0.6} % Document version
+\newcommand{\docDate}{29 décembre 2012} % Document date
+\newcommand{\checked}{Julien Legras} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \newcommand{\fiche}[9] {
@@ -124,7 +123,17 @@
 	\hline
 	\bfseries{Version} & \bfseries{Date} & \bfseries{Modifications réalisées}\\
 	\hline
-	0.1 & 23/11/2011 & Création\\
+	0.1 & 09/11/2011 & Création\\
+	\hline
+	0.2 & 23/11/12 & Rédaction des cas d'utilisation\\
+	\hline
+	0.3 & 28/11/12 & Modifications après retour client\\
+	\hline
+	0.4 & 09/12/12 & Ajout UC 17--18--19 et des règles de gestion\\
+	\hline
+	0.5 & 14/12/12 & Modifications après réunion du 12/12/12\\
+	\hline
+	0.6 & 29/12/12 & Modifications après réunion du 19/12/12\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -133,68 +142,752 @@
 \clearpage
 \tableofcontents
 \clearpage
+
+% OBJET
 \section{Objet}
-\section{Documents applicables et de référecnce}
+Développement d'un système permettant à plusieurs utilisateurs de s'authentifier et de communiquer de manière sécurisée :
+\begin{itemize}
+\item gestion de la création et de la suppression d'un compte utilisateur ;
+\item création par un utilisateur d'une salle de discussion privée ;
+\item ajout et suppression d'un utilisateur autorisé dans une salle privée
+\item confidentialité, intégrité et authentification sur les messages échangés ;
+\item non répudiation des messages ;
+\item création d'une autorité de certification ;
+\item demande de certificat pour l'accès à un salon privé et la communication sécurisée.
+\end{itemize}
+
+% DOCUMENTS APPLICABLES ET DE RÉFÉRENCE
+\section{Documents applicables et de référence}
+\begin{itemize}
+\item IRC (RFC 2810 à 2813 d'avril 2000)
+\end{itemize}
+
+% TERMINOLOGIE
 \section{Terminologie et sigles utilisés}
+\begin{itemize}
+\item \textbf{IRC (Internet Relay Chat)} ;
+\item \textbf{RFC (Request For Comments)} ;
+\item \textbf{Autorité de Certification (AC)} : gère la délivrance des certificats et des clés publique/privée (EO.4) ;
+\item \textbf{Serveur de chat (Server)} : serveur accueillant des utilisateurs sécurisés ;
+\item \textbf{Serveur de chat sécurisé (Server S.)} : serveur accueillant des utilisateurs sécurisés (EO.5, EO.6, EO.7);
+\item \textbf{Client de chat (Client)} : le client de chat permet l'envoi et l'affichage des messages entre utilisateurs et utilisateurs sécurisé (EO.2).
+\item \textbf{Client sécurisé (Client S)} :  a pour mission de chiffrer et déchiffrer les messages (EO.1, EO.2, EO.3, EO.5, EO.6).
+\item \textbf{Salon privé (Salon P.)} : salle de chat privée à l'intérieur du serveur de chat permettant à des utilisateurs sécurisés ;
+\item \textbf{Utilisateur (User)} : personne étant connectée sur un serveur de chat ;
+\item \textbf{Utilisateur sécurisé (User S.)} : utilisateur ayant un certificat délivré par AC et des clés privée/publique permettant la création de salons privés et l'échange de messages sécurisés ;
+\item \textbf{Administrateur (Admin)} : utilisateur sécurisé ayant créé un salon privé et disposant des droits d'administration sur ce salon privé ;
+\item \textbf{Message privé (MP)} : un MP est un message (sécurisé ou non) à destination d'un unique utilisateur (sécurisé ou non).
+\end{itemize}
+
+% EXIGENCES FONCTIONNELLES
 \section{Exigences fonctionnelles}
 \subsection{Présentation de la mission du produit logiciel}
-\subsection{Cas d'utilisation 1}
+\begin{itemize}
+\item [EF.1] : création d'un compte sécurisé ;
+\item [EF.2] : suppression compte par l'utilisateur ;
+\item [EF.3] : suppression compte par l'autorité de certification ;
+\item [EF.4] : ajout certificat à un utilisateur par l'autorité de certification ;
+\item [EF.5] : envoi de message sur salon général ;
+\item [EF.6] : envoi de message sur salon privé ;
+\item [EF.7] : rejoindre un serveur de chat sans authentification ;
+\item [EF.8] : rejoindre un serveur de chat sécurisé avec authentification ;
+\item [EF.9] : quitter un serveur de chat;
+\item [EF.10] : quitter un serveur de chat sécurisé ;
+\item [EF.11] : quitter un salon privé ;
+\item [EF.12] : renouvellement des clefs des salons privés;
+\item [EF.13] : déconnexion technique ;
+\item [EF.14] : créer un salon privé ;
+\item [EF.15] : rejoindre un salon privé;
+\item [EF.16] : fermeture d'un salon privé;
+\item [EF.17] : exclure utilisateur sécurisé d'un salon privé;
+\item [EF.18] : invitation d'un utilisateur sécurisé dans un salon privé;
+\item [EF.19] : envoi d'un MP non sécurisé;
+\item [EF.20] : envoi d'un MP sécurisé;
+\item [EF.21] : demande pour rejoindre un salon privé;
+\item [EF.22] : un utilisateur génère ses propres clefs;
+\item [EF.23] : mise en place d'une autorité de certification;
+\item [EF.24] : authentification entre les différents acteurs du système entre chaque échange;
+\item [EF.25] : certification du Server S. par AC;
+\item [EF.26] : établir une clef de session entre un utilisateur et un serveur pour l'authentification mutuelle lors des échanges.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\bfseries{Id} & \bfseries{Intitulé} & \bfseries{Acteur(s)}\\
+\hline
+UC.1 & Création d'un compte utilisateur sécurisé & User / AC / AR / Server S\\
+\hline
+UC.2 & Suppression d'un compte sécurisé par utilisateur sécurisé & User S / Server S / AC\\
+\hline
+UC.3 & Révocation d'un certificat par AC & AC\\
+\hline
+UC.4 & Envoi de message sur salon général & User / User S / Client / Server\\
+\hline
+UC.5 & Envoi de message sur salon privé & User S / Admin / Client S / Server S\\
+\hline
+UC.6 & Rejoindre un serveur de chat sécurisé avec authentification & User S / Server S / Client S\\
+\hline
+UC.7 & Rejoindre un serveur de chat sans authentification & User / Server / Client\\
+\hline
+UC.8 & Quitter un serveur de chat & User / Server / Client\\
+\hline
+UC.9 & Quitter un serveur de chat sécurisé & User S / Server S / Client S\\
+\hline
+UC.10 & Quitter un salon privé & User S / Server S / Client S\\
+\hline
+UC.11 & Déconnexion serveurs & User / User S / Server / Server S\\
+\hline
+UC.12 & Créer un salon privé & User S / Server S / Client S\\
+\hline
+UC.13 & Rejoindre un salon privé & User S / Server S / Admin / Client S\\
+\hline
+UC.14 & Fermeture d'un salon privé & Admin / Server S / Client S\\
+\hline
+UC.15 & Exclure utilisateur sécurisé d'un salon privé & Admin / Server S / Client S\\
+\hline
+UC.16 & Invitation d'un utilisateur sécurisé dans un salon privé & Admin / Server / User S / Client S\\
+\hline 
+UC.17 & Envoi d'un message privé non sécurisé & User / User S / Client / Server\\
+\hline
+UC.18 & Envoi d'un message privé sécurisé & User S / Client S / Server\\
+\hline
+UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Client S\\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+\begin{itemize}
+\item [RG.1] Le nom d'utilisateur doit être disponible et valide (\verb![A-Za-z0_9]+!)
+\item [RG.2] Le message doit respecter la taille maximale d'un message (150 caractères)
+\item [RG.3] Le nom du User S doit exister
+\item [RG.4] Le certificat du User S doit être valide
+\item [RG.5] Le nom du salon doit être disponible et valide (\verb![A-Za-z0_9]+!)
+\end{itemize}
+\subsection{UC 1 : Création d'un compte Utilisateur sécurisé}
 
 \fiche
-	{ } %nom
-	{} %acteurs concernés
-	{} %description
-	{} %préconditions
-	{} % événements déclenchants
+	{Création d'un compte Utilisateur sécurisé} %nom
+	{User / AC / AR} %acteurs concernés
+	{Un utilisateur fait la demande de création d’un compte utilisateur sécurisé auprès de AC} %description
+	{Avoir les prérequis pour obtenir le certificat, prérequis définis par AC} %préconditions
+	{Envoi de la demande de création du compte sécurisé à AC} % événements déclenchants
 	{} %conditions d'arret
 	{\begin{itemize}  %flot d'événements (acteurs)
-		\item [1.] 
-		\item[]
-		\item [3.]  
+		\item [1.] l’utilisateur génère ces clés
+		\item [2.] l’utilisateur remplit le formulaire de demande de création d’un compte utilisateur sécurisé 
+		\item [3.] l’utilisateur envoie le formulaire à AC  
 	 \end{itemize}
 	} 
 	{\begin{itemize}  %flot d'événements (systeme)
 		\item []
-		\item [2.] 
+		\item []
+		\item [4.] AC traite la demande de création du compte sécurisé
+		\item [5.] envoi par l'AC du certificat à l'utilisateur
+	\end{itemize}
+	 }
+	{RG.1} %Flots d'exceptions
+
+\subsection{UC 2 : Suppression d’un compte sécurisé par un Utilisateur}
+
+\fiche
+	{Suppression d’un compte sécurisé par un Utilisateur} %nom
+	{User S. / Server S. / AC} %acteurs concernés
+	{Un utilisateur sécurisé supprime son compte du serveur de chat sécurisé} %description
+	{Avoir un compte utilisateur sécurisé sur le serveur de chat sécurisé} %préconditions
+	{Suppression du compte utilisateur sécurisé dans le registre du serveur de chat sécurisé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’utilisateur sécurisé fait la demande de suppression de son compte
+		\item []
+		\item []
+		\item []
+		\item []
+		\item []
+		\item [5.] l’utilisateur est déconnecté du serveur de chat sécurisé et du client de chat
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item []
+		\item [2.] le serveur de chat sécurisé supprime le compte utilisateur sécurisé de ses registres
+		\item [3.] le serveur de chat sécurisé arrête la connexion en cours de l’utilisateur sécurisé
+		\item [4.] suppression des certificats de l’utilisateur par AC
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+
+\subsection{UC 3 : Révocation d’un certificat par AC}
+
+\fiche
+	{Révocation d’un certificat par AC} %nom
+	{AC} %acteurs concernés
+	{Suppression d’un compte par AC pour non respect du règlement ou inactivité d’un utilisateur sécurisé} %description
+	{Le compte utilisateur sécurisé ne respecte pas les règles de certification} %préconditions
+	{Suppression du compte dans le registre du serveur de chat sécurisé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [] 
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item [1.] AC révoque le certificat de l'utilisateur concerné.
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+
+\subsection{UC 4 : Envoi de message sur salon général}
+
+\fiche
+	{Envoi de message sur salon général} %nom
+	{User / User S. / Client / Server} %acteurs concernés
+	{Un utilisateur (sécurisé) envoie un message sur le salon général du serveur de chat et le client affiche le message} %description
+	{Être connecté sur le serveur de chat } %préconditions
+	{Le client envoie sur le salon général du serveur de chat le message  et est lisible par tous les utilisateurs connectés sur ce serveur de chat} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] Un utilisateur envoie un message sur le salon général du serveur de chat
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client envoie le message au Server
+		\item [3.] le serveur de chat reçoit et envoie le message au(x) Client(s) de chat des utilisateurs connectés sur le salon privé
+		\item [4.] le message s’affiche dans le(s) Client(s) de chat de(s) utilisateur(s)
+	 \end{itemize}
+	 }
+	{RG.2} %Flots d'exceptions
+
+\subsection{UC 5 : Envoi de message sur salon privé}
+
+\fiche
+	{Envoi de message sur salon privé} %nom
+	{User S. / Admin / Server / Client S} %acteurs concernés
+	{Un utilisateur sécurisé envoie un message sur le salon privé} %description
+	{L’utilisateur sécurisé est connecté sur le serveur de chat sécurisé et est dans le salon privé et être connecté sur le serveur de chat} %préconditions
+	{Un message est envoyé dans le salon privé et est lisible par tous les utilisateurs sécurisés connectés sur ce salon privé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] un User S. envoi un message sur le salon privé
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client S. chiffre le message
+		\item [3.] le Client de chat envoie le message au serveur de chat
+		\item [4.] le serveur de chat envoie le message sur le chat général du salon privé, et est visible par les User S. sécurisé connecté sur le salon privé
+	 \end{itemize}
+	 }
+	{RG.2} %Flots d'exceptions
+
+\subsection{UC 6 : Rejoindre un serveur de chat sécurisé avec authentification}
+
+\fiche
+	{Rejoindre un serveur de chat sécurisé avec authentification} %nom
+	{User / User S. / Client / Server} %acteurs concernés
+	{Un utilisateur sécurisé se connecte sur le serveur de chat sécurisé} %description
+	{Avoir un compte sécurisé  sur le serveur de chat sécurisé} %préconditions
+	{L’utilisateur sécurisé est connecté sur le serveur de chat sécurisé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’utilisateur sécurisé entre son nom d’utilisateur et se connecte au serveur de chat sécurisé
+		\item [] 
+		\item [] 
+		\item [] 
+		\item [] 
+		\item [] 
+		\item [] 
+		\item [] 
+		\item [] 
+		\item []  
+		\item [8.] l’utilisateur sécurisé est connecté aux Server S. et Server
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client envoie la demande aux Server et Server S.
+		\item [3.] le Server S. reçoit la demande de connexion général
+		\item [4.] le Server S. vérifie les certificats du compte utilisateur sécurisé et authentifie l’utilisateur sécurisé
+		\item [5.] le Server S. accepte la connexion de l’utilisateur sécurisé
+		\item [6.] création d’un compte utilisateur temporaire par le Server
+		\item [7.] connexion au Server
+	 \end{itemize}
+	 }
+	{RG.3, RG.4} %Flots d'exceptions
+
+\subsection{UC 7 : Rejoindre un serveur de chat sans authentification}
+
+\fiche
+	{Rejoindre un serveur de chat sans authentification} %nom
+	{User / Server / Client} %acteurs concernés
+	{Un utilisateur se connecte sur le serveur de chat} %description
+	{Saisir un nom d’utilisateur valide} %préconditions
+	{L’utilisateur est connecté sur le serveur de chat} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’utilisateur entre un nom d’utilisateur et ce connecte au serveur de chat
+		\item[]  
+		\item[]  
+		\item[]  
+		\item[]  
+		\item[]  
+		\item[]  
+		\item [6.] l’utilisateur est connecté au serveur de chat
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item []
+		\item [2.] le Client envoie la demande au Server
+		\item [3.] le serveur de chat reçoit la demande de connexion
+		\item [4.] le serveur de chat vérifie la validité du nom d’utilisateur
+		\item [5.] le serveur de chat accepte la connexion de l’utilisateur 
+	 \end{itemize}
+	 }
+	{RG.1} %Flots d'exceptions
+
+\subsection{UC 8 : Quitter un serveur de chat}
+
+\fiche
+	{Quitter un serveur de chat} %nom
+	{User / Server / Client} %acteurs concernés
+	{Un utilisateur quitte le serveur de chat} %description
+	{Être connecté sur le serveur de chat } %préconditions
+	{L’utilisateur est déconnecté du serveur de chat} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’utilisateur quitte le serveur de chat
+		\item []  
+		\item []
+		\item [4.] l’utilisateur est déconnecté du Server
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client envoie la demande au Server
+		\item [3.] le serveur de chat déconnecte l’utilisateur et supprime de ses registres l’utilisateur
+	 \end{itemize}
+	 }
+	{Les certificats de l’utilisateur sécurisé ne sont pas valides} %Flots d'exceptions
+
+\subsection{UC 9 : Quitter un serveur de chat sécurisé}
+
+\fiche
+	{Quitter un serveur de chat sécurisé} %nom
+	{User S. / Server S. / Client} %acteurs concernés
+	{Un utilisateur sécurisé quitte le serveur de chat sécurisé} %description
+	{Être connecté sur le serveur de chat sécurisé} %préconditions
+	{L’utilisateur est déconnecté du serveur de chat sécurisé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’utilisateur sécurisé quitte le serveur de chat sécurisé
+		\item[]  
+		\item[]  
+		\item[]  
+		\item[]  
+		\item [6.] l’utilisateur est déconnecté su Server S (et Server si UC.10)
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client envoie la demande au Server S.
+		\item [3.] le Server reçoit la demande du Client
+		\item [4.] Si User S. connecté a un salon privé => UC.10
+		\item [5.] le serveur de chat sécurisé déconnecte l’utilisateur sécurisé
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+
+\subsection{UC 10 : Quitter un salon privé}
+
+\fiche
+	{Quitter un salon privé} %nom
+	{User S. / Server S. / Client S.} %acteurs concernés
+	{Un utilisateur sécurisé quitte le salon privé} %description
+	{Être dans le salon de discussion privée} %préconditions
+	{L’utilisateur sort du salon de discussion privée et les clés du salon sont modifiées puis renvoyées à tous les autres utilisateurs présents sur le salon de discussion privée} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] User S. quitte le salon privé
+		\item[]  
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client S. envoie la demande au Server S.
+		\item [3.] le Server S. reçoit la demande
+		\item [4.] le Server S. déconnecte User S. du salon privé
+		\item [5.] les clés du salon privé sont renouvelées
+  		\item [6.] les nouvelles clés sont envoyées à tous les User S. connectés sur le salon privé
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+
+\subsection{UC 11 : Déconnexion Serveurs}
+
+\fiche
+	{Déconnexion Serveurs} %nom
+	{Users / User S. / Server / Server S. / Admin} %acteurs concernés
+	{Un utilisateur est déconnecté d’un serveur de chat après un problème technique ou de coupure réseaux} %description
+	{Être connecté sur un des deux serveurs} %préconditions
+	{L’utilisateur est déconnecté du serveur de chat (privé) :
+	\begin{itemize}
+\item si l’utilisateur était dans un salon privé, alors il y a un renouvellement des clés du salon privé
+\item si l’utilisateur était l’administrateur d’un salon privé, alors le salon privé se ferme
+	\end{itemize}} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] Déconnexion après un problème technique
+		\item[]  
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] événements système UC.8 ou UC.9
+		\item [3.] si User S. connecté dans un salon privé $\rightarrow$ évènements système UC.10
+		\item [4.] si Admin $\rightarrow$ UC.14
 	 \end{itemize}
 	 }
 	{} %Flots d'exceptions
 
 
-\begin{tikzpicture} 
-\begin{umlsystem}[x=4, fill=red!10]{The system} 
-\umlusecase{use case1} 
-\umlusecase[y=-2]{use case2} 
-\umlusecase[y=-4]{use case3} 
-\umlusecase[x=4, y=-2, width=1.5cm]{use case4 on 2 lines} 
-\umlusecase[x=6, fill=green!20]{use case5} 
-\umlusecase[x=6, y=-4]{use case6} 
-\end{umlsystem} 
+\subsection{UC 12 : Créer un salon privé}
 
-\umlactor{user} 
-\umlactor[y=-3]{subuser} 
-\umlactor[x=14, y=-1.5]{admin}
+\fiche
+	{Créer un salon privé} %nom
+	{User S. / Server S. / Client S / Server} %acteurs concernés
+	{Un utilisateur sécurisé crée un salon privé sur le serveur de chat sécurisé} %description
+	{L’utilisateur sécurisé est connecté sur le serveur de chat sécurisé} %préconditions
+	{Création d’un salon privé, l’utilisateur sécurisé devient administrateur du salon privé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] L’utilisateur sécurisé clique sur la création d’un salon privé 
+		\item[]  
+		\item [3.] L’utilisateur saisit le nom du salon privé et la liste éventuelle des utilisateurs sécurisés invités
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item []
+		\item [2.] le Client ouvre un formulaire de création d’un salon privé
+		\item []
+		\item []
+		\item [4.] Création du salon privé dans Server et Server S
+		\item [5.] Création des clés du salon privé par Server S.
+		\item [6.] Changement de statut de l’utilisateur sécurisé en administrateur du salon privé et envoi d'une clef d'authentification
+		\item [7.] Avertir les utilisateurs invités dans le salon privé qu’ils peuvent le rejoindre
+		\item [8.] Ouverture du salon privé dans un nouvel onglet, côté administrateur, du salon privé
+		\item [9.] Affichage du nom du salon privé dans la liste des salons privés sur la page d’accueil du serveur
+	 \end{itemize}
+	 }
+	{RG.5} %Flots d'exceptions
 
-\umlinherit{subuser}{user} 
-\umlassoc{user}{usecase-1} 
-\umlassoc{subuser}{usecase-2} 
-\umlassoc{subuser}{usecase-3} 
-\umlassoc{admin}{usecase-5} 
-\umlassoc{admin}{usecase-6} 
-\umlinherit{usecase-2}{usecase-1} 
-\umlVHextend{usecase-5}{usecase-4} 
-\umlinclude[name=incl]{usecase-3}{usecase-4} 
+\subsection{UC 13 : Rejoindre un salon privé}
+
+\fiche
+	{Rejoindre un salon privé} %nom
+	{User S. / Server S.} %acteurs concernés
+	{Un User S. rejoint un salon privé  } %description
+	{Être connecté avec un compte utilisateur  sécurisé sur le serveur sécurisé.
+Avoir reçu une invitation de la part d’un Admin à rejoindre le salon privé, ou avoir fait la demande de rejoindre un salon privé auprès d’un Admin} %préconditions
+	{L’utilisateur rejoint le salon privé, modification des clés du salon et redistribution des clés aux utilisateurs présents dans le salon} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] User S. accepte l’invitation à rejoindre un salon privé
+		\item [2.] User S. rejoint le salon privé
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item []
+		\item []
+		\item [3.] Ajout du User S. dans le salon privé
+		\item [4.] Renouvellement des clés du salon privé
+		\item [5.] distribution des nouvelles clés du salon privé aux User S. connectés sur le salon privé
+		\item [6.] Un message s’affiche sur le salon privé pour prévenir qu’un nouvel Utilisateur l’a rejoint
+	 \end{itemize}
+	 }
+	{\begin{enumerate}
+		\item User S. décline l’invitation à rejoindre le salon privé
+		\item Admin refuse la demande de rejoindre le salon privé du User S. 
+	\end{enumerate}} %Flots d'exceptions
+
+
+\subsection{UC 14 : Fermeture du salon privé}
+
+\fiche
+	{Fermeture du salon privé} %nom
+	{Admin / Server S. / Client S.} %acteurs concernés
+	{L’Admin du salon privé ferme le salon privé} %description
+	{Être Admin du salon privé} %préconditions
+	{Fermeture du salon privé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’Admin ferme le salon privé
+		\item[] 
+		\item[] 
+		\item[] 
+		\item[] 
+		\item [7.] Suppression des privilèges Admin au User S. ancien créateur du salon privé
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client S. envoie la demande au Server S.
+		\item [3.] le Server S. reçoit la demande
+		\item [4.] Les User S. et Admin connectés sur le salon privé sont déconnectés.
+		\item [5.] Suppression du salon privé sur le serveur de chat sécurisé et effacement des clés du salon
+		\item [6.] suppression de la clé délivrée à l’admin lors de la création du salon 
+	 \end{itemize}
+	 }
+	{Vérification que celui qui demande la fermeture du salon privé ait la clé (admin) généré lors de la création du salon. } %Flots d'exceptions
+
+\subsection{UC 15 : Exclure utilisateur sécurisé d’un salon privé}
+
+\fiche
+	{Exclure utilisateur sécurisé d’un salon privé} %nom
+	{Admin / Server S. / Client S.} %acteurs concernés
+	{L’Admin du salon privé exclut un User S. connecté sur le salon privé} %description
+	{Le User S. exclu doit être connecté sur le salon privé} %préconditions
+	{User S. est exclu du salon, renouvellement des clés du salon privé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] l’Admin exclut le User S. du salon privé
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] le Client S. envoie la demande au Server S.
+		\item [3.] le Server S. reçoit la demande
+		\item [4.] le User S. exclu est déconnecté du salon privé par Server S.
+		\item [5.] renouvellement des clés du salon privé, et distribution des nouvelles clés aux User S. connectés sur le salon privé
+		\item [6.] Un message s’affiche dans le salon privé pour prévenir qu’un utilisateur a été exclu
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+
+\subsection{UC 16 : Invitation utilisateur sécurisé dans un salon privé}
+
+\fiche
+	{Invitation utilisateur sécurisé dans un salon privé} %nom
+	{Admin / Server / User S. / Client S.} %acteurs concernés
+	{L’Admin du salon privé invite un User S. à rejoindre le salon privé} %description
+	{L’utilisateur invité doit être un utilisateur avec un compte  sécurisé} %préconditions
+	{User S. reçoit une invitation à rejoindre le salon privé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] Admin envoie une invitation à un (des) User(s) S. pour rejoindre le salon privé
+		\item []
+		\item []
+		\item [4.] le(s) User(s) S. reçoit(vent) l’invitation à rejoindre le salon privé sous forme d’un message
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] Le Client S. de l’admin envoie l’invitation au Server
+		\item [3.] Le Server envoie l’invitation au Client S. du User S. invité dans le salon privé
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+	
+\subsection{UC 17 : Envoi d’un message privé non sécurisé}
+
+\fiche
+	{Envoi d’un message privé non sécurisé} %nom
+	{User / User S. / Client / Server} %acteurs concernés
+	{Un User (S.) envoie un MP à un User (S.)} %description
+	{Être connecté sur le même serveur de chat que le destinataire du message.} %préconditions
+	{User (S.) reçoit un message privé dans un nouvel onglet :
+		\begin{itemize}
+			\item MP User vers User S.
+			\item demander à User S si il accepte une communication non sécurisée, sinon fermer le MP.
+			\item MP User S vers User
+			\item prévenir User S. que la communication ne sera pas sécurisée	
+		\end{itemize}
+	} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] User (S.) envoie un message privé à un autre User (S.) 
+		\item []
+		\item []
+		\item [5.] le User (S.) qui reçoit le message est averti qu’un nouveau MP est reçu.
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] Le client envoie le message vers le serveur de chat
+		\item [3.] le serveur de chat envoie le message au User (S.) destinataire
+		\item [4.] Le client ouvre un nouvel onglet pour afficher le message privé
+	 \end{itemize}
+	 }
+	{Refus de réception d’un message cas MP User vers User S.
+	
+	Refus d’envoie d’un MP cas User S. vers User} %Flots d'exceptions
+
+\subsection{UC 18 : Envoi d’un message privé sécurisé}
+
+\fiche
+	{Invitation utilisateur sécurisé dans un salon privé} %nom
+	{User S. / Client S. / Server} %acteurs concernés
+	{Un User S. envoi un MP à un User S.} %description
+	{Être connecté sur le même serveur de chat que le destinataire du message. } %préconditions
+	{User S. reçoit un message privé dans un nouvel onglet} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] User S. envoie un message privé à un autre User S.
+		\item []
+		\item []
+		\item []
+		\item []
+		\item []
+		\item []
+		\item []
+		\item [6.] le User S. qui reçoit le message est avertis qu’un nouveau MP est reçu.
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] Le Client S. chiffre le message et l’envoie vers le serveur de chat
+		\item [3.] le serveur de chat envoie le message au client du User S. destinataire
+		\item [4.] le Client S. du User S. destinataire déchiffre le message
+		\item [5.] Le Client S. du User S. destinataire ouvre un nouvel onglet pour afficher le message privé
+	 \end{itemize}
+	 }
+	{} %Flots d'exceptions
+
+\subsection{UC 19 : Demande d’ajout dans un salon privé}
+
+\fiche
+	{Demande d’ajout dans un salon privé} %nom
+	{User S. / Admin / Server / Client} %acteurs concernés
+	{Un User S. fait la demande auprès d’un admin pour rejoindre un salon privé} %description
+	{Avoir un compte sécurisé} %préconditions
+	{L’admin reçoit la demande d’un User S. pour rejoindre le salon privé} % événements déclenchants
+	{} %conditions d'arret
+	{\begin{itemize}  %flot d'événements (acteurs)
+		\item [1.] User S. fait la demande de rejoindre un salon privé auprès d’un Admin
+		\item []
+		\item []
+		\item [4.] l’admin reçoit la demande du User S.
+		\item [5.] l'admin accepte  la demande et envoie une invitation au User S.
+	 \end{itemize}
+	} 
+	{\begin{itemize}  %flot d'événements (systeme)
+		\item []
+		\item [2.] Le Client du User S. envoie la demande au Server
+		\item [3.] Le Server envoie la demande au Client de l’admin
+		\item []
+		\item []
+		\item [6.] Server S. envoie l’invitation au User S.
+
+	 \end{itemize}
+	 }
+	{Admin refuse la demande de rejoindre un server par User S.} %Flots d'exceptions
+
+\section{Diagrammes de cas d'utilisation}
+
+\subsection{UC 1}
+
+
+\begin{tikzpicture}
+\umlactor{User}
+\umlactor[x=14, y=4]{AC}
+
+\umlusecase[x=3, y=2, width=3cm]{Création compte sécurisé}
+\umlusecase[x=10, y=4, width=3cm]{Suppression compte sécurisé}
+\umlusecase[x=3, y=-1]{Rejoindre Server}
+
+\umlusecase[x=7, y=1]{Quitter Server}
+\umlusecase[x=10, width=3cm]{Envoi message privé}
+\umlusecase[x=10, y=-2, width=3cm]{Envoi message au salon général}
+\umlusecase[x=7, y=-3]{Déconnexion}
+
+\umltrans{User}{usecase-1}
+\umltrans{AC}{usecase-2}
+\umltrans{User}{usecase-3}
+
+\umlinclude{usecase-1}{usecase-2}
+
+\umlextend{usecase-4}{usecase-3}
+\umlextend{usecase-5}{usecase-3}
+\umlextend{usecase-6}{usecase-3}
+\umlextend{usecase-7}{usecase-3}
+\end{tikzpicture}
+
+\subsection{UC 2}
+
+\begin{tikzpicture}
+\umlactor[y=16]{User S}
+\umlactor{Admin}
+
+\umlusecase[x=4, y=16, width=2.5cm]{Rejoindre Server S} % 8
+\umlusecase[x=6, y=20]{Quitter Server S}				% 9
+\umlusecase[x=9, y=19]{Suppression compte}				% 10
+\umlusecase[x=10, y=18]{Déconnexion}                    % 11
+\umlusecase[x=10, y=16, width=3cm]{Envoi message privé sécurisé}    % 12
+\umlusecase[x=9, y=14, width=3cm]{Envoi message sur salon général}			% 13
+\umlusecase[x=7.5, y=12, width=3cm]{Rejoindre salon privé} % 14
+\umlusecase[x=14, y=12, width=2.5cm]{Quitter salon privé} % 15
+\umlusecase[x=2.5, y=12, width=2.5cm]{Demande rejoindre salon}					% 16
+\umlusecase[x=5, y=6]{Créer salon privé}				% 17
+\umlusecase[x=14, y=7]{Invitation User S}				% 18
+\umlusecase[x=12,y=4,width=3cm]{Envoi de message dans salon} % 19
+\umlusecase[x=10,y=2,width=3cm]{Fermeture du salon privé} % 20
+\umlusecase[x=6]{Exclure User S}						%21
+
+\umltrans{Admin}{User S}
+\umltrans{User S}{usecase-8}
+\umltrans{Admin}{usecase-18}
+\umltrans{Admin}{usecase-19}
+\umltrans{Admin}{usecase-20}
+\umltrans{Admin}{usecase-21}
+
+\umlextend{usecase-9}{usecase-8}
+\umlextend{usecase-10}{usecase-8}
+\umlextend{usecase-11}{usecase-8}
+\umlextend{usecase-12}{usecase-8}
+\umlextend{usecase-13}{usecase-8}
+\umlextend{usecase-14}{usecase-8}
+\umlextend{usecase-16}{usecase-8}
+\umlextend{usecase-17}{usecase-8}
+
+\umlextend{usecase-15}{usecase-14}
+\umlextend{usecase-19}{usecase-14}
+
+\umlinclude{usecase-18}{usecase-14}
+\umlinclude{Admin}{usecase-17}
 
 \end{tikzpicture}
 
 \section{Exigences opérationnelles}
+\begin{enumerate}
+\item [EO.1] : Confidentialité, intégrité et authentification des messages (seuls les membres du salon peuvent voir les messages et vérifier leur authenticité).
+\item [EO.2] : Création d’une interface utilisateur.
+\item [EO.3] : Gérer la non répudiation des messages échangés (les certificats doivent pouvoir authentifier l'auteur du message).
+\item [EO.4] : Autorité de certification (AC).
+\item [EO.5] : Communication multi--salons privés.
+\item [EO.6] : Protocoles cryptographiques n’impactant pas sur  la rapidité d’échange des messages.
+\item [EO.7] : Entrée et sortie d’un utilisateur dans un salon rapides.
+\end{enumerate}
 
 \section{Exigences d'interface}
+\begin{enumerate}
+\item [EI.1] : Création d’un serveur sécurisé « proxy » utilisable sur des protocoles de chat existants.
+\end{enumerate}
 
 \section{Exigences de qualité}
+\begin{enumerate}
+\item [EQ.1] : Assurer la confidentialité, l’intégrité et l’authentification des messages échangés entre les utilisateurs.
+\end{enumerate}
 
 \section{Exigences de réalisation}
-
+\begin{enumerate}
+\item [ER.1] : Documentation détaillée sur l’utilisation du protocole sécurisé « proxy ».
+\item [ER.2] : Documentation détaillée sur l’ensemble de l’application.
+\item [ER.3] : Utilisation de openssl dans les algorithmes cryptographiques.
+\item [ER.4] : Utilisation de tinyca pour la gestion des certificats.
+\end{enumerate}
 
 
 \end{document}
