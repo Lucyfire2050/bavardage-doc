@@ -30,13 +30,14 @@
 
 \newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
 \newcommand{\hmwkClass}{Master 1 SSI } % Course/class
+\newcommand{\hmwkClassInstructor}{Jones} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Ambroise Ismael Kabore} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Politique de certification} % Document name
 
 \newcommand{\version}{0.2} % Document version
 \newcommand{\docDate}{18 Décembre 2012} % Document date
-\newcommand{\checked}{Julien Legras} % Checker name
+\newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \definecolor{gris}{rgb}{0.95, 0.95, 0.95}
@@ -106,7 +107,7 @@
 \section{Introduction}
 \subsection{Présentation générale}
 
-Le groupe F du Master professionnel 1 SSI (2012-2013), dans le cadre de son projet annuel doit étudier et réaliser un outil de chat sécurisé. L'objectif de ce projet est d'étudier les protocoles cryptographiques permettant a plusieurs utilisateurs de s'authentifier et de communiquer de manière sécurisée à travers un outil de messagerie instantanée.
+Le groupe F du Master professionnel 1 SSI (2012-2013), dans le cadre de son projet annuel doit étudier et réaliser un outil de chat sécurisé. L'objectif de ce projet est d'étudier les protocoles cryptographiques permettant à plusieurs utilisateurs de s'authentifier et de communiquer de manière sécurisée à travers un outil de messagerie instantanée.
 
 
 \subsection{ Identification }
@@ -493,7 +494,7 @@ Les archives sont conservées pendant un temps T = temps conservation archive.
 
 \section{Contrôle de sécurité physique et des procédures}
 \subsection{Contrôle physique}
-Pas concerné (Nous ne construirons pas de sites pour la PKI).
+Pas concerné(Nous ne construirons pas de sites pour la PKI).
 \subsection{Contrôle des procédures}
 \subsubsection{Rôle}
 On distingue un unique administrateur.
@@ -508,16 +509,16 @@ La connexion d'un exploitant à la PKI nécessite son identification, identifica
 
 \subsection{Génération et Délivrance de clé}
 \subsubsection{Génération de bi-clé}
-L'UD génère lui-même sa bi-clé. L'AC décline toute responsabilité pour une utilisation autre que celle définie dans la PC, y
+L'UD génère lui-même sa bi-clé. l'AC décline toute responsabilité pour une utilisation autre que celle définie dans la PC, y
 compris pour l'authentification et l'identification mutuelle de deux UF. 
 \subsubsection{Génération de clé privée}
-Pas concerné(Le client de chat sécurisé génère les clés privées dans notre cas).
+Pas concerné(Le serveur de chat sécurisé génère les clés privées dans notre cas).
 
 \subsubsection{Délivrance de clé privée}
-Pas concerné(Le client de chat sécurisé génère les clés privées dans notre cas).
+Pas concerné(Le serveur de chat sécurisé génère les clés privées dans notre cas).
 
 \subsection{Protection de clé privée}
-Pas concerné (Le client de chat sécurisé génère les clés privées dans notre cas).
+Pas concerné (Le serveur de chat sécurisé génère les clés privées dans notre cas).
 
 \section{Profils des certificats et listes des certificats révoqués}
 \subsection{Profil de certificat}
@@ -656,67 +657,14 @@ LCR & Liste de Certificats Révoqués
 
 \end{tabular}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\newpage
+\textbf {Documents applicables et de référence}
+\begin{itemize}
+\item RFC 2527
+\item Livre Blanc : "Les PKI : Vers une Infrastructure
+Globale de Sécurité ?"
+\item PAMPC1 (Politique de Certification : Grand Port Maritime de Marseille)
+\end{itemize}
 
 
 
