@@ -41,9 +41,9 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Architecture du logiciel} % Document name
 
-\newcommand{\version}{0.1} % Document version
-\newcommand{\docDate}{7 Janvier 2013} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\version}{0.6} % Document version
+\newcommand{\docDate}{30 décembre 2012} % Document date
+\newcommand{\checked}{Julien Legras} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \newcommand{\fiche}[9] {
@@ -78,14 +78,6 @@
 }
 
 \definecolor{gris}{rgb}{0.95, 0.95, 0.95}
-
-\title{
-\vspace{2in}
-\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
-\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
-\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
-\vspace{3in}
-}
 
 \author{\hmwkAuthorName}
 \date{} % Insert date here if you want it to appear below your name
@@ -136,6 +128,8 @@
 	0.4 & 12/12/2012 & Ajout UC.19 – UC.18 – UC.17\\
 	\hline
 	0.5 & 14/12/2012 & Modification après réunion du 12/12/12\\
+	\hline
+	0.6 & 30/12/2012 & Ajout du schéma globale de l'application et de la partie sur la cryptographie\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -229,7 +223,7 @@ Les principales parties à développer:
 \end{itemize}
 
 \begin{figure}[!htbp]
-\centerline{\includegraphics[width=12cm,height=19.2cm]{schema/Arch.png} }
+\centerline{\includegraphics[width=12cm,height=19.2cm]{Arch.png} }
 \caption{Fonctionnement de l'application}
 \end{figure}
 
@@ -1174,11 +1168,11 @@ Les principales parties à développer:
 \end{tikzpicture}
 
 \section{Sur le plan cryptographique}
-La PKI doit s'assurer que les échanges soient sécurisés et garantir  l'intégrité, l'authentification, la confidentialité et la non-répudiation lors d'échanges d'informations. Ceci est garanti grace à la signature numérique du message.\\
+La PKI doit s'assurer que les échanges soient sécurisés et garantir  l'intégrité, l'authentification, la confidentialité et la non-répudiation lors d'échanges d'informations. Ceci est garanti grâce à la signature numérique du message.\\
 
 \subsection{Mécanisme de vérification d'une signature}
 \begin{figure}[!h]
-\includegraphics[scale=1.025]{schema/signpki.png} 
+\includegraphics[scale=1.025]{signature_num.png} 
 \caption{Signature numérique} 
 \end{figure} 
 
