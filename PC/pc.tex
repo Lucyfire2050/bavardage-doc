@@ -30,14 +30,13 @@
 
 \newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
 \newcommand{\hmwkClass}{Master 1 SSI } % Course/class
-\newcommand{\hmwkClassInstructor}{Jones} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Ambroise Ismael Kabore} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Politique de certification} % Document name
 
 \newcommand{\version}{0.2} % Document version
 \newcommand{\docDate}{18 Décembre 2012} % Document date
-\newcommand{\checked}{} % Checker name
+\newcommand{\checked}{Julien Legras} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \definecolor{gris}{rgb}{0.95, 0.95, 0.95}
@@ -162,7 +161,7 @@ Les personnes habilitées à déterminer la conformité de la DPC avec la politi
 \subsection{Obligations}
 Les obligations suivantes sont communes à toutes les composantes de la PKI:
 Protéger sa clé privée et ses données d’activation en intégrité et en confidentialité.
-N’utiliser ses clés publiques et privées qu’aux fins pour lesquelles elles ont été émises et avec les outils spécifiés, en vertu de la présente politique.
+N’utiliser ses clés publiques et privées qu'aux fins pour lesquelles elles ont été émises et avec les outils spécifiés, en vertu de la présente politique.
 Respecter et appliquer la PC.
 Mettre en œuvre les moyens (techniques et humains) nécessaires à la réalisation des prestations auxquelles l’entité concernée s’engage.
 
@@ -273,7 +272,7 @@ compromission des clés privées.
   
 \end{tabular}             
 
-\subsubsection{Interpretation de la loi}
+\subsubsection{Interprétation de la loi}
 \begin{itemize}
 \item Loi
 Suivant la législation nationale :
@@ -305,8 +304,6 @@ Les informations concernant la PKI publiées sont les suivantes :
 
 \end{itemize}
 
-\subsubsection{Contrôle de conformité}
-À compléter
 
 \subsubsection{Politique de confidentialité}
 \begin{itemize}
@@ -330,11 +327,11 @@ données personnelles d’identification nominative d’un utilisateur demandeur
 \item Type d'informations considérés comme non confidentielles
 \\Les informations publiées sur la PKI (cf. 2.1.4) sont considérées comme non confidentielles.
 \\
-\item Delivrance aux autorités légales
+\item Délivrance aux autorités légales
 \\les autorités légales peuvent réclamer l’identité de l’individu ou de l’organisme qu’il représente. En aucun cas, le recouvrement de clé de signature ni de clé de certification ne doit être effectué.
 \\
 
-\item Delivrance à la demande du propriétaire
+\item Délivrance à la demande du propriétaire
 \\Les informations relatives à un utilisateur final et définies comme confidentielles en 2.1.6 ne peuvent être divulguées qu’à leur propriétaire (demandeur du certificat).
 \end{itemize}
 
@@ -350,10 +347,10 @@ Les informations portées dans les champs du certificat CA Certificat sont décr
 \item Pays : le code du pays sur 2 lettres
 \item Mot de passe : requis pour la signature
 \item Password : confirmation du mot de passe
-\item Etat ou nom de province : 
+\item État ou nom de province : 
 \item Localité : la ville
 \item Nom de l'organisation: Nom de l'entreprise ou de la personne
-\item Unité organisationnelle : departement
+\item Unité organisationnelle : département
 \item Adresse eMail : Adresse électronique de l'abonné
 
 \end{itemize}
@@ -363,14 +360,14 @@ Ces informations sont établies par le groupe de projet et reposent essentiellem
 suivantes :
 \begin{itemize}
 \item Tous les caractères sont sans accents ni caractères spécifiques à la langue française;
-\item les prénoms et noms composés sont séparés par des tirets " - ".
+\item les prénoms et noms composés sont séparés par des tirets « - ».
 
 \end{itemize}
 
 \subsubsection{Unicité des noms}
 L’unicité d’un certificat est basée sur l’unicité de son numéro de série au sein de l'AC.
 
-\subsubsection{Procédures de résolution des litiges sur la révendication d'un nom}
+\subsubsection{Procédures de résolution des litiges sur la revendication d'un nom}
 Lorsque le nom à inclure dans un certificat provoque un litige avec un autre utilisateur, l’autorité d’enregistrement à qui la demande de certification a été formulée proposera une procédure de résolution amiable du litige.
 
 \subsubsection{Preuve de la possession d'une clé privée}
@@ -380,7 +377,7 @@ Génération du bi-clé par le demandeur et utilisation d'un protocole adapté.
 Seul l'utilisateur demandeur (UD) est authentifié. L'authentification de l' UD est réalisée lors de la procédure de connexion au serveur sécurisé du chat.
 
 \subsection{Re-génération de certificat}
-Les certificats sont à renouveler suivant un temps T = temps de validité du certificat. L'utilisateur demandeur refait une nouvelle demande de certificat. Un certificat révoqué ne peut pas être regénéré.
+Les certificats sont à renouveler suivant un temps T = temps de validité du certificat. L'utilisateur demandeur refait une nouvelle demande de certificat. Un certificat révoqué ne peut pas être régénéré.
 \subsection{Authentification d'une demande de révocation}
 L'authentification d'une demande de révocation est effectuée par l'Autorité d'Enregistrement.
 Sont demandés :
@@ -398,12 +395,12 @@ Sont demandés :
 Elle se déroule en deux temps :
 \begin{itemize}
 \item L'utilisateur demandeur remplit le formulaire de demande de création d'un compte sécurisé.
-\item Après réception du formulaire, l'AC traite la demande, génère le certicat et l'envoi à l'utilisateur demandeur qui devient un utilisateur final.
+\item Après réception du formulaire, l'AC traite la demande, génère le certificat et l'envoi à l'utilisateur demandeur qui devient un utilisateur final.
  \end{itemize}
  
 \subsection{Génération de certificat}
 \begin{itemize}
-\item l'UD transmet une demande de certificat conformément au 4.1. \item L'autorité d'enegistrement vérifie la validité des informations portées par le formulaire de demande
+\item l'UD transmet une demande de certificat conformément au 4.1. \item L'autorité d’enregistrement vérifie la validité des informations portées par le formulaire de demande
 \item Si le formulaire est valide, il est transmis à l'AC qui génère le certificat, le transmet à l'utilisateur demandeur et le stocke dans l'autorité de dépôt.
 \item En cas de non validité des informations un message avec le motif du rejet est envoyé à l'utilisateur demandeur.
 
@@ -441,8 +438,8 @@ Elles ne sont pas publiées.
 \subsubsection{Contrôle de la Liste de révocation}
 Les utilisateurs finaux sont autorisés à consulter la liste de révocation.
 
-\subsubsection{Personnes abilitées à demander une révocation}
-Les personnes abilitées à demander une révocation sont:
+\subsubsection{Personnes habilitées à demander une révocation}
+Les personnes habilitées à demander une révocation sont:
 \begin{itemize}
 \item L'AC
 \item L'AE
@@ -462,18 +459,18 @@ L'AC garantit aux utilisateurs de ses certificats la mise à disposition d'une l
 suivant un temps T = fréquence mise à jour liste de révocation.
 
 \subsection{Journalisation}
-\subsubsection{Types d'évènements enregistrés}
+\subsubsection{Types d’événements enregistrés}
 Les opérations réalisées sur la PKI seront enregistrées.
 
-\subsubsection{Fréquence de traitement des journaux d'évènement}
+\subsubsection{Fréquence de traitement des journaux d’événement}
 Le processus de journalisation enregistre en temps réel les opérations effectuées, le contournement du processus n'est pas possible.
 
-\subsubsection{Durée de retention d'un journal d'évènements}
+\subsubsection{Durée de rétention d'un journal d’événements}
 Les journaux doivent être conservés pour une période
-minimale T = temps retention journal d'évènements.
+minimale T = temps rétention journal d’événements.
 
-\subsubsection{Copie de sauvegarde des journaux d'évènements}
-Des copies de sauvegardes des journaux d'évènement doivent être faites suivant un temps T = temps sauvegarde journaux d'évènements. Les archives de journaux d'événements sont protégés au même niveau que les journaux d'événements originaux.
+\subsubsection{Copie de sauvegarde des journaux d’événements}
+Des copies de sauvegardes des journaux d’événements doivent être faites suivant un temps T = temps sauvegarde journaux d’événements. Les archives de journaux d'événements sont protégés au même niveau que les journaux d'événements originaux.
 
 \subsubsection{Imputabilité}
 L’imputabilité d’une action revient à la personne, ou le système l’ayant exécutée et dont le nom figure dans le champ « nom de l’exécutant » du journal d’événements.
@@ -486,7 +483,7 @@ Les données à archiver sont au moins les suivantes :
 \item Liste de révocation (2 ans).
 \item Données relatives à la demande de certificats (2 ans).
 \item Les notifications (messages, etc) (2 ans).
-\item Les journaux d'évènements (2 ans).
+\item Les journaux d’événements (2 ans).
 \end{itemize}
 
 \subsubsection{Période de rétention des archives}
@@ -609,7 +606,7 @@ approuvée par l’Autorité administrative.
 \subsection{Politiques de publication et de notification}
 l'AC avertit les UF des modifications apportées aux spécifications par courrier électronique.
 
-\subsection{Procédures d'aprobation des DPC}
+\subsection{Procédures d’approbation des DPC}
 L’approbation d’une DPC est confiée à l’Autorité administrative qui vérifie l’adéquation de la DPC fournie avec la politique de certification.
 
 \newpage
