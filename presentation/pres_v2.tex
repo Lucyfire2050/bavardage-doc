@@ -83,7 +83,7 @@
 \section{Présentation du projet}
 \frame{
 \frametitle{Présentation du projet}
-\begin{block}{Sujet proposé par Maglie Bardet}
+\begin{block}{Sujet proposé par Magali Bardet}
 	Réaliser un logiciel de messagerie instantanée sécurisée : client et serveur.\\
 	S'inspirer des fonctionnalités d'IRC (Internet Relay Chat).
 	Fonctionnalités demandées :
@@ -97,9 +97,9 @@
 \end{block}
 }
 
-\section{Digramme de cas d'utilisation}
+\section{Diagramme de cas d'utilisation}
 \frame[allowframebreaks=1.0]{
-\frametitle{Digramme de cas d'utilisation}
+\frametitle{Diagramme de cas d'utilisation}
 \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
 \umlactor{User}
 \umlactor[x=14, y=4]{AC}
@@ -127,9 +127,9 @@
 
 \framebreak
 \begin{center}
-\begin{tikzpicture}[scale=0.4, every node/.style={scale=0.4}]
+\begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
 \umlactor[y=16]{User S}
-\umlactor[y=5]{Admin}
+\umlactor[x=-4, y=16]{Admin}
 
 \umlusecase[x=4, y=16, width=2.5cm]{Rejoindre Server S} % 8
 \umlusecase[x=6, y=20]{Quitter Server S}				% 9
@@ -138,13 +138,13 @@
 \umlusecase[x=10, y=16, width=3cm]{Envoi message privé sécurisé}    % 12
 \umlusecase[x=9, y=14, width=3cm]{Envoi message sur salon général}			% 13
 \umlusecase[x=7.5, y=12, width=3cm]{Rejoindre salon privé} % 14
-\umlusecase[x=14, y=12, width=2.5cm]{Quitter salon privé} % 15
-\umlusecase[x=2.5, y=12, width=2.5cm]{Demande rejoindre salon}					% 16
-\umlusecase[x=5, y=10]{Créer salon privé}				% 17
-\umlusecase[x=14, y=10]{Invitation User S}				% 18
-\umlusecase[x=12,y=7,width=3cm]{Envoi de message dans salon} % 19
-\umlusecase[x=10,y=5,width=3cm]{Fermeture du salon privé} % 20
-\umlusecase[x=6,y=8.5]{Exclure User S}						%21
+\umlusecase[x=10, y=9, width=2.5cm]{Quitter salon privé} % 15
+\umlusecase[x=1, y=19, width=2.5cm]{Demande rejoindre salon}					% 16
+\umlusecase[x=-0, y=13]{Créer salon privé}				% 17
+\umlusecase[x=-2.5, y=11.5]{Invitation User S}				% 18
+\umlusecase[x=-6,y=9,width=3cm]{Envoi de message dans salon} % 19
+\umlusecase[x=-6,y=19,width=3cm]{Fermeture du salon privé} % 20
+\umlusecase[x=-9,y=17]{Exclure User S}						%21
 
 \umltrans{Admin}{User S}
 \umltrans{User S}{usecase-8}
@@ -208,7 +208,7 @@
 
 		\draw (appclient.east) edge[<->] (modclientsec.west);
 		\draw (appclient.south) edge[<->] (serveur.north);
-		\draw (appclient.south east) edge[<->] (PKI.north);
+		\draw (modclientsec.south west) edge[<->] (PKI.north);
 		\draw (modclientsec.south) edge[<->] (serveurs.north);
 		
 		\draw (serveur.south) edge[<->] (imgbd1.north);
@@ -268,8 +268,11 @@
 \node[punkt, fit=(clientsec2)(clientchat2)(client2)] (group2) {};
 
 
-\draw (clientsec1.east) edge[sym] node[above, align = center] {chiffré} (clientchat1.west);
-\draw (clientsec2.west) edge[sym] node[above, align = center] {chiffré} (clientchat2.east);
+\draw (clientsec1.north east) edge[sym] node[above, align = center] {chiffré} (clientchat1.north west);
+\draw (clientsec2.north west) edge[sym] node[above, align = center] {chiffré} (clientchat2.north east);
+
+\draw (clientsec1.south east) edge[asym] node[below, align = center] {authentifé} (clientchat1.south west);
+\draw (clientsec2.south west) edge[asym] node[below, align = center] {authentifé} (clientchat2.south east);
 
 \draw (clientchat1.north) edge[<->, bend left=20] (serveurchat.west);
 \draw (clientchat2.north) edge[<->, bend right=20] (serveurchat.east);
@@ -277,8 +280,8 @@
 \draw (clientsec1.north) edge[asym, bend left=30] node[above, align = center, rotate=45] {chiffré} (ac.west);
 \draw (clientsec2.north) edge[asym, bend right=30] node[above, align = center, rotate=-45] {chiffré} (ac.east);
 
-\draw (clientsec1.north) edge[asym, bend left=30] node[above, align = center, rotate=30] {chiffré} (serveurs.west);
-\draw (clientsec2.north) edge[asym, bend right=30] node[above, align = center, rotate=-30] {chiffré} (serveurs.east);
+\draw (clientsec1.north) edge[asym, bend left=30] node[above, align = center, rotate=30] {chiffré} node[below, align = center, rotate=30] {authentifié} (serveurs.west);
+\draw (clientsec2.north) edge[asym, bend right=30] node[above, align = center, rotate=-30] {chiffré} node[below, align = center, rotate=-30] {authentifié} (serveurs.east);
 
 \draw (ac.south) edge[<->] (serveurs.north);
 
@@ -295,13 +298,13 @@
 \begin{itemize}
 \item C $\rightarrow$ client et serveur
 \item Vala $\rightarrow$ interface du client
-\item GTK+ 3 $\rightarrow$ interface du client
+\item GTK+ $\rightarrow$ interface du client
 \end{itemize}
 \end{block}
 
 \begin{block}{Sécurité}
 \begin{itemize}
-\item OpenSSL $\rightarrow$ implémentation Open Source de SSL et TLS
+\item OpenSSL $\rightarrow$ bibliothèque de fonctions cryptographiques
 \item TinyCA vs EJBCA $\rightarrow$ EJBCA
 \end{itemize}
 \end{block}
@@ -310,6 +313,7 @@
 \section{Organisation}
 \frame[allowframebreaks=1.0]{
 \frametitle{Organisation}
+Scrum :
 \begin{itemize}
         \item méthode agile
         \item découpage en sprints
@@ -367,22 +371,22 @@ Adapté a notre projet:
 
 \begin{block}{Sprint 2 : Implémentation de la PKI et des échanges entre le client et la PKI}
 \begin{itemize}
-\item PKI : la certification de clef RSA, la vérification, l'envoi et le stockage des certificats.
-\item Client : demande et de réception de certificat.
+\item PKI : la certification de clef RSA, la vérification, l'envoi, la révocation et le stockage des certificats.
+\item Client : demande et réception de certificat.
 \end{itemize}
 \end{block}
 
 \framebreak
 \begin{block}{Sprint 3 : Implémentation du client et du serveur sécurisés}
 \begin{itemize}
-\item Serveur sécurisé : la gestion des salons privés, des clefs de chiffrement symétrique, l'authentification lors de la connexion et l'enregistrement d'un nouvel utilisateur.
-\item Client sécurisé : la gestion des clefs, le chiffrement/déchiffrement des messages, la création/suppression/administration de salon privé.
+\item Serveur sécurisé : la gestion des salons privés, des clefs symétriques, l'authentification lors de la connexion et l'enregistrement d'un nouvel utilisateur.
+\item Client sécurisé : la gestion des clefs, le chiffrement/déchiffrement, la vérification de l'intégrité et de l'authenticité des messages, la création/suppression/administration de salons privés.
 \end{itemize}
 \end{block}
 }
 
 \section{Risques}
-\frame{
+\frame[allowframebreaks=1.0]{
 \frametitle{Risques}
 \tiny
 \begin{center}
@@ -406,6 +410,35 @@ R7 & Retard dans la livraison & Retard du développement d'une tâche bloquante 
 \hline
 \end{tabular}
 \end{center}
+
+\framebreak
+\footnotesize
+\begin{center}
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Réf.}&\textbf{Action}\\
+\hline
+R1&Présentation de Git et installation le 26/11/12 par Julien.\\
+\hline
+R2&Présentation de Vala et Gtk par Julien.\\
+\hline
+R3&Toute l'équipe doit s'informer sur OpenSSL.\\
+\hline
+R4&Répartition de la charge de travail sur les membres (possible rapidement grâce à Git).\\
+\hline
+R5&2 PCs portables de secours sont disponibles.\\
+\hline
+R6&Présentation des PKI + politique de certification par Charles et Ismael le 06/12/12.\\
+\hline
+R7& Renfort de l'équipe en charge de la tâche si possible\\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\section{Conclusion}
+\frame{
+\frametitle{Conclusion}
 }
 
 \end{document}
