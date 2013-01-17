@@ -84,14 +84,14 @@
 \frame{
 \frametitle{Présentation du projet}
 \begin{block}{Sujet proposé par Magali Bardet}
-	Réaliser un logiciel de messagerie instantanée sécurisée : client et serveur.\\
+	Réaliser un logiciel de messagerie instantanée \textbf{sécurisée} : client et serveur.\\
 	S'inspirer des fonctionnalités d'IRC (Internet Relay Chat).
 	Fonctionnalités demandées :
 	\begin{itemize}
 		\item gestion de la création et la suppression d'un compte sécurisé;
 		\item création par un utilisateur d'une salle de discussion pour un groupe de personnes ;
 		\item ajout/suppression d'un utilisateur autorisé dans une salle;
-		\item assurance de confidentialités, d'intégrité et d'authentification sur les messages échangés;
+		\item assurance de confidentialité, d'intégrité et d'authentification sur les messages échangés;
 		\item non-répudiation des messages.
 	\end{itemize}
 \end{block}
@@ -174,7 +174,6 @@
 
 
 \section{Architecture du logiciel}
-\subsection{Schéma global et entités}
 \frame{
 \frametitle{Schéma global et entités}
 \begin{columns}
@@ -245,7 +244,6 @@
   \end{columns}
 }
 
-\subsection{Fonctionnement}
 \frame{
 \frametitle{Fonctionnement}
 \begin{center}
@@ -271,8 +269,8 @@
 \draw (clientsec1.north east) edge[sym] node[above, align = center] {chiffré} (clientchat1.north west);
 \draw (clientsec2.north west) edge[sym] node[above, align = center] {chiffré} (clientchat2.north east);
 
-\draw (clientsec1.south east) edge[asym] node[below, align = center] {authentifé} (clientchat1.south west);
-\draw (clientsec2.south west) edge[asym] node[below, align = center] {authentifé} (clientchat2.south east);
+\draw (clientsec1.south east) edge[asym] node[below, align = center] {authentifié} (clientchat1.south west);
+\draw (clientsec2.south west) edge[asym] node[below, align = center] {authentifié} (clientchat2.south east);
 
 \draw (clientchat1.north) edge[<->, bend left=20] (serveurchat.west);
 \draw (clientchat2.north) edge[<->, bend right=20] (serveurchat.east);
@@ -291,7 +289,6 @@
 \end{center}
 }
 
-\subsection{Détails techniques}
 \frame{
 \frametitle{Détails techniques}
 \begin{block}{Langages et bibliothèques}
@@ -311,8 +308,29 @@
 }
 
 \section{Organisation}
+\frame{
+\frametitle{Équipe et répartition}
+\begin{block}{Équipe}
+\begin{itemize}
+\item Chef de projet : Julien
+\item Responsable client : Jean-Baptiste
+\item Testeur : Charles
+\item Architecte : Yves
+\item Chargé de certification : Ismaël 
+\end{itemize}
+\end{block}
+\pause
+
+\begin{block}{Répartition}
+\begin{itemize}
+\item Responsable tâches partie certification $\rightarrow$ Ismaël
+\item Responsable tâches partie interface $\rightarrow$ Julien
+\end{itemize}
+\end{block}
+}
+
 \frame[allowframebreaks=1.0]{
-\frametitle{Organisation}
+\frametitle{Stratégie}
 Scrum :
 \begin{itemize}
         \item méthode agile
@@ -321,28 +339,13 @@ Scrum :
         \item fin de sprint $\rightarrow$ livraison d'un produit partiel fonctionnel
 \end{itemize}
 \begin{center}\includegraphics[height=12em]{scrum-agiles.jpg}\end{center}
+
 \framebreak
 
 Participation active du client :
 \begin{itemize}
         \item sur les fonctionnalités de chaque sprint
         \item le test du livrable à chaque fin de sprint
-\end{itemize}
-
-
-Trois piliers:
-\begin{itemize}
-        \item transparence
-        \item inspection
-        \item adaptation
-\end{itemize}
-
-\framebreak
-Les acteurs:
-\begin{itemize}
-        \item client
-        \item scrum master
-        \item développeurs
 \end{itemize}
 
 Adapté a notre projet:
@@ -373,6 +376,7 @@ Adapté a notre projet:
 \begin{itemize}
 \item PKI : la certification de clef RSA, la vérification, l'envoi, la révocation et le stockage des certificats.
 \item Client : demande et réception de certificat.
+\item Cérémonie des clefs pour générer la clef privée de la PKI.
 \end{itemize}
 \end{block}
 
@@ -394,51 +398,53 @@ Adapté a notre projet:
 \hline
 \textbf{Réf.} & \textbf{Description} & \textbf{Facteurs} & \textbf{Type} & \textbf{Probabilité} & \textbf{Impact} & \textbf{Criticité} \\
 \hline
-R1&Utilisation de Git&Une seule personne sait l'utiliser&Tech&FORT&MAJEUR&20\\
+R1&Apprentissage long d'OpenSSL, Vala et GTK pouvant entraîner un retard&aucun n'a déjà utilisé OpenSSL, un seul Vala/GTK
+&Tech&FAIBLE&MAJEUR&10\\
 \hline
-R2&Apprentissage de Gtk, Vala&3 ont déjà fait du Vala, 1 du Gtk&Tech&MAJEUR&MAJEUR&15\\
+R2&Charge supplémentaire pouvant entraîner un retard&maladie, emploi du temps chargé&Env&MAJEUR&MINEUR&12\\
 \hline
-R3&Apprentissage d'OpenSSL&Personne n'a déjà utilisé OpenSSL&Tech&FORT&MAJEUR&20\\
+R3&Perte de sources&disque défectueux, machine en panne, vol&Env&FAIBLE&CRITIQUE&12\\
 \hline
-R4&Membre de l'équipe gravement malade&Environnement&RH&FAIBLE&MAJEUR&10\\
-\hline
-R5&Vol/Incident matériel&&RH&FAIBLE&CRITIQUE&12\\
-\hline
-R6&Utilisation d'une PKI (tinyca/EJBCA)&Faibles connaissances des PKI&Tech&MAJEUR&MAJEUR&15\\
-\hline
-R7 & Retard dans la livraison & Retard du développement d'une tâche bloquante & RH/Tech & MAJEUR & MAJEUR & 15\\
+R4&Client non-impliqué&emploi du temps chargé&RH&FAIBLE&MINEUR&8\\
 \hline
 \end{tabular}
 \end{center}
 
-\framebreak
 \footnotesize
 \begin{center}
 \begin{tabular}{|l|p{9cm}|}
 \hline
 \textbf{Réf.}&\textbf{Action}\\
 \hline
-R1&Présentation de Git et installation le 26/11/12 par Julien.\\
+R1&Tutoriels pour OpenSSL, transmission de connaissances et tutoriels pour Vala/GTK\\
 \hline
-R2&Présentation de Vala et Gtk par Julien.\\
+R2&Répartir la charge ou étaler une tâche.\\
 \hline
-R3&Toute l'équipe doit s'informer sur OpenSSL.\\
-\hline
-R4&Répartition de la charge de travail sur les membres (possible rapidement grâce à Git).\\
-\hline
-R5&2 PCs portables de secours sont disponibles.\\
-\hline
-R6&Présentation des PKI + politique de certification par Charles et Ismael le 06/12/12.\\
-\hline
-R7& Renfort de l'équipe en charge de la tâche si possible\\
+R3&Perte de sources minimisée grâce à git.\\
 \hline
 \end{tabular}
 \end{center}
 }
 
+\section{Difficultés rencontrées}
+\frame{
+\frametitle{Difficultés rencontrées}
+$\rightsquigarrow $ Difficultés pour intégrer la cryptographie dans :
+\begin{itemize}
+\item les cas d'utilisation
+\item les cas de tests
+\end{itemize}
+}
 \section{Conclusion}
 \frame{
 \frametitle{Conclusion}
+Application d'une méthode de préparation de projet avec :
+\begin{itemize}
+\item analyse du sujet
+\item distribution des rôles
+\item élaboration de documents techniques
+\item élaboration du planning des tâches
+\end{itemize}
 }
 
 \end{document}
