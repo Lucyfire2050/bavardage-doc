@@ -38,8 +38,8 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Analyse des risques} % Document name
 
-\newcommand{\version}{0.3} % Document version
-\newcommand{\docDate}{29 décembre 2012} % Document date
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{21 février 2013} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -99,6 +99,8 @@
 	\hline
 	0.3 & 29/12/2012 & Ajout de R6 et R7\\
 	\hline
+	1.1 & 21/02/2013 & Correction du document d'après le retour de Karim ABDELLAH GODARD\\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -129,32 +131,19 @@ FORT&4&&CRITIQUE&6\\
 \end{tabular}
 \end{center}
 \item []
-\item Gtk : ensemble de bibliothèques permettant de réaliser des interfaces graphiques.
-\item Git : Git est un logiciel libre de gestion de versions décentralisé.
-\item Vala : Vala est un langage de programmation compilé orientée objet.
-\item OpenSSL : bibliothèque offrant des solutions de chiffrement.
-\item PKI : (Public Key Infrastructure) gère le cycle de vie des certificats numériques/électroniques.
+\item Env: environnement
+\item RH : ressources humaines
 \end{itemize}
 \section{Registre des risques}
 
 \begin{center}
-\begin{tabular}{|l|p{2.5cm}|p{2.5cm}|l|l|l|l|}
+\begin{tabular}{|c|p{3cm}|p{3cm}|l|l|l|c|}
 \hline
 \textbf{Réf.} & \textbf{Description} & \textbf{Facteurs} & \textbf{Type} & \textbf{Probabilité} & \textbf{Impact} & \textbf{Criticité} \\
 \hline
-R1&Utilisation de Git&Une seule personne sait l'utiliser&Technique&FORT&MAJEUR&20\\
+R1&Charge supplémentaire pouvant entraîner un retard&maladie, emploi du temps chargé&Env&MAJEUR&MINEUR&12\\
 \hline
-R2&Apprentissage de Gtk, Vala&3 ont déjà fait du Vala, 1 du Gtk&Technique&MAJEUR&MAJEUR&15\\
-\hline
-R3&Apprentissage d'OpenSSL&Personne n'a déjà utilisé OpenSSL&Technique&FORT&MAJEUR&20\\
-\hline
-R4&Membre de l'équipe gravement malade&Environnement&RH&FAIBLE&MAJEUR&10\\
-\hline
-R5&Vol/Incident matériel&&RH&FAIBLE&CRITIQUE&12\\
-\hline
-R6&Utilisation d'une PKI (tinyca/EJBCA)&Faibles connaissances des PKI&Technique&MAJEUR&MAJEUR&15\\
-\hline
-R7 & Retard dans la livraison & Retard du développement d'une tâche bloquante & RH/Technique & MAJEUR & MAJEUR & 15\\
+R2&Client non-impliqué&emploi du temps chargé&RH&FAIBLE&MINEUR&8\\
 \hline
 \end{tabular}
 \end{center}
@@ -165,19 +154,7 @@ R7 & Retard dans la livraison & Retard du développement d'une tâche bloquante 
 \hline
 \textbf{Réf.}&\textbf{Action}\\
 \hline
-R1&Présentation de Git et installation le 26/11/12 à 10h30 par Julien.\\
-\hline
-R2&Présentation de Vala et Gtk par Julien (date à fixer).\\
-\hline
-R3&Toute l'équipe doit s'informer sur OpenSSL (date limite à fixer).\\
-\hline
-R4&Répartition de la charge de travail sur les membres.\\
-\hline
-R5&2 PCs portables de secours sont disponibles.\\
-\hline
-R6&Présentation des PKI + politique de certification par Charles et Ismael le 06/12/12.\\
-\hline
-R7& Renfort de l'équipe en charge de la tâche si possible\\
+R1&Répartir la charge ou étaler une tâche.\\
 \hline
 \end{tabular}
 \end{center}

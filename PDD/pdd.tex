@@ -45,8 +45,8 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Plan de développement détaillé} % Document name
 
-\newcommand{\version}{0.4} % Document version
-\newcommand{\docDate}{29 décembre 2012} % Document date
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{21 février 2013} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -108,6 +108,8 @@
 	\hline
 	0.4 & 29/12/2012 & Ajout des réunions de TD et de groupe\\
 	\hline
+	1.1 & 21/02/2013 & Correction du document d'après le retour de Karim ABDELLAH GODARD\\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -129,8 +131,9 @@ Les méthodes agiles sont des groupes de pratiques pouvant s'appliquer à divers
 Scrum est une méthode agile dont l'organisation de l'équipe est autogérée et est protégée par un Scrum Master qui fait partie de l'équipe. Les livraisons seront découpées en sprints dont les listes d'items et les durées seront à définir avec le client.
 
 \includegraphics[width=17cm]{scrum-agiles.jpg}
+\textit{Sources : \url{http://fr.wikipedia.org/wiki/Méthode_agile} et \url{http://fr.wikipedia.org/wiki/Scrum\_(méthode)}}
 \subsection{Pourquoi ?}
-Les méthodes agiles ont fait leur preuve dans leur efficacité et leur qualité de développement. De plus, Scrum permet un suivi et une transparence totale avec le client.
+Les méthodes agiles ont fait leur preuve dans leur efficacité et leur qualité de développement. De plus, Scrum permet un suivi et une transparence totale avec le client. Le découpage en sprint, itération assez courte, est adapté à notre projet puisqu'il se déroule sur une période relativement courte.
 
 \section{Les livrables}
 \begin{itemize}
@@ -164,8 +167,35 @@ Testeur & Charles Ango\\
 \subsection{Stratégie}
 Le développement de ce projet sera découpé en trois itérations (sprints). Chaque sprint durera quatre semaines avec une livraison le dernier jour du sprint. Pour chaque sprint sont prévues une période de correction de problèmes du sprint précédent ainsi qu'une période de tests.
 
-\newpage
+\begin{paragraph}{Sprint 1}
+Ce sprint consiste en le développement de :
+\begin{itemize}
+\item Serveur simple : la gestion des connexions à la base de données, des salons et la transmission de messages aux destinataires.
+\item Client simple : la connexion et la déconnexion au serveur, l'envoi et la réception d'un message au serveur et l'interfaçage.
+\end{itemize}
+\end{paragraph}
+
+\begin{paragraph}{Sprint 2}
+Ce sprint consiste en le développement de :
+\begin{itemize}
+\item PKI : la certification de clef RSA, la vérification, l'envoi, la révocation et le stockage des certificats.
+\item Client : demande et réception de certificat.
+\item Cérémonie des clefs pour générer la clef privée de la PKI.
+\end{itemize}
+\end{paragraph}
+
+\begin{paragraph}{Sprint 3}
+Ce sprint consiste en le développement de :
+\begin{itemize}
+\item Serveur sécurisé : la gestion des salons privés, des clefs symétriques, l'authentification lors de la connexion et l'enregistrement d'un nouvel utilisateur.
+\item Client sécurisé : la gestion des clefs, le chiffrement/déchiffrement, la vérification de l'intégrité et de l'authenticité des messages, la création/suppression/administration de salons privés.
+\end{itemize}
+\end{paragraph}
+
 \subsection{Description des tâches}
+Pour minimiser le risque de perte de sources, nous avons mis en place un dépôt git avant le début de la phase de développement (\url{http://github.com/legrajul/bavardage}). De plus, les phases d'apprentissage de nouvelles connaissances techniques sont incluses dans les tâches concernées.
+~~\\
+
 \begin{tabular}{|c|c|r|l|r|}
 \hline
 &&\textbf{Tâche} & \textbf{Description} & \textbf{Dépendances}\\
@@ -226,7 +256,7 @@ Le développement de ce projet sera découpé en trois itérations (sprints). Ch
 \cline{2-9}
 & 5& 2& 3& 1& 3& Charles& 31/01/2013& 04/02/2013\\
 \cline{2-9}
-& 6& 2& 3& 1& 3& Jean-Baptiste& 21/01/2013& 21/01/2013\\
+& 6& 2& 3& 1& 3& Jean-Baptiste& 21/01/2013& 24/01/2013\\
 \cline{2-9}
 & 7& 2& 3& 1& 3& Yves& 30/01/2013& 01/02/2013\\
 \cline{2-9}
@@ -466,4 +496,7 @@ Présentation de l'outil Git par Julien Legras.
 \begin{paragraph}{17/12/2012}
 Élaboration des diagrammes de Gantt et répartition des tâches.
 \end{paragraph}
+
+\subsubsection{Réunions pendant le développement}
+Une réunion avec le client sera faite quelques jours avant la livraison pour lui montrer ce qui sera livré ainsi qu'une autre quelques jours après la livraison pour le client puisse faire un retour sur les éventuels bugs et/ou améliorations à apporter.
 \end{document}
