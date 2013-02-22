@@ -30,13 +30,14 @@
 
 \newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
 \newcommand{\hmwkClass}{Master 1 SSI } % Course/class
+\newcommand{\hmwkClassInstructor}{Jones} % Teacher/lecturer
 \newcommand{\hmwkAuthorName}{Ambroise Ismael Kabore} % Your name
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Politique de certification} % Document name
 
-\newcommand{\version}{0.2} % Document version
-\newcommand{\docDate}{18 Décembre 2012} % Document date
-\newcommand{\checked}{Julien Legras} % Checker name
+\newcommand{\version}{0.3} % Document version
+\newcommand{\docDate}{20 Janvier 2013} % Document date
+\newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
 \definecolor{gris}{rgb}{0.95, 0.95, 0.95}
@@ -94,6 +95,8 @@
 	\hline
 	0.2 & 18/12/2012 & Après relecture par Julien\\
 	\hline
+	0.3 & 20/01/2013 & Après relecture par Magali Bardet\\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -117,15 +120,15 @@ Ce document est la politique de certification du chat sécurisé Bavardage et es
 \subsection{ Autorités, applications et groupes d'utilisateurs concernés }
 \subsubsection{Autorité administrative (AA)}
 
-Composante de l'IGC qui définit et fait appliquer les politiques de certification et les déclarations des pratiques de certification par la PKI, ainsi que la politique de sécurité générale de la PKI.
+Composante de la PKI qui définit et fait appliquer les politiques de certification et les déclarations des pratiques de certification par la PKI.
 	
-\subsubsection{Autorité de certification (AC)}
-C'est l'autorité à laquelle les utilisateurs font confiance pour émettre et gérer des clés,des certificats, et des révocations. L'AC est gérée par l'administrateur du serveur sécurisé du chat.
+\subsubsection{Autorité de certification (CA)}
+C'est l'autorité à laquelle les utilisateurs font confiance pour gérer les certificats(générer, publier, révoquer), et les révocations. Le CA est gérée par l'administrateur du serveur sécurisé du chat.
 
 
-\subsubsection{Autorité d'enregistrement (AE)}
+\subsubsection{Autorité d'enregistrement (RA)}
 
-Une autorité d’enregistrement est une composante de l’Infrastructure de Gestion des Clés qui vérifie les données propres au demandeur de certificat ainsi que les contraintes liées à l’usage d’un certificat, conformément à la politique de certification. Elle assure le lien entre l'Autorité de Certification et les utilisateurs. 
+Une autorité d’enregistrement est une composante de la PKI qui vérifie les données propres au demandeur de certificat ainsi que les contraintes liées à l’usage d’un certificat, conformément à la politique de certification. Elle assure le lien entre l'Autorité de Certification et les utilisateurs. 
 
 \subsubsection{Autorité de dépôt (AD)}
 C'est l'autorité qui stocke les certificats numériques ainsi que les listes de révocation.
@@ -136,7 +139,7 @@ C'est la personne physique ayant directement par la loi ou par délégation, le 
 
 \subsubsection{ Utilisateur Final (UF)}
 
-C'est la personne physique qui utilise les certificats. C'est en général les utilisateurs du chat.
+C'est la personne physique qui utilise les certificats. C'est un utilisateur du chat.
 
 \subsubsection{Utilisateur signataire convention (USC)}
 
@@ -144,31 +147,31 @@ C'est la personne physique ayant directement par la loi ou par délégation, le 
 		
 \subsubsection{Type d'applications concerné}
 
-L'usage des certificats doit permettre l' identification et l'authentification d'un utilisateur Bavardage décline toute responsabilité pour tout usage de certificat qui serait sans rapport avec le chat.
+L'usage des certificats doit permettre l'authentification d'un utilisateur. Bavardage décline toute responsabilité pour tout usage de certificat qui serait sans rapport avec le chat.
 
 \subsection{Points de contact}
 \subsubsection{Autorité de sécurité compétente dans l'accréditation des composants d'une PKI}
 		À compléter
 		
-\subsubsection{Personnes à contacter concernant ce document
-Sans objet}		
+\subsubsection{Personnes à contacter concernant ce document}		
+Toute personne desirant contacter Bavardage concernant ce document peut envoyer un mail à l'adresse bavardage@gmail.com.
 
-\subsubsection{Personnes habilitées à déterminer la conformité de la DPC avec la politique de certification}
+\subsubsection{Personnes habilitées à déterminer la conformité de la DPC avec la PC}
 
-Les personnes habilitées à déterminer la conformité de la DPC avec la politique de certification sont nommées par l’Autorité Administrative(AA).
+Les personnes habilitées à déterminer la conformité de la DPC avec la PC sont nommées par l’Autorité Administrative(AA).
 
 \section{Dispositions d'ordre générale}
 \subsection{Obligations}
 Les obligations suivantes sont communes à toutes les composantes de la PKI:
 Protéger sa clé privée et ses données d’activation en intégrité et en confidentialité.
-N’utiliser ses clés publiques et privées qu'aux fins pour lesquelles elles ont été émises et avec les outils spécifiés, en vertu de la présente politique.
+N’utiliser ses clés publiques et privées qu’aux fins pour lesquelles elles ont été émises et avec les outils spécifiés, en vertu de la présente politique.
 Respecter et appliquer la PC.
 Mettre en œuvre les moyens (techniques et humains) nécessaires à la réalisation des prestations auxquelles l’entité concernée s’engage.
 
 \subsubsection{Obligations des acteurs}
 \begin{tabular}{|l|p{10cm}|}
   \hline
-  Autorité Administrateur &  
+  Autorité Administrative &  
   \begin{itemize}
    \item Valider la politique de certification
    \item Établir la conformité entre la PC et la DPC
@@ -176,13 +179,13 @@ Mettre en œuvre les moyens (techniques et humains) nécessaires à la réalisat
 
  \\
   \hline
-  Autorité d'enregistrement & 
+  Autorité d'Enregistrement & 
   \begin{itemize}
   \item  Respecter la législation relative au respect des données
 d’identification personnelles
 \item Publier un formulaire de demande de certification.
 \item Vérifier l'exactitude des mentions qui établissent l'identité du
-demandeur et de l'entreprise.
+demandeur.
 \item Si elle est saisie d'une demande de révocation, elle doit en vérifier l'origine et l'exactitude.
 \item Traiter les demandes de certificat.
 \item Conserve et protège en confidentialité et intégrité toutes les données collectées lors de la demande de certificat.
@@ -190,12 +193,10 @@ demandeur et de l'entreprise.
   \end{itemize}
   \\
   \hline
-  Autorité de certification &
+  Autorité de Certification &
   \begin{itemize}
 
-\item S'engager à diffuser publiquement la politique de certification, la liste des certificats révoqués, et la liste des certificats auxquels la clé racine de l'IGC est subordonnée.
-\item Documenter les schémas de certification qu’elle entretient avec
-d’autres AC ou d’autres PKI.
+\item S'engager à diffuser publiquement la politique de certification, la liste des certificats révoqués, et la liste des certificats.
 \item Respecter le résultat d’un contrôle de conformité et remédier aux non conformités qu’il révèle
 \item Documenter ses procédures internes de fonctionnement.
 \item Respecter la PC et appliquer la DPC.
@@ -207,8 +208,7 @@ d’autres AC ou d’autres PKI.
  Utilisateur Demandeur &
  \begin{itemize}
  \item Il doit respecter la convention avec le chat bavardage et la PC
-\item Il doit procéder sans délais aux révocations en cas de perte ou
-compromission des clés privées. 
+
  
  \end{itemize} 
   
@@ -229,23 +229,23 @@ compromission des clés privées.
 
 \begin{tabular}{|l|p{10cm}|}
   \hline
-  Autorité Administrateur &  
+  Autorité Administrative &  
   \begin{itemize}
   \item Résolution des litiges
    \end{itemize}
 
  \\
   \hline
-  Autorité d'enregistrement & 
+  Autorité d'Enregistrement & 
   \begin{itemize}
 \item Enregistrement d’une demande en provenance des utilisateurs (UD).
 \item Conservation et protection en confidentialité et en intégrité des données personnelles d’identification transmises pour l’enregistrement.
-\item Seule l'AC peut mettre en cause la responsabilité de l'AE, ce qui exclut explicitement tout engagement de l'AE envers les utilisateurs demandeurs ou finaux.
+\item Seule la CA peut mettre en cause la responsabilité de la RA, ce qui exclut explicitement tout engagement de la RA envers les utilisateurs demandeurs ou finaux.
 
   \end{itemize}
   \\
   \hline
-  Autorité de certification &
+  Autorité de Certification &
   \begin{itemize}
 \item Génération des certificats dans le cadre des procédures définies dans la PC et DPC.
 \item Assure la responsabilité du service de publication, elle est responsable de l'information des utilisateurs des procédures à suivre tout au long du cycle de vie des certificats.
@@ -264,7 +264,7 @@ compromission des clés privées.
  \hline
  Utilisateur Final &
  \begin{itemize}
-\item Il est responsable de la sécurité de son poste de travail.
+\item Il est responsable de la sécurité de son poste de travail (clefs et certificats).
  
  \end{itemize}
 \\
@@ -272,13 +272,12 @@ compromission des clés privées.
   
 \end{tabular}             
 
-\subsubsection{Interprétation de la loi}
+\subsubsection{Interpretation de la loi}
 \begin{itemize}
 \item Loi
 Suivant la législation nationale :
-Les données à caractère personnel d’une personne physique doivent être protégées suivant la loi ... À compléter
-\item Résolution de litiges
-Sans objet
+Les données à caractère personnel d’une personne physique doivent être protégées suivant la loi.
+
 \end{itemize}
 
 \subsubsection{Publication et Services associés}
@@ -296,7 +295,7 @@ Les informations concernant la PKI publiées sont les suivantes :
 \\Les informations seront publiées suivant un temps T
 
 \item Service de publication
-\\L' AC rend un service de publication des certificats qui se matérialisera par un annuaire. Ce service de publication met à disposition des utilisateurs suivant TEMPS=TempDispoPub les informations suivantes :
+\\La CA rend un service de publication des certificats qui se matérialisera par un annuaire. Ce service de publication met à disposition des utilisateurs suivant TEMPS=TempDispoPub les informations suivantes :
 \begin{itemize}
 \item les informations concernant la PKI
 \item la liste des certificats révoqués
@@ -304,6 +303,8 @@ Les informations concernant la PKI publiées sont les suivantes :
 
 \end{itemize}
 
+\subsubsection{Contrôle de conformité}
+À compléter
 
 \subsubsection{Politique de confidentialité}
 \begin{itemize}
@@ -311,34 +312,35 @@ Les informations concernant la PKI publiées sont les suivantes :
 
 Cas des informations confidentielles à caractère secret (obligation de discrétion). Il s’agit d’informations nécessaires au bon fonctionnement de la PKI :
 \begin{itemize}
-\item clés privées propres à la composante concernée
-\item Politique de Certification 
-\item Archives des conventions cryptographiques
+
 \item La DPC
 \\
 \end{itemize}
 
 
 
-Cas des informations confidentielles à caractère privatif (exigence de séclusion). Il s’agit d’informations nécessaires à l’opérabilité de l’IGC :
-données personnelles d’identification nominative d’un utilisateur demandeur (identifiants nominatifs), les utilisateurs demandeurs disposent d'un droit d'accés, de rectification et d'opposition à la cession de toute information les concernant.
+Cas des informations confidentielles à caractère privatif (exigence de séclusion). Il s’agit d’informations nécessaires à l’opérabilité de la PKI :
+données personnelles d’identification nominative d’un utilisateur demandeur (identifiants nominatifs), les utilisateurs demandeurs disposent d'un droit d'accès, de rectification et d'opposition à la cession de toute information les concernant.
 \\
 
 \item Type d'informations considérés comme non confidentielles
 \\Les informations publiées sur la PKI (cf. 2.1.4) sont considérées comme non confidentielles.
 \\
-\item Délivrance aux autorités légales
+\item Delivrance aux autorités légales
 \\les autorités légales peuvent réclamer l’identité de l’individu ou de l’organisme qu’il représente. En aucun cas, le recouvrement de clé de signature ni de clé de certification ne doit être effectué.
 \\
 
-\item Délivrance à la demande du propriétaire
-\\Les informations relatives à un utilisateur final et définies comme confidentielles en 2.1.6 ne peuvent être divulguées qu’à leur propriétaire (demandeur du certificat).
+\item Delivrance à la demande du propriétaire
+\\Les informations relatives à un utilisateur final et définies comme confidentielles (cf. 2.1.2) ne peuvent être divulguées qu’à leur propriétaire (demandeur du certificat).
 \end{itemize}
 
 \section{Identification et authentification}
 \subsection{Enregistrement initial}
+\subsubsection{Convention}
+La convention est le règlement que tout detenteur du certificat doit respecter. Seul l'UD peut signer la convention. Il doit obligatoirement se présenter physiquement à l'AA pour signer la convention.
+
 \subsubsection{Convention de noms}
-Le nom de l'Abonné figure dans le champ "Nom de l'organisation" du certificat au format X.509. Cette mention est obligatoire. Il est constitué du prénom usuel et du nom patronymique. Ce nom est celui de l'Abonné tel qu'il figure dans les documents d'État Civil.
+Le nom de l'Abonné figure dans le champ "Nom de l'organisation" du certificat au format X.509. Cette mention est obligatoire. Il est constitué du prénom usuel et du nom usuel. Ce nom est celui de l'Abonné tel qu'il figure dans les documents d'État Civil.
 
 \subsubsection{Nécessité d'utilisation de noms explicites}
 
@@ -347,10 +349,10 @@ Les informations portées dans les champs du certificat CA Certificat sont décr
 \item Pays : le code du pays sur 2 lettres
 \item Mot de passe : requis pour la signature
 \item Password : confirmation du mot de passe
-\item État ou nom de province : 
+\item Etat ou nom de province : 
 \item Localité : la ville
 \item Nom de l'organisation: Nom de l'entreprise ou de la personne
-\item Unité organisationnelle : département
+\item Unité organisationnelle : departement
 \item Adresse eMail : Adresse électronique de l'abonné
 
 \end{itemize}
@@ -360,24 +362,24 @@ Ces informations sont établies par le groupe de projet et reposent essentiellem
 suivantes :
 \begin{itemize}
 \item Tous les caractères sont sans accents ni caractères spécifiques à la langue française;
-\item les prénoms et noms composés sont séparés par des tirets « - ».
+\item les prénoms et noms composés sont séparés par des tirets " - ".
 
 \end{itemize}
 
 \subsubsection{Unicité des noms}
-L’unicité d’un certificat est basée sur l’unicité de son numéro de série au sein de l'AC.
+L’unicité d’un certificat est basée sur l’unicité de son numéro de série au sein de la CA et du nom de l'abonné.
 
-\subsubsection{Procédures de résolution des litiges sur la revendication d'un nom}
+\subsubsection{Procédures de résolution des litiges sur la révendication d'un nom}
 Lorsque le nom à inclure dans un certificat provoque un litige avec un autre utilisateur, l’autorité d’enregistrement à qui la demande de certification a été formulée proposera une procédure de résolution amiable du litige.
 
 \subsubsection{Preuve de la possession d'une clé privée}
 Génération du bi-clé par le demandeur et utilisation d'un protocole adapté.
 
 \subsubsection{Authentification de l'identité d'un individu}
-Seul l'utilisateur demandeur (UD) est authentifié. L'authentification de l' UD est réalisée lors de la procédure de connexion au serveur sécurisé du chat.
+L'authentification d'un individu est réalisée lors de la procédure de demande d'un certificat. L'individu doit se présenter physiquement à l'AA.
 
 \subsection{Re-génération de certificat}
-Les certificats sont à renouveler suivant un temps T = temps de validité du certificat. L'utilisateur demandeur refait une nouvelle demande de certificat. Un certificat révoqué ne peut pas être régénéré.
+Les certificats sont à renouveler suivant un temps T = temps de validité du certificat. L'utilisateur demandeur refait une nouvelle demande de certificat. Un certificat révoqué ne peut pas être regénéré.
 \subsection{Authentification d'une demande de révocation}
 L'authentification d'une demande de révocation est effectuée par l'Autorité d'Enregistrement.
 Sont demandés :
@@ -395,38 +397,35 @@ Sont demandés :
 Elle se déroule en deux temps :
 \begin{itemize}
 \item L'utilisateur demandeur remplit le formulaire de demande de création d'un compte sécurisé.
-\item Après réception du formulaire, l'AC traite la demande, génère le certificat et l'envoi à l'utilisateur demandeur qui devient un utilisateur final.
+\item Après réception du formulaire, la CA traite la demande, génère le certicat et l'envoi à l'utilisateur demandeur qui devient un utilisateur final.
  \end{itemize}
  
 \subsection{Génération de certificat}
 \begin{itemize}
-\item l'UD transmet une demande de certificat conformément au 4.1. \item L'autorité d’enregistrement vérifie la validité des informations portées par le formulaire de demande
-\item Si le formulaire est valide, il est transmis à l'AC qui génère le certificat, le transmet à l'utilisateur demandeur et le stocke dans l'autorité de dépôt.
+\item l'UD transmet une demande de certificat conformément au 4.1. \item L'autorité d'enegistrement vérifie la validité des informations portées par le formulaire de demande
+\item Si le formulaire est valide, il est transmis à la CA qui génère le certificat, le transmet à l'utilisateur demandeur et le stocke dans l'autorité de dépôt.
 \item En cas de non validité des informations un message avec le motif du rejet est envoyé à l'utilisateur demandeur.
 
 \end{itemize}
 
 \subsection{Acceptation d'un certificat}
-Sans réponse à l'envoi du certificat à l'UD. Envoyé par l'AC, il est considéré comme accepté par l'UD qui reconnaît de fait les termes et les conditions d'utilisations et assume les responsabilités liées à son utilisation. L'acceptation d'un certificat vaut acceptation de la PC en référence.
+Sans réponse à l'envoi du certificat à l'UD. Envoyé par la CA, il est considéré comme accepté par l'UD qui reconnaît de fait les termes et les conditions d'utilisations et assume les responsabilités liées à son utilisation. L'acceptation d'un certificat vaut acceptation de la PC en référence.
 
 \subsection{Suspension et révocation d'un certificat}
 \subsubsection{Causes possibles de révocation d'un certificat}
 
-Les causes de révocation du certificat d'une AC peuvent être :
+Les causes de révocation du certificat de la CA peuvent être :
 \begin{itemize}
-\item Compromission, suspicion de compromission, vol, perte de certificat.
-\item Compromission de clé publique d’une AC
-\item Compromission, suspicion de compromission, vol, perte de la clé privée d’une AC
+\item Compromission de clé publique de la CA
+\item Compromission, suspicion de compromission, vol, perte de la clé privée de la CA
 \item Non respect de la politique de certification ou de la déclaration des pratiques de certification.
 \item Décision suite à un contrôle de conformité.
-\item Cessation d’activité de l’AC.
+\item Cessation d’activité de la CA.
 \\
 
 Les causes possibles de révocation du certificat d’un utilisateur final sont les suivantes :
 \item Compromission, suspicion de compromission, vol ou perte de la clé privée de l’utilisateur final.
-\item Compromission, suspicion de compromission, vol ou perte du certificat de l’utilisateur final
-\item Compromission de clé publique de l’utilisateur final.
-\item Révocation du certificat de l’AC émettrice du certificat.
+\item Révocation du certificat de la CA émettrice du certificat.
 \item Non respect du contrat ou de la convention liant un utilisateur final à la PKI.
 \item Changement d’informations contenues dans le certificat (changement de fonctions de l’utilisateur, changement de nom, etc.)
 
@@ -436,41 +435,41 @@ Les causes possibles de révocation du certificat d’un utilisateur final sont 
 Elles ne sont pas publiées.
 
 \subsubsection{Contrôle de la Liste de révocation}
-Les utilisateurs finaux sont autorisés à consulter la liste de révocation.
+Toute personne est autorisée à consulter la liste de révocation.
 
-\subsubsection{Personnes habilitées à demander une révocation}
-Les personnes habilitées à demander une révocation sont:
+\subsubsection{Personnes abilitées à demander une révocation}
+Les personnes abilitées à demander une révocation sont:
 \begin{itemize}
-\item L'AC
-\item L'AE
+\item La CA
+\item La RA
 \item L'AA
 \item Le serveur de chat sécurisé
+\item L'UF
 \end{itemize}
 
 \subsubsection{Procédure de demande de révocation}
-La demande de révocation se fait soit
-en envoyant un mail à l'AA, soit en remplissant un formulaire qui sera envoyé à l'AE.
+La demande de révocation se fait soit en envoyant un mail à l'AA et en s'authentifiant, soit en s'authentifiant et en remplissant un formulaire qui sera envoyé à la RA.
 
 \subsubsection{Temps de traitement d'une révocation}
 Les demandes de révocation doivent être traitées suivant un temps T = temps de révocation.
 
 \subsubsection{Fréquence de mise à jour de la liste des certificats révoqués}
-L'AC garantit aux utilisateurs de ses certificats la mise à disposition d'une liste de certificats révoqués à jour
+La CA garantit aux utilisateurs de ses certificats la mise à disposition d'une liste de certificats révoqués à jour
 suivant un temps T = fréquence mise à jour liste de révocation.
 
 \subsection{Journalisation}
-\subsubsection{Types d’événements enregistrés}
+\subsubsection{Types d'évènements enregistrés}
 Les opérations réalisées sur la PKI seront enregistrées.
 
-\subsubsection{Fréquence de traitement des journaux d’événement}
+\subsubsection{Fréquence de traitement des journaux d'évènement}
 Le processus de journalisation enregistre en temps réel les opérations effectuées, le contournement du processus n'est pas possible.
 
-\subsubsection{Durée de rétention d'un journal d’événements}
+\subsubsection{Durée de retention d'un journal d'évènements}
 Les journaux doivent être conservés pour une période
-minimale T = temps rétention journal d’événements.
+minimale T = temps retention journal d'évènements.
 
-\subsubsection{Copie de sauvegarde des journaux d’événements}
-Des copies de sauvegardes des journaux d’événements doivent être faites suivant un temps T = temps sauvegarde journaux d’événements. Les archives de journaux d'événements sont protégés au même niveau que les journaux d'événements originaux.
+\subsubsection{Copie de sauvegarde des journaux d'évènements}
+Des copies de sauvegardes des journaux d'évènement doivent être faites suivant un temps T = temps sauvegarde journaux d'évènements. Les archives de journaux d'événements sont protégés au même niveau que les journaux d'événements originaux.
 
 \subsubsection{Imputabilité}
 L’imputabilité d’une action revient à la personne, ou le système l’ayant exécutée et dont le nom figure dans le champ « nom de l’exécutant » du journal d’événements.
@@ -483,15 +482,14 @@ Les données à archiver sont au moins les suivantes :
 \item Liste de révocation (2 ans).
 \item Données relatives à la demande de certificats (2 ans).
 \item Les notifications (messages, etc) (2 ans).
-\item Les journaux d’événements (2 ans).
+\item Les journaux d'évènements (2 ans).
 \end{itemize}
 
 \subsubsection{Période de rétention des archives}
 Les archives sont conservées pendant un temps T = temps conservation archive.
 
 \section{Contrôle de sécurité physique et des procédures}
-\subsection{Contrôle physique}
-Pas concerné(Nous ne construirons pas de sites pour la PKI).
+
 \subsection{Contrôle des procédures}
 \subsubsection{Rôle}
 On distingue un unique administrateur.
@@ -505,17 +503,10 @@ La connexion d'un exploitant à la PKI nécessite son identification, identifica
 \section{Contrôles techniques de sécurité}
 
 \subsection{Génération et Délivrance de clé}
-\subsubsection{Génération de bi-clé}
-L'UD génère lui-même sa bi-clé. l'AC décline toute responsabilité pour une utilisation autre que celle définie dans la PC, y
-compris pour l'authentification et l'identification mutuelle de deux UF. 
-\subsubsection{Génération de clé privée}
-Pas concerné(Le serveur de chat sécurisé génère les clés privées dans notre cas).
 
-\subsubsection{Délivrance de clé privée}
-Pas concerné(Le serveur de chat sécurisé génère les clés privées dans notre cas).
+L'UD génère lui-même sa bi-clé. la CA décline toute responsabilité pour une utilisation autre que celle définie dans la PC, y
+compris pour l'authentification de deux UF. 
 
-\subsection{Protection de clé privée}
-Pas concerné (Le serveur de chat sécurisé génère les clés privées dans notre cas).
 
 \section{Profils des certificats et listes des certificats révoqués}
 \subsection{Profil de certificat}
@@ -529,10 +520,10 @@ Version  & Numéro de version du certificat
 Serial number  & Numéro de série du certificat
 \\
 \hline
-signature  & Identifiant de l'algorithme de signature de l'AC 
+signature  & Identifiant de l'algorithme de signature de la CA 
 \\
 \hline
-Issuer  & Nom de l'AC
+Issuer  & Nom de la CA
 \\
 \hline
 Validity Period  & Période de validité
@@ -544,7 +535,7 @@ Subject  & Nom de l'entité
 Subject public key info &  Identifiant de l'algorithme d'usage de la clé publique contenue dans le certificat, et valeur de la clé publique
 \\
 \hline
- Issuer unique identifier  & Identification unique de l'AC
+ Issuer unique identifier  & Identification unique de la CA
 \\
 \hline
 Subject unique identifier  & Identifiant unique de l'entité
@@ -564,11 +555,11 @@ Extensions  & Les extensions sont soit standardisées, soit à la discrétion de
 Version  & Numéro de version de la liste de révocation
 \\
 \hline
-Signature  & Identifiant de l'algorithme de signature de l'AC
+Signature  & Identifiant de l'algorithme de signature de la CA
 
 \\
 \hline
-Issuer  & Nom de l'AC qui signe les certificats
+Issuer  & Nom de la CA qui signe les certificats
  
 \\
 \hline
@@ -579,7 +570,7 @@ NextUpdate  & Prochaine date à laquelle cette Liste de révocation sera mise à
 
 \\
 \hline
-RevokedCertificates  & liLte des numéros de série des certificats révoqués, contenant les champs suivants :
+RevokedCertificates  & liste des numéros de série des certificats révoqués, contenant les champs suivants :
 \begin{itemize}
 \item userCertificate : Numéro de série du certificat révoqué 
 \item revocationDate : Date à laquelle le certificat a été révoqué
@@ -590,7 +581,7 @@ RevokedCertificates  & liLte des numéros de série des certificats révoqués, 
 \hline
 CrlExtensions &  liste des extensions de la LCR :
 \begin{itemize}
-\item authorityKeyIdentifier : identifiant de la clé publique de l’AC qui a signé la liste de révocation
+\item authorityKeyIdentifier : identifiant de la clé publique de la CA qui a signé la liste de révocation
 \item CRLNumber : numéro de série de la liste de révocation 
 \end{itemize}
 \\
@@ -600,13 +591,13 @@ CrlExtensions &  liste des extensions de la LCR :
 
 \section{Administration et spécification}
 \subsection{Procédure de modification de ces spécifications}
-Toute modification jugée par l’administrateur de l’AC comme pouvant entraîner une perte de la conformité d’un certificat avec la politique de certification ou avec la DPC doit être
+Toute modification jugée par l’administrateur de la CA comme pouvant entraîner une perte de la conformité d’un certificat avec la politique de certification ou avec la DPC doit être
 approuvée par l’Autorité administrative. 
 
 \subsection{Politiques de publication et de notification}
-l'AC avertit les UF des modifications apportées aux spécifications par courrier électronique.
+La CA avertit les UF des modifications apportées aux spécifications par courrier électronique.
 
-\subsection{Procédures d’approbation des DPC}
+\subsection{Procédures d'aprobation des DPC}
 L’approbation d’une DPC est confiée à l’Autorité administrative qui vérifie l’adéquation de la DPC fournie avec la politique de certification.
 
 \newpage
@@ -615,13 +606,13 @@ L’approbation d’une DPC est confiée à l’Autorité administrative qui vé
 
 \begin{tabular}{|l|p{10cm}|}
 \hline
-AA  & Autorité Administrative
+AA  & Administrative Authority
 \\
 \hline
-AC & Autorité de Certification
+CA & Certification Authority
 \\
 \hline
-AE  & Autorité d'Enregistrement 
+RA  & Registration Authority
 \\
 \hline
 AD  & Autorité de Dépôt
@@ -643,9 +634,6 @@ DPC & Déclaration des Pratiques de Certification
 \\
 \hline
 PKI & Public Key Infrastructure
-\\
-\hline
-IGC & Infrastructure de Gestion de clés
 \\
 \hline
 LCR & Liste de Certificats Révoqués

@@ -35,8 +35,8 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Déclaration des pratiques de certification} % Document name
 
-\newcommand{\version}{0.1} % Document version
-\newcommand{\docDate}{19 Décembre 2012} % Document date
+\newcommand{\version}{0.2} % Document version
+\newcommand{\docDate}{20 Janvier 2013} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -93,6 +93,8 @@
 	\hline
 	0.1 & 19/12/2012 & Création\\
 	\hline
+	0.2 & 20/01/2013 & Après relecture par Magali Bardet\\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -112,13 +114,13 @@ Ces certificats sont utilisés sur le chat pour s'authentifier.
 Pas de délégation du rôle d’Autorité d’Enregistrement dans notre cas. La PKI assurera ce rôle.
 
 \subsection{Souscripteur}
-Le souscripteur est l’utilisateur du chat souhaitant se connecter au chat sécurisé. Le souscripteur est identifié dans chaque certificat. Une fois acceptée, l’adhésion au service pour le souscripteur est valable pour la totalité de la période de validité du certificat.
+Le souscripteur est l’utilisateur du chat souhaitant se connecter au chat sécurisé. Le souscripteur est identifié dans chaque certificat. Une fois acceptée, l’adhésion au service pour le souscripteur est valable pour la totalité de la période de validité du certificat sauf révocation.
 
 \section{Pré requis pour les demandes}
 \subsection{Enregistrement d'un souscripteur}
 \begin{itemize}
-\item Le souscripteur fournit à l’AE toutes les informations nécessaires à son enregistrement. 
-\item Le souscripteur s'engage à fournir des informations correctes et précises et avertir l’AE en cas de mise à jour nécessaire de ces informations tout au long de la période de validité du certificat par le moyen de communication le plus adapté.
+\item Le souscripteur fournit à la RA toutes les informations nécessaires à son enregistrement. 
+\item Le souscripteur s'engage à fournir des informations correctes et précises et avertir la RA en cas de mise à jour nécessaire de ces informations tout au long de la période de validité du certificat par le moyen de communication le plus adapté.
 \end{itemize}
 
 \subsection{Vérification}
@@ -126,23 +128,23 @@ L’AE doit :
 \begin{itemize}
 \item Vérifier le remplissage correct de tous les champs par le souscripteur en respectant les conventions.
 \item Enregistrer le souscripteur.
-\item Transmettre la demande à l'AC.
+\item Transmettre la demande à la CA.
 \end{itemize}
 L’AE a le droit de refuser toute demande.
 
 \section{Pratiques et procédures}
 \subsection{Demande de certificats}
-Lorsque l'utilisateur fait une demande de certificat, l’AE vérifie si les informations respectent les conventions, si les données
+Lorsque l'utilisateur fait une demande de certificat, la RA vérifie si les informations respectent les conventions, si les données
 respectent, la demande est automatiquement envoyée à l'autorité de certification pour génération du certificat. La demande se fait via un formulaire disponible sur l'application cliente du chat.
 
 \subsection{Validation  des demandes}
-Le délai moyen entre la réception des demandes complètes et la délivrance d'un certificat est de 1 jour. En cas de non validation des informations, l’AE rejette la demande. Le demandeur peut refaire sa demande suite à un rejet.
+Le délai moyen entre la réception des demandes complètes et la délivrance d'un certificat est de 1 jour. En cas de non validation des informations, la RA rejette la demande. Le demandeur peut refaire sa demande suite à un rejet.
 
 \subsection{Révocation des certificats}
-La révocation entraîne la fin de validité du certificat avant la date de fin initialement prévue. L’AE vérifie que la demande de révocation est :
+La révocation entraîne la fin de validité du certificat avant la date de fin initialement prévue. La RA vérifie que la demande de révocation est :
 \begin{itemize}
 \item Soit faite par l'utilisateur ayant fait la demande de certificat :  la demande de révocation sera traitée.
-\item Soit faite par une entité disposant des droits nécessaires: l'AE révoquera le certificat. La demande de révocation et l'identité de l'entité seront conservées.
+\item Soit faite par une entité disposant des droits nécessaires: la RA révoquera le certificat. La demande de révocation et l'identité de l'entité seront conservées.
 \end{itemize}
 
 \subsection{Expiration}
@@ -152,7 +154,7 @@ La PKI doit s'efforcer de prévenir le souscripteur par email, 30 jours avant l'
 Idem que pour demande de certificat.
 
 \section{Conservation et Protection des données}
-La PKI conserve les données relatives aux certificats pendant 2 ans minimum après expiration ou révocation des certificats. La PKI garde des copies des certificats quelque soit leur statut et conserve les logs pendant une période de 2 ans ou pour une période conforme à la loi. 
+La PKI conserve les données relatives aux certificats pendant 2 ans minimum après expiration ou révocation des certificats. La PKI garde des copies des certificats quel que soit leur statut et conserve les logs pendant une période de 2 ans ou pour une période conforme à la loi. 
 \\La PKI respecte les règles applicables sur la protection des données personnelles jugées par la loi comme confidentielles.
 
 
@@ -163,10 +165,10 @@ La PKI conserve les données relatives aux certificats pendant 2 ans minimum apr
 \begin{tabular}{|l|p{10cm}|}
 
 \hline
-AC & Autorité de Certification
+CA & Certification Authority
 \\
 \hline
-AE  & Autorité d'Enregistrement 
+AE  & Registration Authority 
 \\
 
 \hline
