@@ -37,8 +37,8 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Spécification technique des besoins} % Document name
 
-\newcommand{\version}{0.7} % Document version
-\newcommand{\docDate}{03 janvier 2013} % Document date
+\newcommand{\version}{1.1} % Document version
+\newcommand{\docDate}{28 février 2013} % Document date
 \newcommand{\checked}{Julien Legras} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -137,6 +137,8 @@
 	\hline
 	0.7 & 03/01/13 & Modifications après retour client\\
 	\hline
+	1.1 & 28/02/13 & Mise à jour après retours\\
+	\hline
 	\end{tabularx}
 \end{center}
 
@@ -170,7 +172,7 @@ Développement d'un système permettant à plusieurs utilisateurs de s'authentif
 \item \textbf{IRC (Internet Relay Chat)} ;
 \item \textbf{RFC (Request For Comments)} ;
 \item \textbf{Autorité de Certification (AC)} : gère la délivrance des certificats et des clés publique/privée (EO.4) ;
-\item \textbf{Autorité d'enregistrement (AR)} : Organisme qui génère les certificats et effectue les vérifications d'usage sur les utilisateurs;
+\item \textbf{Autorité d'enregistrement (AE)} : Organisme qui génère les certificats et effectue les vérifications d'usage sur les utilisateurs;
 \item \textbf{Serveur de chat (Server)} : serveur accueillant des utilisateurs ;
 \item \textbf{Serveur de chat sécurisé (Server S.)} : serveur accueillant des utilisateurs sécurisés (EO.5, EO.6, EO.7);
 \item \textbf{Client de chat (Client)} : le client de chat permet l'envoi et l'affichage des messages entre utilisateurs (EO.2).
@@ -187,8 +189,8 @@ Développement d'un système permettant à plusieurs utilisateurs de s'authentif
 \subsection{Présentation de la mission du produit logiciel}
 \begin{itemize}
 \item [EF.1] : création d'un compte sécurisé ;
-\item [EF.2] : suppression compte sécurisé par l'utilisateur ;
-\item [EF.3] : suppression compte sécurisé par l'autorité de certification ;
+\item [EF.2] : suppression compte sécurisé par l'utilisateur sécurisé ;
+\item [EF.3] : révocation d'un certificat par l'autorité de certification ;
 \item [EF.4] : ajout certificat à un utilisateur par l'autorité de certification ;
 \item [EF.5] : envoi de message sur salon général ;
 \item [EF.6] : envoi de message sur salon privé ;
@@ -215,47 +217,47 @@ Développement d'un système permettant à plusieurs utilisateurs de s'authentif
 \end{itemize}
 
 \begin{center}
-\begin{tabular}{|l|p{5cm}|l|l|}
+\begin{tabular}{|l|p{6cm}|p{6cm}|l|}
 \hline
-\bfseries{Id} & \bfseries{Intitulé} & \bfseries{Acteur(s)}&\bfseries{Priorité}\\
+\bfseries{Id} & \bfseries{Intitulé} & \bfseries{Acteur(s)} & \bfseries{Priorité}\\
 \hline
-UC.1 & Création d'un compte utilisateur sécurisé & User / AC / AR / Server S&indispensable\\
+UC.1 & Création d'un compte utilisateur sécurisé & User / AC / AE / Server S / Client & indispensable\\
 \hline
-UC.2 & Suppression d'un compte sécurisé par utilisateur sécurisé & User S / Server S / AC&indispensable\\
+UC.2 & Suppression d'un compte sécurisé par utilisateur sécurisé & User S / Server S / AC / Client S& indispensable\\
 \hline
-UC.3 & Révocation d'un certificat par AC & AC&indispensable\\
+UC.3 & Révocation d'un certificat par AC & AC& indispensable\\
 \hline
-UC.4 & Envoi de message sur salon général & User / User S / Client / Server&indispensable\\
+UC.4 & Envoi de message sur salon général & User / User S / Client / Server& indispensable\\
 \hline
-UC.5 & Envoi de message sur salon privé & User S / Admin / Client S / Server S&indispensable\\
+UC.5 & Envoi de message sur salon privé & User S / Admin / Client S / Server / Client& indispensable\\
 \hline
-UC.6 & Rejoindre un serveur de chat sécurisé avec authentification & User S / Server S / Client S&indispensable\\
+UC.6 & Rejoindre un serveur de chat sécurisé avec authentification & User S / Server S / Client S / Client / Server& indispensable\\
 \hline
-UC.7 & Rejoindre un serveur de chat sans authentification & User / Server / Client&indispensable\\
+UC.7 & Rejoindre un serveur de chat sans authentification & User / Server / Client& indispensable\\
 \hline
-UC.8 & Quitter un serveur de chat & User / Server / Client&indispensable\\
+UC.8 & Quitter un serveur de chat & User / Server / Client& indispensable\\
 \hline
-UC.9 & Quitter un serveur de chat sécurisé & User S / Server S / Client S&indispensable\\
+UC.9 & Quitter un serveur de chat sécurisé & User S / Server S / Client / Server& indispensable\\
 \hline
-UC.10 & Quitter un salon privé & User S / Server S / Client S&indispensable\\
+UC.10 & Quitter un salon privé & User S / Server S / Client S& indispensable\\
 \hline
-UC.11 & Déconnexion serveurs & User / User S / Server / Server S&indispensable\\
+UC.11 & Déconnexion serveurs & User / User S / Server / Server S / Admin& indispensable\\
 \hline
-UC.12 & Créer un salon privé & User S / Server S / Client S&indispensable\\
+UC.12 & Créer un salon privé & User S / Server / Client / User& indispensable\\
 \hline
-UC.13 & Rejoindre un salon privé & User S / Server S / Admin / Client S&indispensable\\
+UC.13 & Rejoindre un salon privé & User S / Server S / Client& indispensable\\
 \hline
-UC.14 & Fermeture d'un salon privé & Admin / Server S / Client S&indispensable\\
+UC.14 & Fermeture d'un salon privé & Admin / Server S / Client S& indispensable\\
 \hline
-UC.15 & Exclure utilisateur sécurisé d'un salon privé & Admin / Server S / Client S&important\\
+UC.15 & Exclure utilisateur sécurisé d'un salon privé & Admin / Server S / Client S / User S / Server& important\\
 \hline
-UC.16 & Invitation d'un utilisateur sécurisé dans un salon privé & Admin / Server / User S / Client S&indispensable\\
+UC.16 & Invitation d'un utilisateur sécurisé dans un salon privé & Admin / Server / User S / Client S& indispensable\\
 \hline 
-UC.17 & Envoi d'un message privé non sécurisé & User / User S / Client / Server&important\\
+UC.17 & Envoi d'un message privé non sécurisé & User / User S / Client / Server& important\\
 \hline
-UC.18 & Envoi d'un message privé sécurisé & User S / Client S / Server&indispensable\\
+UC.18 & Envoi d'un message privé sécurisé & User S / Client S / Server& indispensable\\
 \hline
-UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Client S&important\\
+UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server / Client& important\\
 \hline
 \end{tabular}
 \end{center}
@@ -272,15 +274,15 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 
 \fiche
 	{Création d'un compte Utilisateur sécurisé} %nom
-	{User / AC / AR / Serveur S} %acteurs concernés
+	{User / AC / AE / Serveur S / Client} %acteurs concernés
 	{Un utilisateur fait la demande de création d’un compte utilisateur sécurisé auprès de AC} %description
 	{Avoir les prérequis pour obtenir le certificat, prérequis définis par AC} %préconditions
 	{Envoi de la demande de création du compte sécurisé à AC} % événements déclenchants
 	{} %conditions d'arret
 	{\begin{itemize}  %flot d'événements (acteurs)
-		\item [1.] l’utilisateur génère ces clés
+		\item [1.] l’utilisateur génère ses clés
 		\item [2.] l’utilisateur remplit le formulaire de demande de création d’un compte utilisateur sécurisé 
-		\item [3.] l’utilisateur envoie le formulaire à AC  
+		\item [3.] l’utilisateur envoie le formulaire à AE  
 	 \end{itemize}
 	} 
 	{\begin{itemize}  %flot d'événements (systeme)
@@ -316,7 +318,7 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 		\item []
 		\item [2.] le serveur de chat sécurisé supprime le compte utilisateur sécurisé de ses registres
 		\item [3.] le serveur de chat sécurisé arrête la connexion en cours de l’utilisateur sécurisé
-		\item [4.] suppression des certificats de l’utilisateur par AC
+		\item [4.] révocation du certificat de l’utilisateur par AC
 	 \end{itemize}
 	 }
 	{} %Flots d'exceptions
@@ -366,7 +368,7 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 
 \fiche
 	{Envoi de message sur salon privé} %nom
-	{User S. / Admin / Server / Client S} %acteurs concernés
+	{User S. / Admin / Server / Client S / Client} %acteurs concernés
 	{Un utilisateur sécurisé envoie un message sur le salon privé} %description
 	{L’utilisateur sécurisé est connecté sur le serveur de chat sécurisé et est dans le salon privé et être connecté sur le serveur de chat} %préconditions
 	{Un message est envoyé dans le salon privé et est lisible par tous les utilisateurs sécurisés connectés sur ce salon privé} % événements déclenchants
@@ -388,7 +390,7 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 
 \fiche
 	{Rejoindre un serveur de chat sécurisé avec authentification} %nom
-	{User / User S. / Client / Server} %acteurs concernés
+	{User S. / Client / Server / Server S / Client S} %acteurs concernés
 	{Un utilisateur sécurisé se connecte sur le serveur de chat sécurisé} %description
 	{Avoir un compte sécurisé  sur le serveur de chat sécurisé} %préconditions
 	{L’utilisateur sécurisé est connecté sur le serveur de chat sécurisé} % événements déclenchants
@@ -478,7 +480,7 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 
 \fiche
 	{Quitter un serveur de chat sécurisé} %nom
-	{User S. / Server S. / Client} %acteurs concernés
+	{User S. / Server S. / Client / Server} %acteurs concernés
 	{Un utilisateur sécurisé quitte le serveur de chat sécurisé} %description
 	{Être connecté sur le serveur de chat sécurisé} %préconditions
 	{L’utilisateur est déconnecté du serveur de chat sécurisé} % événements déclenchants
@@ -555,19 +557,19 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 	{} %Flots d'exceptions
 
 
-\subsection{UC 12 : Créer un salon privé}
+\subsection{UC 12 : Créer un salon (privé)}
 
 \fiche
 	{Créer un salon privé} %nom
-	{User S. / Server S. / Client S / Server} %acteurs concernés
+	{User / User S. / Server / Client / Server} %acteurs concernés
 	{Un utilisateur sécurisé crée un salon privé sur le serveur de chat sécurisé} %description
 	{L’utilisateur sécurisé est connecté sur le serveur de chat sécurisé} %préconditions
 	{Création d’un salon privé, l’utilisateur sécurisé devient administrateur du salon privé} % événements déclenchants
 	{} %conditions d'arret
 	{\begin{itemize}  %flot d'événements (acteurs)
-		\item [1.] L’utilisateur sécurisé clique sur la création d’un salon privé 
+		\item [1.] L’utilisateur (sécurisé) clique sur la création d’un salon privé 
 		\item[]  
-		\item [3.] L’utilisateur saisit le nom du salon privé et la liste éventuelle des utilisateurs sécurisés invités
+		\item [3.] L’utilisateur (sécurisé) saisit le nom du salon privé et la liste éventuelle des utilisateurs sécurisés invités
 	 \end{itemize}
 	} 
 	{\begin{itemize}  %flot d'événements (systeme)
@@ -577,7 +579,7 @@ UC.19 & Demande d'ajout dans un salon privé & User S / Admin / Server S / Clien
 		\item []
 		\item []
 		\item [4.] Création du salon privé dans Server et Server S
-		\item [5.] Création des clés du salon privé par Server S.
+		\item [5.] Création des clés du salon privé par Server S. (si le salon est privé)
 		\item [6.] Changement de statut de l’utilisateur sécurisé en administrateur du salon privé et envoi d'une clef d'authentification
 		\item [7.] Avertir les utilisateurs invités dans le salon privé qu’ils peuvent le rejoindre
 		\item [8.] Ouverture du salon privé dans un nouvel onglet, côté administrateur, du salon privé
@@ -650,7 +652,7 @@ Avoir reçu une invitation de la part d’un Admin à rejoindre le salon privé,
 
 \fiche
 	{Exclure utilisateur sécurisé d’un salon privé} %nom
-	{Admin / Server S. / Client S.} %acteurs concernés
+	{Admin / Server S. / Client S. / User S / Server} %acteurs concernés
 	{L’Admin du salon privé exclut un User S. connecté sur le salon privé} %description
 	{Le User S. exclu doit être connecté sur le salon privé} %préconditions
 	{User S. est exclu du salon, renouvellement des clés du salon privé} % événements déclenchants
@@ -663,8 +665,8 @@ Avoir reçu une invitation de la part d’un Admin à rejoindre le salon privé,
 		\item []
 		\item [2.] le Client S. envoie la demande au Server S.
 		\item [3.] le Server S. reçoit la demande
-		\item [4.] le User S. exclu est déconnecté du salon privé par Server S.
-		\item [5.] renouvellement des clés du salon privé, et distribution des nouvelles clés aux User S. connectés sur le salon privé
+		\item [4.] le User S. exclu est déconnecté du salon privé par Server
+		\item [5.] renouvellement des clés du salon privé par le Server S, et distribution des nouvelles clés aux User S. connectés sur le salon privé
 		\item [6.] Un message s’affiche dans le salon privé pour prévenir qu’un utilisateur a été exclu
 	 \end{itemize}
 	 }
