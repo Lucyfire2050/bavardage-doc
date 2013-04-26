@@ -45,8 +45,8 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Plan de développement détaillé} % Document name
 
-\newcommand{\version}{1.1} % Document version
-\newcommand{\docDate}{21 février 2013} % Document date
+\newcommand{\version}{1.2} % Document version
+\newcommand{\docDate}{26 avril 2013} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
 
@@ -109,6 +109,8 @@
 	0.4 & 29/12/2012 & Ajout des réunions de TD et de groupe\\
 	\hline
 	1.1 & 21/02/2013 & Correction du document d'après le retour de Karim ABDELLAH GODARD\\
+	\hline
+	1.2 & 26/04/2013 & Mise à jour du planning réel de développement et des réunions hebdomadaires\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -499,4 +501,124 @@ Présentation de l'outil Git par Julien Legras.
 
 \subsubsection{Réunions pendant le développement}
 Une réunion avec le client sera faite quelques jours avant la livraison pour lui montrer ce qui sera livré ainsi qu'une autre quelques jours après la livraison pour le client puisse faire un retour sur les éventuels bugs et/ou améliorations à apporter.
+
+\begin{paragraph}{Sprint 1 -- semaine 1 -- 21/01/2013}
+L’ordre du jour de la réunion était : lancement du projet, coordination des tâches par rapport au plan de développement.
+
+Selon le plan de développement établi lors des séances de travaux pratiques de gestion de projet, le projet de chat sécurisé devait être lancé le 21 Janvier 2013. Les tâches de la semaine : 1, 6, 10.1
+\end{paragraph}
+
+\begin{paragraph}{Sprint 1 -- semaine 2 -- 28/01/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement.
+
+Les tâches de la semaine : 2, 3, 4, 5, 7, 8, 9
+\end{paragraph}
+
+\begin{paragraph}{Sprint 1 -- semaine 3 -- 04/02/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement
+
+Les tâches de la semaine : 4, 5, 7, 9, 10.2
+\end{paragraph}
+
+\begin{paragraph}{Sprint 1 -- semaine 4 -- 11/02/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement
+
+Les tâches de la semaine : tests
+\end{paragraph}
+
+\begin{paragraph}{Sprint 2 -- semaine 1 -- 18/02/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement
+
+Les tâches de la semaine : 1.1, 2, 3
+\end{paragraph}
+
+\begin{paragraph}{Sprint 2 -- semaine 2 -- 25/02/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement
+
+Les tâches de la semaine : 2, 4, 5
+\end{paragraph}
+
+\begin{paragraph}{Sprint 2 -- semaine 3 -- 04/03/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement
+
+Les tâches de la semaine : 1.2, 6, 7
+\end{paragraph}
+
+\begin{paragraph}{Sprint 2 -- semaine 4 -- 11/03/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement.
+
+Les tâches de la semaine : tests
+\end{paragraph}
+
+\begin{paragraph}{Sprint 3 -- semaine 1 -- 18/03/2013}
+L’ordre du jour de la réunion était : préparation aux tâches du plan de développement.
+
+Les tâches de la semaine : apprentissage d'OpenSSL (connexions sécurisées SSL).
+\end{paragraph}
+
+\begin{paragraph}{Sprint 3 -- semaine 2 -- 25/03/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement.
+
+Les tâches de la semaine : 3, 4, configuration serveur mis à disposition par la fac pour EJBCA.
+\end{paragraph}
+
+\begin{paragraph}{Sprint 3 -- semaine 3 -- 01/04/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement.
+
+Les tâches de la semaine : 3, 4
+\end{paragraph}
+
+\begin{paragraph}{Sprint 3 -- semaine 4 -- 08/04/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement.
+
+Les tâches de la semaine : interface partie sécurisée, apprentissage d'OpenSSL (chiffrement symétrique)
+\end{paragraph}
+
+\begin{paragraph}{Sprint 3 -- semaine 5 -- 23/04/2013}
+L’ordre du jour de la réunion était : coordination des tâches par rapport au plan de développement.
+
+Les tâches de la semaine : 1, 2, 5, 7, 8
+\end{paragraph}
+
+\section{Planning réel de développement}
+
+\begin{landscape}
+\begin{tikzpicture}[x = 0.5cm]
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
+\gantttitle{Sprint 1 : Serveur et client de chat}{20}\\
+\gantttitlelist{1,...,20}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{10.1}{1}{5}
+\ganttbar[bar/.style={fill=green!50}]{10.2}{11}{15}\\
+\ganttbar{1}{1}{5}\\
+\ganttbar[bar/.style={fill=green!50}]{6}{1}{3}\\
+\ganttbar{2}{6}{8}\\
+\ganttbar{3}{6}{8}\\
+\ganttbar[bar/.style={fill=green!50}]{8}{6}{8}\\
+\ganttbar{4}{9}{11}\\
+\ganttbar[bar/.style={fill=green!50}]{7}{9}{11}\\
+\ganttbar{5}{9}{11}\\
+\ganttbar[bar/.style={fill=green!50}]{9}{9}{11}\\
+\ganttbar[bar/.style={fill=red!50}]{Tests}{12}{20}
+\end{ganttchart}
+\end{tikzpicture}
+
+\begin{tikzpicture}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
+\gantttitle{Sprint 2 : Certificats}{20}\\
+\gantttitlelist{1,...,20}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{1.1}{1}{4}
+\ganttbar[bar/.style={fill=green!50}]{1.2}{11}{13}\\
+\ganttbar[bar/.style={fill=yellow!50}]{3}{1}{4}\\
+\ganttbar[bar/.style={fill=yellow!50}]{2}{5}{7}\\
+\ganttbar[bar/.style={fill=yellow!50}]{4}{8}{10}\\
+\ganttbar[bar/.style={fill=yellow!50}]{5}{8}{10}\\
+\ganttbar[bar/.style={fill=yellow!50}]{6}{11}{13}\\
+\ganttbar[bar/.style={fill=yellow!50}]{7}{11}{13}\\
+\ganttbar[bar/.style={fill=red!50}]{Tests}{14}{20}
+\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 1}{1}{10}
+\end{ganttchart}
+\end{tikzpicture}
+\end{landscape}
+
+
 \end{document}
