@@ -1,0 +1,169 @@
+\documentclass[a4paper,11pt,french]{book}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, includeheadfoot]{geometry} %pour les marges
+\usepackage{lmodern}
+\usepackage{pict2e}
+\usepackage{tikz}	
+\usepackage{tikz-uml}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{tabularx, longtable}
+\usepackage{color, colortbl}
+\usepackage{lscape}
+\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{pgfgantt}
+\usepackage{gensymb}
+\usepackage[toc,page]{appendix} 
+
+\usepgflibrary{arrows} % for pgf-umlsd
+
+\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+\lhead{\textbf{\hmwkClass -- \hmwkSubject \\ \hmwkTitle \\ \hmwkDocName}} % Top left header
+\rhead{\includegraphics[width=10em]{logo_univ.png}}
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Page\ \thepage\ } % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength{\headheight}{40pt}
+
+\newcommand{\hmwkTitle}{Chat sécurisé} % Assignment title
+\newcommand{\hmwkClass}{Master 1 SSI } % Course/class
+\newcommand{\hmwkAuthorName}{Charles Ango, Ismael Kabore,  Julien Legras, Yves Nouafo, Jean-Baptiste Souchal} % Your name
+\newcommand{\hmwkSubject}{Conduite de projet} % Subject
+\newcommand{\hmwkDocName}{Rapport de projet} % Document name
+
+\newcommand{\version}{1.2} % Document version
+\newcommand{\docDate}{24 mai 2013} % Document date
+\newcommand{\checked}{Magali Bardet} % Checker name
+\newcommand{\approved}{} % Approver name
+
+\definecolor{gris}{rgb}{0.95, 0.95, 0.95}
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass :\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+\vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{} % Insert date here if you want it to appear below your name
+
+\makeatletter
+\def\chapter{\if@openright\cleardoublepage\else\clearpage\fi
+  \global\@topnum\z@
+  \@afterindentfalse
+  \secdef\@chapter\@schapter}
+\makeatother
+
+
+\begin{document}
+\pagestyle{empty}
+
+\vspace*{1cm}
+\begin{center}
+\includegraphics[width=20em]{logo_univ.png}
+\end{center}
+\vspace*{2cm}
+\begin{center}\textbf{\huge{Master 1 Sécurité des systèmes informatiques}}\end{center}
+\vspace*{1cm}
+\begin{center}
+\textbf{\Huge{\hmwkDocName}: \hmwkTitle}
+\end{center}
+
+\vspace*{3cm}
+	
+
+\fcolorbox{black}{gris}{
+\begin{minipage}{15cm}
+\begin{tabularx}{10cm}{lXp{8cm}}
+	& & \\
+	\bfseries{Rédigé par} & & \hmwkAuthorName \\
+	& & \\
+	\bfseries{À l'attention de} & & \checked \\
+	& & \\
+	\bfseries{Date de rendu} & & \docDate\\
+	& & \\
+\end{tabularx}
+\end{minipage}
+}
+
+\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction
+% JB
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+\pagestyle{fancy}
+\chapter{Introduction}
+
+
+%La table des matières
+\tableofcontents
+
+
+
+\newpage
+\mainmatter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PRÉSENTATION DU PROJET 
+% Yves & Julien
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Présentation du projet}
+\section{Besoins du client}
+
+\section{Solution proposée}
+
+\section{Résultat}
+
+\section{Problèmes rencontrés}
+
+
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MANUEL D'UTILISATION 
+% Charles & Ismaël
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Manuel d'utilisation}
+\section{Récupération u projet}
+
+\section{Compilation}
+
+\section{Exécution}
+
+
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONCLUSION 
+% JB
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage
+\appendix
+\chapter{Documents de gestion de projet}
+\chapter{Déclaration des pratiques de certification}
+\chapter{Politique de certification}
+\end{document}
