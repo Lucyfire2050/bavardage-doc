@@ -22,10 +22,58 @@
 \usepackage{pgfgantt}
 \usepackage{gensymb}
 \usepackage[toc,page]{appendix} 
-
+\usepackage{pgfplots}
+\usepackage{eurosym}
+\usepackage{rotating}
+\usepackage{array}
 \usepgflibrary{arrows} % for pgf-umlsd
 
 \usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+ \tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    punkt/.style={
+           rectangle, dashed,
+           rounded corners,
+           draw=black, very thin,
+           minimum height=2em,
+           minimum width = 2cm,
+           text centered},
+    square/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height=.5cm,
+           minimum width = 1cm,
+           text centered},
+    data/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height= 2cm,
+           minimum width = 2cm,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=1pt,
+           shorten >=1pt,},
+    asym/.style={
+           <->,
+           thin,
+           shorten <=1pt,
+           shorten >=1pt,
+           red!100},
+    sym/.style={
+           <->,
+           thin,
+           shorten <=1pt,
+           shorten >=1pt,
+           blue!100}
+}
+
+
+%\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
 
 \linespread{1.1} % Line spacing
 
@@ -128,9 +176,85 @@
 % Yves & Julien
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Présentation du projet}
-\section{Besoins du client}
+Dans le cadre de notre projet, il nous à été demandé de réaliser un chat sécurisé. Pour le mener à bien, le travail à été découpé en deux grandes phases qui sont l'analyse des besoins du client et les solutions proposées.
 
-\section{Solution proposée}
+\section{Besoins du client}
+Les besoins du logiciel sont les points indispensables, nécessaires et imposés par le client. Ce sont ces exigences qui détermineront les fonctionnalités du logiciel. Les exigences sont les suivantes:
+\vspace{.5cm}
+\begin{itemize}\item gestion de la création et de la suppression d’un compte utilisateur;\item création par un utilisateur d’une salle de discussion privée;\item ajout et suppression d’un utilisateur autorisé dans une salle privée;\item confidentialité, intégrité et authentification sur les messages échangés;\item non répudiation des messages;\item création d’une autorité de certification;\item demande de certificat pour l’accès à un salon privé et la communication sécurisée.\end{itemize}
+
+\section{Solutions proposées}
+\`A l'issue de l'analyse des besoins du client, il a été convenu de traiter la demande du client en décomposant la réalisation du logiciel en trois phases de développement qui sont:
+\begin{enumerate}\item la mise en place du système de bavardage;\item l'installation d'une PKI (infrastructure de clés publiques);\item la mise en place d'une couche sécurisée pour permettre une communication chiffrée.\end{enumerate}
+\vspace{.5cm}
+
+\subsection{Structure du logiciel}
+Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque partie puisse \^etre utilisée de manière indépendante. L'architecture du logiciel est la suivante:\\
+
+\begin{tikzpicture}[node distance=-.01cm,font=\tiny,scale=1.8,every node/.style={transform shape}]
+		\node[square, text width=1cm, fill=white!100] (appclient) at (0,0) {Application client};
+		\node[square, text width=1.5cm, fill=white!100] (modclientsec) at (2.5,0) {Module client sécurisé};
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(appclient)(modclientsec), fill=blue!20] (groupclient) {};
+		\end{pgfonlayer}
+		
+		\node[square, text width=1cm, fill=white!100] (PKI) at (1.4,-1.5) {PKI};
+		\node[square, text width=1cm, fill=white!100] (serveur) at (0,-2.5) {Serveur};
+		\node[square, text width=1.5cm, fill=white!100] (serveurs) at (2.5,-2.5) {Serveur sécurisé};
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(PKI)(serveur)(serveurs), fill=green!20] (groupserveur) {};
+		\end{pgfonlayer}
+
+		\node[text width=.7cm] (imgbd1) at (0,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.5cm, below=of imgbd1, fill=white!100] (bd1){BDD};
+		\node[text width=.7cm] (imgfichiers) at (1.4,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.7cm, below=of imgfichiers, fill=white!100] (fichiers){BDD};
+		\node[text width=.7cm] (imgbd2) at (2.8,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.5cm, below=of imgbd2, fill=white!100] (bd2){BDD};
+
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(imgbd1) (bd1) (imgbd2) (bd2) (imgfichiers) (fichiers), fill=orange!20] (stock) {};
+		\end{pgfonlayer}
+
+
+		\draw (appclient.east) edge[<->] (modclientsec.west);
+		\draw (appclient.south) edge[<->] (serveur.north);
+		\draw (modclientsec.south west) edge[<->] (PKI.north);
+		\draw (modclientsec.south) edge[<->] (serveurs.north);
+		
+		\draw (serveur.south) edge[<->] (imgbd1.north);
+		\draw (serveurs.south) edge[<->] (imgbd2.north);
+		\draw (PKI.south) edge[<->] (imgfichiers.north);
+		\draw (PKI.south east) edge[<->] (serveurs.north);
+		
+		\draw (PKI.west) edge[->, loop left = 90] (PKI.west);
+
+		\end{tikzpicture} \\\vspace{.3cm}
+		
+La partie 1 met en place le coté client de l'application. Elle est constituée de deux grandes parties qui sont l'application cliente et le module client sécurisé. L'application cliente permettra de réaliser toute la partie communication non sécurisé dont les principales fonctionnalités sont décrites ci-dessous.
+\begin{itemize}\item création d’un compte sécurisé; \item envoi de message sur salon privé; \item envoi de message sur salon général;\item rejoindre un serveur de chat sans authentification;\item quitter un serveur de chat;\item envoi d’un message privé non sécurisé;\item créer un salon privé; \item joindre un salon privé; \item fermeture d’un salon privé.\end{itemize}
+\vspace{.12cm}
+Quant à la partie module client sécurisé, elle permettra d'établir une communication sécurisée dont les fonctionnalités seront décrites dans la partie relative à la mise en place de sécurité. La partie 1 est la partie applicative de l'application.\\
+
+La partie 2 permet de mettre en place une pki (infrastructure de clés publiques). Cette infrastructure permettra de délivrer les clés nécessaire pour la communication entre les utilisateurs connectés, mais aussi de d'authentifier des utilisateurs présent sur le système de bavardage. Nous avons opté pour une pki déjà existante EJBCA qui remplira les fonctionnalités suivantes.
+\begin{itemize}\item ajout certificat à un utilisateur;\item révocation d’un certificat;\item renouvellement des clefs des salons privés.\end{itemize}
+Dans cette partie, on retrouve les serveurs sécurisés et non sécurisés qui ont pour respectivement pour rôle de permettre la communication entre deux clients et délivrer les clefs symétriques aux utilisateurs pour pouvoir établir une communication privée entre deux utilisateurs sécurisés. L'ensemble de ces trois éléments constitue la partie réseaux de l'application.\\
+
+La partie 3 décrit les bases de données utilent à l'application. Ces bases sont au nombres de trois.\\
+Le premier permet la gestion des utilisateurs non sécurisés. Cette gestion se fait via le serveur non sécurisé. Les utilisateurs seront gérés par une base de donnée temporaire (liste chainée) pour déterminer l'existance d'un utilisateur déjà présent.\\ 
+Le second permet le stockage des certificats générés par la PKI. Ces certifcats seront stockés dans une base de données interne à l'application EJBCA.\\ 
+La dernière base de données permet le stockage des utilisateurs sécurisés qui se fera via le serveur sécurisé dans une base de données embarquée où seront répertoriés les pseudonymes des utilisateurs et le champ "subject" correspondant au certificat qui leur sera attribué.
+
+\subsection{Détail de la couche sécurisée}
+La couche sécurisée est nécessaire pour echanger des messages sécurisés sans que celui-ci ne puisse être lu par un autre utilisateur. Dans cette partie, l'utilisation de la bibliothèque OpenSSL a été choisie pour assurer la mise en place d'un canal de communication sécurisé entre deux utilisateurs sécurisés.\\La PKI et le serveur sécurisé intervienent dans la couche sécurisée car la PKI permet de délivrer des certificats aux utilisateurs sécurisés et le serveur sécurisé permet de délivrer les clefs de communication nécessaire entre deux utilisateurs sécurisés. Pour garantir que l'application fourni respecte bien les exigences du client, l'application réalise les exigences fonctionnelles suivantes:
+\begin{itemize}\item création d’un compte sécurisé;\item suppression compte sécurisé par l’utilisateur sécurisé;\item rejoindre un serveur de chat sécurisé avec authentification; \item quitter un serveur de chat sécurisé;\item exclure utilisateur sécurisé d’un salon privé;\item invitation d’un utilisateur sécurisé dans un salon privé;\item envoi d’un message privé sécurisé.\end{itemize}
+\vspace{.6cm}
+Il est à souligner que toutes les fonctionnalités réalisées par un utilisateur non sécurisé peuvent \^etre réalisées par un utilisateur sécurisé.\\
+
+\subsection{choix des langages}
+.\\
+Le choix des langages pour réaliser le projet sont le C pour la réalisation du serveur non sécurisé et du serveur sécurisé ainsi que des client, sécurisé et non sécurisés.\\La réalisation de la base de données embarquée s'est faite en sqlite.\\La partie graphique quant à été faite en Vala, car ce langag s'exporte en C très facilement.\\
+Pour la partie sécurisé on a choisi la bibliothèque OpensSSL pour les raisons vues ci-dessus.
 
 \section{Résultat}
 
