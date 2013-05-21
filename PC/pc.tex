@@ -35,7 +35,7 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Politique de certification} % Document name
 
-\newcommand{\version}{1.1} % Document version
+\newcommand{\version}{0.3} % Document version
 \newcommand{\docDate}{20 Janvier 2013} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
@@ -95,7 +95,7 @@
 	\hline
 	0.2 & 18/12/2012 & Après relecture par Julien\\
 	\hline
-	1.1 & 20/01/2013 & Après relecture par Magali Bardet\\
+	0.3 & 20/01/2013 & Après relecture par Magali Bardet\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -123,7 +123,7 @@ Ce document est la politique de certification du chat sécurisé Bavardage et es
 Composante de la PKI qui définit et fait appliquer les politiques de certification et les déclarations des pratiques de certification par la PKI.
 	
 \subsubsection{Autorité de certification (CA)}
-C'est l'autorité à laquelle les utilisateurs font confiance pour gérer les certificats(générer, publier, révoquer), et les révocations. Le CA est gérée par l'administrateur du serveur sécurisé du chat.
+C'est l'autorité à laquelle les utilisateurs font confiance pour gérer les certificats(générer, publier, révoquer), et les révocations. Le CA est gérée par l'administrateur du serveur sécurisé du chat. Le Common Name du CA sera BavardageCA.
 
 
 \subsubsection{Autorité d'enregistrement (RA)}
@@ -509,42 +509,101 @@ compris pour l'authentification de deux UF.
 
 
 \section{Profils des certificats et listes des certificats révoqués}
-\subsection{Profil de certificat}
-Les certificats utilisés sont les certificats X.509 v3.\\
+\subsection{Profil de certificat du CA}
 
 \begin{tabular}{|l|p{10cm}|}
 \hline
-Version  & Numéro de version du certificat 
+Type of CA  & x509
 \\
 \hline
-Serial number  & Numéro de série du certificat
+Signing Algorithm  &  SHA1WithRSA
 \\
 \hline
-signature  & Identifiant de l'algorithme de signature de la CA 
+RSA key size  & 2048 bits
 \\
 \hline
-Issuer  & Nom de la CA
+Validity & 2y
 \\
 \hline
-Validity Period  & Période de validité
+Description  & Initial CA
 \\
 \hline
-Subject  & Nom de l'entité
+DN &  CN=BavardageCA, O=Université de Rouen, L=Rouen, ST = Seine-Maritime
 \\
 \hline
-Subject public key info &  Identifiant de l'algorithme d'usage de la clé publique contenue dans le certificat, et valeur de la clé publique
+ Sign by  & Self signed
 \\
 \hline
- Issuer unique identifier  & Identification unique de la CA
-\\
-\hline
-Subject unique identifier  & Identifiant unique de l'entité
-\\
-\hline
-Extensions  & Les extensions sont soit standardisées, soit à la discrétion de l’autorité de certification
+Certificate Profile  & ROOTCA
 \\
 \hline
 \end{tabular}
+
+
+
+\subsection{Profil de certificat d'un utilisateur}
+
+
+\begin{tabular}{|l|p{10cm}|}
+\hline
+Type of CA  & x509
+\\
+\hline
+Signing Algorithm  &  SHA1WithRSA
+\\
+\hline
+RSA key size  & 2048 bits
+\\
+\hline
+Validity & 2y
+\\
+\hline
+Description  & User certificate
+\\
+\hline
+DN &  CN=username, O=Université de Rouen, L=Rouen, ST = Seine-Maritime
+\\
+\hline
+ Sign by  & BavardageCA
+\\
+\hline
+Certificate Profile  & BavardageCA
+\\
+\hline
+\end{tabular}
+
+
+
+
+
+\subsection{Profil d'entité}
+
+\begin{tabular}{|l|p{10cm}|}
+\hline
+Username  &
+\\
+\hline
+Password  & 
+\\
+\hline
+Subject DN Attributes  &  
+\\
+\hline
+CN & 
+\\
+\hline
+Default Certificate Profile  & ENDUSER
+\\
+\hline
+Default CA  & BavardageCA
+\\
+\hline
+Available CAs & BavardageCA
+\\
+\hline
+\end{tabular}
+
+
 
 
 \subsection{Profil de liste de révocation}

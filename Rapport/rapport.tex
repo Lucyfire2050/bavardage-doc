@@ -7,7 +7,7 @@
 \usepackage{lmodern}
 \usepackage{pict2e}
 \usepackage{tikz}	
-\usepackage{tikz-uml}
+%\usepackage{tikz-uml}
 \usepackage{fancyhdr} % Required for custom headers
 \usepackage{lastpage} % Required to determine the last page for the footer
 \usepackage{extramarks} % Required for headers and footers
@@ -145,12 +145,43 @@
 % Charles & Ismaël
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Manuel d'utilisation}
-\section{Récupération u projet}
+\section{Récupération du projet}
+ Les sources du projet sont disponibles sur un dépot git. Elles peuvent être récupérées en ligne de commande ou en ligne. 
+ 
+ \subsection{En ligne de commande}
+ Placez vous dans un terminal et executez la commande suivante :
+\begin{verbatim} 
+    $git clone git://github.com/legrajul/bavardage.git 
+\end{verbatim}
+
+\subsection{En ligne}
+ Une archive contenant le projet peut être télécharger à l'adresse :
 
 \section{Compilation}
+\subsection{Dépendances Ubuntu}
+Pour la compilation du projet il faut d'abord vérifier si toutes les dépendances sont satisfaites :
+\begin{itemize}
+\item cmake : permet de compiler un projet pour différentes plateformes.
+\item valac-0.18 : compilateur Vala qui traduit le code source vala en code source C.
+\item libgtk-3-dev : outil multi plateformes pour créer des interfaces graphiques.
+\item libgee-dev : librairies de collections fournissant des classes basées sur GObject.
+\item libglib2.0-dev : fichiers de développement pour la bibliothèque GLib.
+\item libssl-dev : bibliothèque de développement SSL.
+\item libsqlite3-dev : bibliothèque de développement SQLite.
+
+\end{itemize}
+
+\subsection{Compilation des sources}
+
+Les commandes suivantes doivent être exécuter dans le dossier du projet git bavardage : 
+\begin{verbatim}
+    $ mkdir src/build 
+    $ cd src/build 
+    $ cmake .. 
+    $ make
+\end{verbatim}
 
 \section{Exécution}
-
 
 
 
