@@ -192,9 +192,10 @@ Les besoins du logiciel sont les points indispensables, nécessaires et imposés
 \subsection{Structure du logiciel}
 Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque partie puisse \^etre utilisée de manière indépendante. L'architecture du logiciel est la suivante:\\
 
+\begin{center}
 \begin{tikzpicture}[node distance=-.01cm,font=\tiny,scale=1.8,every node/.style={transform shape}]
-		\node[square, text width=1cm, fill=white!100] (appclient) at (0,0) {Application client};
-		\node[square, text width=1.5cm, fill=white!100] (modclientsec) at (2.5,0) {Module client sécurisé};
+		\node[square, text width=1.5cm, fill=white!100] (appclient) at (0,0) {Application client};
+		\node[square, text width=2cm, fill=white!100] (modclientsec) at (2.5,0) {Module client sécurisé};
 		\begin{pgfonlayer}{background} 
 		\node[punkt, fit=(appclient)(modclientsec), fill=blue!20] (groupclient) {};
 		\end{pgfonlayer}
@@ -230,7 +231,9 @@ Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque p
 		
 		\draw (PKI.west) edge[->, loop left = 90] (PKI.west);
 
-		\end{tikzpicture} \\\vspace{.3cm}
+		\end{tikzpicture}
+		\end{center} 
+		\vspace{.3cm}
 		
 La partie 1 met en place le coté client de l'application. Elle est constituée de deux grandes parties qui sont l'application cliente et le module client sécurisé. L'application cliente permettra de réaliser toute la partie communication non sécurisé dont les principales fonctionnalités sont décrites ci-dessous.
 \begin{itemize}\item création d’un compte sécurisé; \item envoi de message sur salon privé; \item envoi de message sur salon général;\item rejoindre un serveur de chat sans authentification;\item quitter un serveur de chat;\item envoi d’un message privé non sécurisé;\item créer un salon privé; \item joindre un salon privé; \item fermeture d’un salon privé.\end{itemize}
@@ -252,8 +255,7 @@ La couche sécurisée est nécessaire pour echanger des messages sécurisés san
 \vspace{.6cm}
 Il est à souligner que toutes les fonctionnalités réalisées par un utilisateur non sécurisé peuvent \^etre réalisées par un utilisateur sécurisé.\\
 
-\subsection{choix des langages}
-.\\
+\subsection{Choix des langages}
 Le choix des langages pour réaliser le projet sont le C pour la réalisation du serveur non sécurisé et du serveur sécurisé ainsi que des client, sécurisé et non sécurisés.\\La réalisation de la base de données embarquée s'est faite en sqlite.\\La partie graphique quant à été faite en Vala, car ce langag s'exporte en C très facilement.\\
 Pour la partie sécurisé on a choisi la bibliothèque OpensSSL pour les raisons vues ci-dessus.
 
@@ -390,7 +392,10 @@ Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffr
 
 
 \section{Problèmes rencontrés}
+Nous avons rencontré un problème pour la livraison du sprint 2. En effet, nous devions configurer un serveur, ce que nous avions fait dans une machine virtuelle. Cependant, le format de livraison utilisé jusqu'alors n'était plus utilisable car la machine faisait plusieurs giga octets de données. Nous avons alors convenu avec Mme Bardet de livrer sur une clef USB dans un premier temps et de configurer une machine mise à disposition par Mr Macadré.
 
+Pour le sprint 3, nous avons eu également eu des problèmes au niveau de l'apprentissage d'OpenSSL. En effet, nous n'avions aucune expérience avec cette bibliothèque et les exemples sont nombreux mais très différents. Finalement, Mme Bardet nous a conseillé un très bon ouvrage : Network Security with OpenSSL.
+OpenSSL
 
 
 
@@ -406,7 +411,7 @@ Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffr
  \subsection{En ligne de commande}
  Placez vous dans un terminal et exécutez la commande suivante :
 \begin{verbatim} 
-    $git clone git://github.com/legrajul/bavardage.git 
+    $ git clone git://github.com/legrajul/bavardage.git 
 \end{verbatim}
 
 \subsection{En ligne}
