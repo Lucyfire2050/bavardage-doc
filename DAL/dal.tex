@@ -14,9 +14,57 @@
 \usepackage{graphicx}   % Required to insert images
 \usepackage{tabularx, longtable}
 \usepackage{color, colortbl}
+\usepackage[toc,page]{appendix} 
+\usepackage{pgfplots}
+\usepackage{eurosym}
+\usepackage{rotating}
+\usepackage{array}
 
 \geometry{a4paper,textwidth=17cm,textheight=27cm} 
-\usetikzlibrary{shapes,arrows}
+
+\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+ \tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    punkt/.style={
+           rectangle, dashed,
+           rounded corners,
+           draw=black, very thin,
+           minimum height=2em,
+           minimum width = 2cm,
+           text centered},
+    square/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height=.5cm,
+           minimum width = 1cm,
+           text centered},
+    data/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height= 2cm,
+           minimum width = 2cm,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=1pt,
+           shorten >=1pt,},
+    asym/.style={
+           <->,
+           thin,
+           shorten <=1pt,
+           shorten >=1pt,
+           red!100},
+    sym/.style={
+           <->,
+           thin,
+           shorten <=1pt,
+           shorten >=1pt,
+           blue!100}
+}
 
 \usepgflibrary{arrows} % for pgf-umlsd
 
@@ -171,7 +219,7 @@ Le présent document montre l'architecture utilisée pour réaliser un système 
 \item \textbf{Certificat} : Document électronique qui fait correspondre une clé avec une entité. Cette correspondance est validée par une autorité de certification.
 \item \textbf{Authentification (Authent)} : connexion sur le chat via un identifiant.
 \item \textbf{Authentification sécurisé (Authent S)} : Identification de l'origine de l'information.
-\item \textbf{Liste de dépots (LD)} :  A pour mission de stocker les certificats numériques ainsi que les listes de révocation. 
+\item \textbf{Liste de dépots (LDD)} :  A pour mission de stocker les certificats numériques ainsi que les listes de révocation. 
 \item \textbf{Client sécurisé (Client S)} :  A pour mission de chiffrer et déchiffrer les messages.
 \item \textbf{Base de données (BDD)} : Conteneur informatique permettant de stocker dans un même endroit l'intégralité des informations.
 
@@ -194,8 +242,8 @@ Le présent document montre l'architecture utilisée pour réaliser un système 
 \vspace{0.3cm}
 \subsection{Produits logiciels nécessaires}
 \begin{itemize}
-\item Tinyca / EJBCA (interface OpenSSL pour la création de certificats)
-\item OpenSSL
+\item EJBCA pour la mise en place de la PKI et la délivrance des certificats
+\item OpenSSL pour l'apport de la bibliothèque cryptographique
 \item GTK 3
 \end{itemize}
 %-------------------------------------------------
@@ -211,19 +259,61 @@ Les principales parties à développer:
 \begin{itemize}
 \item Le serveur non sécurisé
 \item Le serveur sécurisé
-\item La PKI avec: CA, RA, politique de certification
+\item La PKI avec: AC, AR, politique de certification
 \end{itemize}
 \item Les données:
 \begin{itemize}
-\item Liste dépots
-\item Bases de données gérant les utilisateurs non sécurisés et sécurisés
+\item Liste de dépots (LDD)
+\item Bases de données non persistante (liste chainée) gérant les utilisateurs non sécurisés
+\item Bases de données persistante gérant les utilisateurs sécurisés
 \end{itemize}
 \end{itemize}
 
-\begin{figure}[!htbp]
-\centerline{\includegraphics[width=12cm]{Arch.jpg} }
-\caption{Fonctionnement de l'application}
-\end{figure}
+%\begin{figure}[!htbp]
+%\centerline{\includegraphics[width=12cm]{Arch.jpg} }
+%\caption{Fonctionnement de l'application}
+%\end{figure}
+\vspace{4cm}
+\begin{tikzpicture}[node distance=-.01cm,font=\tiny,scale=3.0,every node/.style={transform shape}]
+		\node[square, text width=1cm, fill=white!100] (appclient) at (0,0) {Application client};
+		\node[square, text width=1.5cm, fill=white!100] (modclientsec) at (2.5,0) {Module client sécurisé};
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(appclient)(modclientsec), fill=blue!20] (groupclient) {};
+		\end{pgfonlayer}
+		
+		\node[square, text width=1cm, fill=white!100] (PKI) at (1.4,-1.5) {PKI};
+		\node[square, text width=1cm, fill=white!100] (serveur) at (0,-2.5) {Serveur};
+		\node[square, text width=1.5cm, fill=white!100] (serveurs) at (2.5,-2.5) {Serveur sécurisé};
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(PKI)(serveur)(serveurs), fill=green!20] (groupserveur) {};
+		\end{pgfonlayer}
+
+		\node[text width=.7cm] (imgbd1) at (0,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.5cm, below=of imgbd1, fill=white!100] (bd1){BDD};
+		\node[text width=.7cm] (imgfichiers) at (1.4,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.7cm, below=of imgfichiers, fill=white!100] (fichiers){BDD};
+		\node[text width=.7cm] (imgbd2) at (2.8,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.5cm, below=of imgbd2, fill=white!100] (bd2){BDD};
+
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(imgbd1) (bd1) (imgbd2) (bd2) (imgfichiers) (fichiers), fill=orange!20] (stock) {};
+		\end{pgfonlayer}
+
+
+		\draw (appclient.east) edge[<->] (modclientsec.west);
+		\draw (appclient.south) edge[<->] (serveur.north);
+		\draw (modclientsec.south west) edge[<->] (PKI.north);
+		\draw (modclientsec.south) edge[<->] (serveurs.north);
+		
+		\draw (serveur.south) edge[<->] (imgbd1.north);
+		\draw (serveurs.south) edge[<->] (imgbd2.north);
+		\draw (PKI.south) edge[<->] (imgfichiers.north);
+		\draw (PKI.south east) edge[<->] (serveurs.north);
+		
+		\draw (PKI.west) edge[->, loop left = 90] (PKI.west);
+
+		\end{tikzpicture}
+
 
 \vspace{0.5cm}
 \subsection{Description des constituants}
@@ -377,7 +467,6 @@ Les principales parties à développer:
 \end{center}
 
 %-------------------------------------------------
-
 \section{Fonctionnement dynamique}
 \subsection{UC.1: Création d'un compte utilisateur sécurisé}
 \begin{center}
@@ -388,7 +477,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en jeu} & User / AC / AR\\
 	\hline
-	\textbf{Intervenants} & Client\\
+	\textbf{Intervenants} & Client / Client S\\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -396,47 +485,47 @@ Les principales parties à développer:
 	\hline
 	\end{tabularx}
 \end{center}
-
+\vspace{2cm}
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
 \umlactor[class=]{User}
-\umlobject[class=]{Ap} 
-\umlobject[class=]{ApS}
+\umlobject[class=]{Client} 
+\umlobject[class=]{ClientS}
 \umlobject[class=]{ServerS}
 \umlobject[class=]{AR}
 \umlobject[class=]{AC}
-\umlobject[class=]{LD}
+\umlobject[class=]{LDD}
 \begin{umlcallself}[op={GenerateKeys()}]{User} 
 \begin{umlcall}[op={SendRequête(id,keys)}]{User}{AR} 
 \begin{umlcallself}[op={VerifRules()}]{AR} \end{umlcallself}
 \begin{umlcall}[op={SendId()}]{AR}{AC} 
 \begin{umlcallself}[op={CreateCertif()}]{AC} 
-\begin{umlcall}[op={SendCertif()}]{AC}{Ap} 
-\begin{umlcall}[op={ChangeSatus()}]{Ap}{ApS} \end{umlcall}
+\begin{umlcall}[op={SendCertif()}]{AC}{Client} 
+\begin{umlcall}[op={ChangeSatus()}]{Client}{ClientS} \end{umlcall}
 \end{umlcall}
 \end{umlcallself}
 \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={SaveCertif()}]{AC}{LD} \end{umlcall}
+\begin{umlcall}[op={SaveCertif()}]{AC}{LDD} \end{umlcall}
 \end{umlcallself} 
 \end{umlseqdiag} 
 \end{tikzpicture}
 
-\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
-\begin{umlseqdiag} 
-\umlactor[class=]{User} 
-\umlobject[class=]{ApS}
-\umlobject[class=]{ServerS}
-\umlobject[class=]{BDD}
-\begin{umlcall}[op={Click()}]{User}{ApS} \end{umlcall}
-\begin{umlcall}[op={Connect()}, return=AuthentMutuelle()]{ApS}{ServerS}
-\begin{umlcallself}[op={VerifRules()}]{ServerS} \end{umlcallself} 
-\begin{umlcall}[padding=7, op={VerifyUser()}, return=ConfirmUser()]{ServerS}{BDD}\end{umlcall}
-\end{umlcall} 
-\begin{umlcall}[op={SaveUser()}]{ServerS}{BDD}\end{umlcall}
-\begin{umlcall}[op={Notify()}]{ApS}{User}\end{umlcall}
-\end{umlseqdiag} 
-\end{tikzpicture}
+%\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
+%\begin{umlseqdiag} 
+%\umlactor[class=]{User} 
+%\umlobject[class=]{ApS}
+%\umlobject[class=]{ServerS}
+%\umlobject[class=]{BDD}
+%\begin{umlcall}[op={Click()}]{User}{ApS} \end{umlcall}
+%\begin{umlcall}[op={Connect()}, return=AuthentMutuelle()]{ApS}{ServerS}
+%\begin{umlcallself}[op={VerifRules()}]{ServerS} \end{umlcallself} 
+%\begin{umlcall}[padding=7, op={VerifyUser()}, return=ConfirmUser()]{ServerS}{BDD}\end{umlcall}
+%\end{umlcall} 
+%\begin{umlcall}[op={SaveUser()}]{ServerS}{BDD}\end{umlcall}
+%\begin{umlcall}[op={Notify()}]{ApS}{User}\end{umlcall}
+%\end{umlseqdiag} 
+%\end{tikzpicture}
 
 \subsection{UC.2: Suppression d'un compte sécurisé par un utilisateur sécurisé}
 \begin{center}
@@ -455,28 +544,26 @@ Les principales parties à développer:
 	\hline
 	\end{tabularx}
 \end{center}
-
+\vspace{2cm}
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
-\umlactor[class=S]{User} 
-\umlobject[class=]{ApS}
+\umlactor[class=S]{User}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{ServerS}
 \umlobject[class=]{AC}
-\umlobject[class=]{LD}
+\umlobject[class=]{LDD}
 \umlobject[class=]{BDD}
-\begin{umlcall}[op={Click()}, return=NotifyDelete()]{User}{ApS}
-\begin{umlcall}[padding=6, op={Authent()}, return=AuthentAswer()]{ApS}{AC}\end{umlcall}
-\begin{umlcall}[op={RemoveCertifUser()}, return=notifyRemoveCertif()]{ApS}{AC} 
-\begin{umlcall}[padding=6, op={RemoveCertifUser()}, return=.]{AC}{LD} \end{umlcall}
+\begin{umlcall}[op={Click()}, return=NotifyDelete()]{User}{ClientS}
+\begin{umlcall}[padding=6, op={Authent()}, return=AuthentAswer()]{ClientS}{AC}\end{umlcall}
+\begin{umlcall}[op={RemoveCertifUser()}, return=notifyRemoveCertif()]{ClientS}{AC} 
+\begin{umlcall}[padding=6, op={RemoveCertifUser()}, return=.]{AC}{LDD} \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={SendId(User)}]{ApS}{ServerS}
+\begin{umlcall}[op={SendId(User)}]{ClientS}{ServerS}
 \begin{umlcall}[padding=7, op={DeleteUser()}, return=ConfirmDeleteUser()]{ServerS}{BDD}\end{umlcall}
 \begin{umlcallself}[op={DeleteUser()}]{ServerS}
 \begin{umlcallself}[op={DeconnectUser()}]{ServerS}\end{umlcallself}
 \end{umlcallself}
-\begin{umlcall}[op={DeleteUser()}]{ServerS}{ApS}\end{umlcall}
-
-\end{umlcall} 
+\begin{umlcall}[op={DeleteUser()}]{ServerS}{ClientS}\end{umlcall}\end{umlcall} 
 \end{umlcall}
 \end{umlseqdiag} 
 \end{tikzpicture}
@@ -490,7 +577,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en jeu} & AC / Server S \\
 	\hline
-	\textbf{Intervenants} & User s, AR, LD, BDD\\
+	\textbf{Intervenants} & User S, AR, LDD, BDD\\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -498,13 +585,13 @@ Les principales parties à développer:
 	\hline
 	\end{tabularx}
 \end{center}
-
+\vspace{2cm}
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
 \umlobject[class=]{ServerS}
 \umlobject[class=]{AR}
 \umlobject[class=]{AC}
-\umlobject[class=]{LD}
+\umlobject[class=]{LDD}
 \umlobject[class=]{BDD}
 \begin{umlcall}[padding=8, op={Authent()}, return=VerifAuthent()]{ServerS}{AR}
 \end{umlcall}
@@ -512,7 +599,7 @@ Les principales parties à développer:
 \begin{umlcallself}[op={VerifyUserRules()}]{AR}
 \begin{umlcall}[op={VerifUser()}]{AR}{AC}
 \begin{umlfragment}[type=alt, label=verifNotOK, inner xsep=5] 
-\begin{umlcall}[padding=4, op={RevokeCertif()}, return=ConfirmRevoke()]{AC}{LD} \end{umlcall}
+\begin{umlcall}[padding=4, op={RevokeCertif()}, return=ConfirmRevoke()]{AC}{LDD} \end{umlcall}
 \begin{umlcall}[padding=4, op={NotifyDeleteCertif()}]{AC}{ServerS} 
 \begin{umlcall}[padding=6, op={DeleteUser()}, return=ConfirmDeleteUser()]{ServerS}{BDD} \end{umlcall}
 \begin{umlcallself}[padding=2, op={DisconnectUser()}]{ServerS} \end{umlcallself} 
@@ -526,7 +613,7 @@ Les principales parties à développer:
 \end{umlcall}
 \end{umlseqdiag} 
 \end{tikzpicture}
-
+\vspace{2cm}
 \subsection{UC.4: Envoi de message sur salon général}
 \begin{center}
 	\vspace*{0.7cm}
@@ -544,18 +631,18 @@ Les principales parties à développer:
 	\hline
 	\end{tabularx}
 \end{center}
-
+\vspace{2cm}
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
 \umlactor[class=UserS]{User1} 
-\umlobject[class=]{Ap1} 
+\umlobject[class=]{Client1} 
 \umlobject[class=]{Server}
-\umlobject[class=]{Ap2}
+\umlobject[class=]{Client2}
 \umlactor[class=UserS]{User2} 
-\begin{umlcall}[padding=5, op={Click()}]{User1}{Ap1} \end{umlcall}
-\begin{umlcall}[padding=5, op={SendMess()}]{Ap1}{Server} \end{umlcall} 
-\begin{umlcall}[padding=5, op={TransMess()}]{Server}{Ap2} \end{umlcall} 
-\begin{umlcall}[padding=5, op={ShowMess()}]{Ap2}{User2} \end{umlcall} 
+\begin{umlcall}[padding=5, op={Click()}]{User1}{Client1} \end{umlcall}
+\begin{umlcall}[padding=5, op={SendMess()}]{Client1}{Server} \end{umlcall} 
+\begin{umlcall}[padding=5, op={TransMess()}]{Server}{Client2} \end{umlcall} 
+\begin{umlcall}[padding=5, op={ShowMess()}]{Client2}{User2} \end{umlcall} 
 %\end{umlcall}
 \end{umlseqdiag} 
 \end{tikzpicture}
@@ -581,21 +668,21 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
 \umlactor[class=Admin]{UserS} 
-\umlobject[class=]{Ap}
-\umlobject[class=]{ApS} 
+\umlobject[class=]{Client}
+\umlobject[class=]{ClientS} 
 \umlobject[class=]{Server} 
-\umlobject[class=]{ApS1} 
-\umlobject[class=]{Ap1}
+\umlobject[class=]{ClientS1} 
+\umlobject[class=]{Client1}
 \umlactor[class=UserS]{Admin}
-\begin{umlcall}[padding=4, op={Click()}]{UserS}{ApS} \end{umlcall}
-\begin{umlcallself}[op={Encrypt()}]{ApS} \end{umlcallself}
-\begin{umlcall}[padding=4, op={TransMess()}]{ApS}{Ap} \end{umlcall}
-\begin{umlcall}[padding=4, op={SendMess()}]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[padding=4, op={SendMess()}]{Server}{ApS1} \end{umlcall}
-\begin{umlcallself}[op={Decrypt()}]{ApS1} \end{umlcallself}
-\begin{umlcall}[padding=4, op={TransMess()}]{ApS1}{Ap1} 
+\begin{umlcall}[padding=4, op={Click()}]{UserS}{ClientS} \end{umlcall}
+\begin{umlcallself}[op={Encrypt()}]{ClientS} \end{umlcallself}
+\begin{umlcall}[padding=4, op={TransMess()}]{ClientS}{Client} \end{umlcall}
+\begin{umlcall}[padding=4, op={SendMess()}]{Client}{Server} \end{umlcall}
+\begin{umlcall}[padding=4, op={SendMess()}]{Server}{ClientS1} \end{umlcall}
+\begin{umlcallself}[op={Decrypt()}]{ClientS1} \end{umlcallself}
+\begin{umlcall}[padding=4, op={TransMess()}]{ClientS1}{Client1} 
 \end{umlcall}
-\begin{umlcall}[padding=4, op={ShowMess()}]{Ap1}{Admin} \end{umlcall}
+\begin{umlcall}[padding=4, op={ShowMess()}]{Client1}{Admin} \end{umlcall}
 \end{umlseqdiag} 
 \end{tikzpicture}
 
@@ -608,7 +695,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en jeu} & User S / Server S / Client / Server \\
 	\hline
-	\textbf{Intervenants} & Client S, LD, BDD \\
+	\textbf{Intervenants} & Client S, LDD, BDD \\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -620,26 +707,26 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
 \umlactor[class=S]{User} 
-\umlobject[class=S]{Ap}
+\umlobject[class=S]{Client}
 \umlobject[class=S]{Server}
-\umlobject[class=]{LD}
+\umlobject[class=]{LDD}
 \umlobject[class=]{BDD}
-\umlobject[class=S]{Ap1}
+\umlobject[class=S]{Client1}
 \umlactor[class=S]{Server1}
-\begin{umlcall}[op={Click()}, return=ShowRoom()]{User}{Ap} 
-\begin{umlcall}[padding=6, op={Authent()}, return=AuthentOK()]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[op={Connect()}]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[padding=4, op={CheckUser()}]{Server}{LD}
+\begin{umlcall}[op={Click()}, return=ShowRoom()]{User}{Client} 
+\begin{umlcall}[padding=6, op={Authent()}, return=AuthentOK()]{Client}{Server} \end{umlcall}
+\begin{umlcall}[op={Connect()}]{Client}{Server} \end{umlcall}
+\begin{umlcall}[padding=4, op={CheckUser()}]{Server}{LDD}
 \begin{umlfragment}[type=alt, label=CertifOK, inner xsep=5]   
 %\begin{umlcall}[op={CheckUser()}]{Server}{Ap} \end{umlcall}
 \begin{umlcall}[padding=8, op={Register()}, return=NotifyRegister()]{Server}{BDD}
 \begin{umlcallself}[op={Connect()}]{Server} \end{umlcallself}
-\begin{umlcall}[op={NotifyNewConnected()}, return=NotifyOK(), padding=6]{Server}{Ap1} 
-\begin{umlcall}[op={ShowNewConnected()}]{Ap1}{Server1} 
+\begin{umlcall}[op={NotifyNewConnected()}, return=NotifyOK(), padding=6]{Server}{Client1} 
+\begin{umlcall}[op={ShowNewConnected()}]{Client1}{Server1} 
 \end{umlcall}
 \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={Notify()}]{Server}{Ap} 
+\begin{umlcall}[op={Notify()}]{Server}{Client} 
 %\begin{umlcall}[op={ShowRoom()}]{Ap}{User} \end{ulcall}
 \end{umlcall} 
 \end{umlfragment}
@@ -657,7 +744,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en jeu} & User / Server / Client \\
 	\hline
-	\textbf{Intervenants} & LD \\
+	\textbf{Intervenants} & LDD \\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -669,22 +756,22 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag} 
 \umlactor[class=]{User} 
-\umlobject[class=]{Ap}
+\umlobject[class=]{Client}
 \umlobject[class=]{Server}
-\umlobject[class=]{BDD}
-\umlobject[class=]{Ap1}
+\umlobject[class=]{LDD}
+\umlobject[class=]{Client1}
 \umlactor[class=]{User1}
-\begin{umlcall}[op={Click()}, return=ShowRoom()]{User}{Ap} 
-\begin{umlcall}[op={Connect()}]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[padding=4, op={CheckUser()}]{Server}{LD}
+\begin{umlcall}[op={Click()}, return=ShowRoom()]{User}{Client}
+\begin{umlcall}[op={Connect()}]{Client}{Server} \end{umlcall}
+\begin{umlcall}[padding=4, op={CheckUser()}]{Server}{LDD}
 \begin{umlfragment}[type=alt, label=CertifOK, inner xsep=5]
-\begin{umlcall}[padding=8,op={Register()}, return=RegisterOK()]{Server}{BDD}
+\begin{umlcall}[padding=8,op={Register()}, return=RegisterOK()]{Server}{LDD}
 \begin{umlcallself}[op={Connect()}]{Server} \end{umlcallself}
-\begin{umlcall}[op={NotifyNewConnected()}, return=NotifyOK(), padding=6]{Server}{Ap1} 
-\begin{umlcall}[op={ShowNewConnected()}]{Ap1}{User1} \end{umlcall}
+\begin{umlcall}[op={NotifyNewConnected()}, return=NotifyOK(), padding=6]{Server}{Client1} 
+\begin{umlcall}[op={ShowNewConnected()}]{Client1}{User1} \end{umlcall}
 \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={Notify()}]{Server}{Ap} \end{umlcall}
+\begin{umlcall}[op={Notify()}]{Server}{Client} \end{umlcall}
 \end{umlfragment}
 \end{umlcall}
 \end{umlcall}
@@ -725,20 +812,20 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{User} 
-\umlobject[class=]{Ap}
+\umlobject[class=]{Client}
 \umlobject[class=]{Server}
 \umlobject[class=]{BDD}
-\umlobject[class=]{Ap1}
+\umlobject[class=]{Client1}
 \umlactor[class=]{User1}
-\begin{umlcall}[op={Click()}]{User}{Ap} \end{umlcall}
-\begin{umlcall}[op={Disconnect()}, return=NotifyDisconnect()]{Ap}{Server} 
+\begin{umlcall}[op={Click()}]{User}{Client} \end{umlcall}
+\begin{umlcall}[op={Disconnect()}, return=NotifyDisconnect()]{Client}{Server} 
 \begin{umlcall}[padding=6, op={DeletekUser()}, return=ConfirmDeleteUser()]{Server}{BDD} 
 \end{umlcall}
 \begin{umlcallself}[op={Disconnect()}]{Server} \end{umlcallself}
-\begin{umlcall}[op={NotifyQuitUser()}]{Server}{Ap1} \end{umlcall}
-\begin{umlcall}[op={AlertQuitUser()}]{Ap1}{User1} \end{umlcall}
+\begin{umlcall}[op={NotifyQuitUser()}]{Server}{Client1} \end{umlcall}
+\begin{umlcall}[op={AlertQuitUser()}]{Client1}{User1} \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={Alert()}]{Ap}{User} \end{umlcall}
+\begin{umlcall}[op={Alert()}]{Client}{User} \end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
@@ -751,7 +838,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en jeu} & User S / Server S / Client \\
 	\hline
-	\textbf{Intervenants} & Ap  \\
+	\textbf{Intervenants} & Client  \\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -759,16 +846,16 @@ Les principales parties à développer:
 	\hline
 	\end{tabularx}
 \end{center}
-
+\vspace{2cm}
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{User} 
-\umlobject[class=]{ApS}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{Server}
 \umlobject[class=]{ServerS}
 \umlobject[class=]{UC}
-\begin{umlcall}[op={Click()}, return=Alert(), padding=7]{User}{ApS} 
-\begin{umlcall}[op={Disconnect()}, return=NotifyDisconnect(), padding=8]{ApS}{ServerS}
+\begin{umlcall}[op={Click()}, return=Alert(), padding=7]{User}{ClientS} 
+\begin{umlcall}[op={Disconnect()}, return=NotifyDisconnect(), padding=8]{ClientS}{ServerS}
 %\begin{umlfragment}[type=alt, label=UserNotConnect, inner xsep=5] 
 \begin{umlfragment}[type=alt, label=UserConnect, inner xsep=5] 
 %\begin{umlcall}[op={Error()}]{ServerS}{ApS}\end{umlcall}
@@ -781,7 +868,7 @@ Les principales parties à développer:
 \begin{umlcall}[op={Call UC.8()}]{ServerS}{UC} \end{umlcall} 
 \end{umlseqdiag}
 \end{tikzpicture}
-
+\vspace{2cm}
 \subsection{UC.10: Quitter un salon privé}
 \begin{center}
 	\vspace*{0.7cm}
@@ -799,22 +886,22 @@ Les principales parties à développer:
 	\hline
 	\end{tabularx}
 \end{center}
-
+\vspace{2cm}
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=S]{User} 
-\umlobject[class=]{ApS}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{ServerS}
-\umlobject[class=]{ApS1}
+\umlobject[class=]{ClientS1}
 \umlactor[class=]{UserS1}
-\begin{umlcall}[op={Click()}]{User}{ApS} \end{umlcall}
-\begin{umlcall}[op={Authent()}, return=AlertOK(), padding=7]{ApS}{ServerS} \end{umlcall}
-\begin{umlcall}[op={QuitRoom()}, return=NotifyQuitRoom(), padding=8]{ApS}{ServerS}
+\begin{umlcall}[op={Click()}]{User}{ClientS} \end{umlcall}
+\begin{umlcall}[op={Authent()}, return=AlertOK(), padding=7]{ClientS}{ServerS} \end{umlcall}
+\begin{umlcall}[op={QuitRoom()}, return=NotifyQuitRoom(), padding=8]{ClientS}{ServerS}
 \begin{umlcallself}[op={ExitRoom()}]{ServerS} \end{umlcallself}
-\begin{umlcall}[op={Broadcast Keys User Room()}]{ServerS}{ApS1} \end{umlcall} 
-\begin{umlcall}[op={AlertExitUser()}]{ApS1}{UserS1} \end{umlcall}
+\begin{umlcall}[op={Broadcast Keys User Room()}]{ServerS}{ClientS1} \end{umlcall} 
+\begin{umlcall}[op={AlertExitUser()}]{ClientS1}{UserS1} \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={ExitRoom()}]{ApS}{User} \end{umlcall}
+\begin{umlcall}[op={ExitRoom()}]{ClientS}{User} \end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
@@ -827,7 +914,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en} jeu & Users / User S / Server / Server S / Admin \\
 	\hline
-	\textbf{Intervenants} & client s \\
+	\textbf{Intervenants} & Client S \\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -840,13 +927,13 @@ Les principales parties à développer:
 \begin{umlseqdiag} 
 \umlobject[class=]{S}
 \umlobject[class=]{ServerS}
-\umlobject[class=]{ApS}
-\umlobject[class=]{Ap}
+\umlobject[class=]{ClientS}
+\umlobject[class=]{Client}
 \umlactor[class=S]{User} 
 \begin{umlcall}[op={interruption()},padding=4]{S}{ServerS} \end{umlcall}
-\begin{umlcall}[op={interruption()}]{ServerS}{ApS} 
-\begin{umlcall}[op={decryptedMess()}]{ApS}{Ap} 
-\begin{umlcall}[op={showAlert()}]{Ap}{User} \end{umlcall}
+\begin{umlcall}[op={interruption()}]{ServerS}{ClientS} 
+\begin{umlcall}[op={decryptedMess()}]{ClientS}{Client} 
+\begin{umlcall}[op={showAlert()}]{Client}{User} \end{umlcall}
 \end{umlcall}
 \begin{umlcallself}[op={closeRooms()}]{ServerS} \end{umlcallself}
 \end{umlcall}
@@ -857,12 +944,12 @@ Les principales parties à développer:
 \begin{umlseqdiag} 
 \umlobject[class=]{S}
 \umlobject[class=]{Server}
-\umlobject[class=]{Ap}
+\umlobject[class=]{Client}
 \umlobject[class=]{BDD}
 \umlactor[class=]{User} 
 \begin{umlcall}[op={interruption()},padding=4]{S}{Server} \end{umlcall}
-\begin{umlcall}[op={AlertInterrup()}]{Server}{Ap} 
-\begin{umlcall}[op={showAlert()}]{Ap}{User} \end{umlcall}
+\begin{umlcall}[op={AlertInterrup()}]{Server}{Client} 
+\begin{umlcall}[op={showAlert()}]{Client}{User} \end{umlcall}
 \end{umlcall}
 \begin{umlcall}[op={DeleteUserRooms()}, return=notifyDeleteUser()]{Server}{BDD} 
 \begin{umlcallself}[op={closeRooms()}]{Server} \end{umlcallself}
@@ -879,7 +966,7 @@ Les principales parties à développer:
 	\hline
 	\textbf{Composants mis en jeu} & User S / Server S / Client S / Server \\
 	\hline
-	\textbf{Intervenants} & LD \\
+	\textbf{Intervenants} & LDD \\
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
@@ -892,27 +979,27 @@ Les principales parties à développer:
 \begin{umlseqdiag}
 \umlactor[class=S]{User}
 \umlactor[class=]{Admin}
-\umlobject[class=]{ApS}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{ServerS}
-\umlobject[class=]{LD}
-\umlobject[class=]{ApS1}
+\umlobject[class=]{LDD}
+\umlobject[class=]{ClientS1}
 \umlactor[class=S]{User1}
-\begin{umlcall}[op={Click()}, return=ShowRoom(), padding=7]{User}{ApS}
-\begin{umlcallself}[op={Form()}]{ApS} \end{umlcallself} 
-\begin{umlcall}[op={showForm()}, return=ValidForm(), padding=7]{ApS}{User} 
+\begin{umlcall}[op={Click()}, return=ShowRoom(), padding=7]{User}{ClientS}
+\begin{umlcallself}[op={Form()}]{ClientS} \end{umlcallself} 
+\begin{umlcall}[op={showForm()}, return=ValidForm(), padding=7]{ClientS}{User} 
 \end{umlcall}
-\begin{umlcall}[op={SendForm()}]{ApS}{ServerS} 
+\begin{umlcall}[op={SendForm()}]{ClientS}{ServerS} 
 \begin{umlfragment}[type=alt, label=FormOK, inner xsep=5] 
 \begin{umlcallself}[op={FillInForm()}]{ServerS} \end{umlcallself}
-\begin{umlcall}[op={CheckCertificate()}, return=CheckCertificateOK(), padding=6]{ServerS}{LD}\end{umlcall}
+\begin{umlcall}[op={CheckCertificate()}, return=CheckCertificateOK(), padding=6]{ServerS}{LDD}\end{umlcall}
 \begin{umlcallself}[op={GenerateKeys()}]{ServerS} \end{umlcallself}
-\begin{umlcall}[op={BroadcastKeys()}]{ServerS}{ApS1} \end{umlcall}
-\begin{umlcall}[op={AlertInvit()}]{ApS1}{User1} \end{umlcall}
+\begin{umlcall}[op={BroadcastKeys()}]{ServerS}{ClientS1} \end{umlcall}
+\begin{umlcall}[op={AlertInvit()}]{ClientS1}{User1} \end{umlcall}
 \begin{umlcallself}[op={GenerateAdminKeys()}]{ServerS} \end{umlcallself} 
 \begin{umlcallself}[op={CreateRoom()}]{ServerS} \end{umlcallself} 
-\begin{umlcall}[op={ConnectRoom()}]{ServerS}{ApS} \end{umlcall}
+\begin{umlcall}[op={ConnectRoom()}]{ServerS}{ClientS} \end{umlcall}
 \begin{umlcall}[op={NotifyAdmin()}]{ServerS}{Admin} \end{umlcall}
-\begin{umlcall}[op={ShowRoom()}]{ApS}{Admin}\end{umlcall}
+\begin{umlcall}[op={ShowRoom()}]{ClientS}{Admin}\end{umlcall}
 \end{umlfragment}
 \end{umlcall}
 \end{umlcall}
@@ -940,17 +1027,17 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{Admin} 
-\umlobject[class=]{Ap}
+\umlobject[class=]{Client}
 \umlobject[class=]{ServerS}
-\umlobject[class=]{Ap1}
+\umlobject[class=]{Client1}
 \umlactor[class=]{UserS} 
-\begin{umlcall}[op={AcceptInvit()}, return=showRoom()]{Admin}{Ap} 
-\begin{umlcall}[op={SendAccept()}, return=ConnectRoom()]{Ap}{ServerS}
+\begin{umlcall}[op={AcceptInvit()}, return=showRoom()]{Admin}{Client} 
+\begin{umlcall}[op={SendAccept()}, return=ConnectRoom()]{Client}{ServerS}
 \begin{umlcallself}[op={GenerateKeys()}]{ServerS} \end{umlcallself} 
-\begin{umlcall}[op={BroadcoastKeys()}]{ServerS}{Ap} \end{umlcall} 
-\begin{umlcall}[op={BroadcoastKeys()}]{ServerS}{Ap1} \end{umlcall} 
-\begin{umlcall}[op={NotifyNewUser()}]{ServerS}{Ap1} 
-\begin{umlcall}[op={ShowNotify()}]{Ap1}{UserS} \end{umlcall} 
+\begin{umlcall}[op={BroadcoastKeys()}]{ServerS}{Client} \end{umlcall} 
+\begin{umlcall}[op={BroadcoastKeys()}]{ServerS}{Client1} \end{umlcall} 
+\begin{umlcall}[op={NotifyNewUser()}]{ServerS}{Client1} 
+\begin{umlcall}[op={ShowNotify()}]{Client1}{UserS} \end{umlcall} 
 \end{umlcall} 
 \end{umlcall}
 \end{umlcall}
@@ -978,20 +1065,20 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{Admin} 
-\umlobject[class=]{ApS}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{Server}
 \umlobject[class=]{ServerS}
-\umlobject[class=]{ApS1}
+\umlobject[class=]{ClientS1}
 \umlactor[class=]{UserS}
-\begin{umlcall}[op={Click()}, return=Alert(), return=HideRoom(), padding=7]{Admin}{ApS} 
-\begin{umlcall}[op={Authent()}, return=AuthentOK(), padding=6]{ApS}{ServerS}\end{umlcall} 
-\begin{umlcall}[op={CloseRoom()}, return=NotifyCloseRoom()]{ApS}{ServerS}
-\begin{umlcall}[op={DisconnectUserRoom()}]{ServerS}{ApS1} \end{umlcall} 
-\begin{umlcall}[op={AlertExitUserRoom()}]{ApS1}{UserS} \end{umlcall} 
+\begin{umlcall}[op={Click()}, return=Alert(), return=HideRoom(), padding=7]{Admin}{ClientS} 
+\begin{umlcall}[op={Authent()}, return=AuthentOK(), padding=6]{ClientS}{ServerS}\end{umlcall} 
+\begin{umlcall}[op={CloseRoom()}, return=NotifyCloseRoom()]{ClientS}{ServerS}
+\begin{umlcall}[op={DisconnectUserRoom()}]{ServerS}{ClientS1} \end{umlcall} 
+\begin{umlcall}[op={AlertExitUserRoom()}]{ClientS1}{UserS} \end{umlcall} 
 \begin{umlcallself}[op={CloseRoom()}]{ServerS} \end{umlcallself}
 \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={CloseRoom()}]{ApS}{Server}\end{umlcall} 
+\begin{umlcall}[op={CloseRoom()}]{ClientS}{Server}\end{umlcall} 
 \end{umlseqdiag}
 \end{tikzpicture}
 
@@ -1016,11 +1103,11 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{Admin}
-\umlobject[class=]{ApS}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{ServerS}
 \umlactor[class=]{UserS}
-\begin{umlcall}[op={Click()}, return=NewListuser()]{Admin}{ApS} 
-\begin{umlcall}[op={Reject()}, return=notifyReject()]{ApS}{ServerS}
+\begin{umlcall}[op={Click()}, return=NewListuser()]{Admin}{ClientS} 
+\begin{umlcall}[op={Reject()}, return=notifyReject()]{ClientS}{ServerS}
 \begin{umlcallself}[op={DisconnectUserRoom()}]{ServerS} \end{umlcallself} 
 %\begin{umlcallself}[op={EvictionMess()}]{ServerS} \end{umlcallself}
 \begin{umlcallself}[op={GenerateKeys()}]{ServerS} \end{umlcallself}
@@ -1052,14 +1139,14 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{Admin}
-\umlobject[class=]{ApS}
+\umlobject[class=]{ClientS}
 \umlobject[class=]{Server}
-\umlobject[class=]{ApS1}
+\umlobject[class=]{ClientS1}
 \umlactor[class=]{UserS}
-\begin{umlcall}[op={Click()}]{Admin}{ApS} \end{umlcall}
-\begin{umlcall}[op={SendInvit()}]{ApS}{Server} \end{umlcall}
-\begin{umlcall}[op={SendInvit()}]{Server}{ApS1} \end{umlcall}
-\begin{umlcall}[op={ShowInvit()}]{ApS1}{UserS}\end{umlcall}
+\begin{umlcall}[op={Click()}]{Admin}{ClientS} \end{umlcall}
+\begin{umlcall}[op={SendInvit()}]{ClientS}{Server} \end{umlcall}
+\begin{umlcall}[op={SendInvit()}]{Server}{ClientS1} \end{umlcall}
+\begin{umlcall}[op={ShowInvit()}]{ClientS1}{UserS}\end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
@@ -1084,14 +1171,14 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{User}
-\umlobject[class=]{Ap}
+\umlobject[class=]{Client}
 \umlobject[class=]{Server}
-\umlobject[class=]{Ap1}
+\umlobject[class=]{Client1}
 \umlactor[class=]{UserS}
-\begin{umlcall}[op={click()}]{User}{Ap} \end{umlcall}
-\begin{umlcall}[op={SendMess()}]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[op={TransMess()}]{Server}{Ap1} \end{umlcall}
-\begin{umlcall}[op={ShowMess()}]{Ap1}{UserS} \end{umlcall}
+\begin{umlcall}[op={click()}]{User}{Client} \end{umlcall}
+\begin{umlcall}[op={SendMess()}]{Client}{Server} \end{umlcall}
+\begin{umlcall}[op={TransMess()}]{Server}{Client1} \end{umlcall}
+\begin{umlcall}[op={ShowMess()}]{Client1}{UserS} \end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
@@ -1116,20 +1203,20 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{UserS}
-\umlobject[class=]{ApS}
-\umlobject[class=]{Ap}
+\umlobject[class=]{ClientS}
+\umlobject[class=]{Client}
 \umlobject[class=]{Server}
-\umlobject[class=]{ApS1}
-\umlobject[class=]{Ap1}
+\umlobject[class=]{ClientS1}
+\umlobject[class=]{Client1}
 \umlactor[class=]{UserS1}
-\begin{umlcall}[op={Click()}]{UserS}{ApS} \end{umlcall}
-\begin{umlcallself}[op={Encrypt()}]{ApS} \end{umlcallself}
-\begin{umlcall}[op={TransMess()}]{ApS}{Ap} \end{umlcall}
-\begin{umlcall}[op={SendMess()}]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[op={SendMess()}]{Server}{ApS1} \end{umlcall}
-\begin{umlcallself}[op={Decrypt()}]{ApS1} \end{umlcallself}
-\begin{umlcall}[op={TransMess()}]{ApS1}{Ap1} \end{umlcall}
-\begin{umlcall}[op={ShowMess()}]{Ap1}{UserS1} \end{umlcall}
+\begin{umlcall}[op={Click()}]{UserS}{ClientS} \end{umlcall}
+\begin{umlcallself}[op={Encrypt()}]{ClientS} \end{umlcallself}
+\begin{umlcall}[op={TransMess()}]{ClientS}{Client} \end{umlcall}
+\begin{umlcall}[op={SendMess()}]{Client}{Server} \end{umlcall}
+\begin{umlcall}[op={SendMess()}]{Server}{ClientS1} \end{umlcall}
+\begin{umlcallself}[op={Decrypt()}]{ClientS1} \end{umlcallself}
+\begin{umlcall}[op={TransMess()}]{ClientS1}{Client1} \end{umlcall}
+\begin{umlcall}[op={ShowMess()}]{Client1}{UserS1} \end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
@@ -1154,14 +1241,14 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
 \umlactor[class=]{Admin}
-\umlobject[class=]{Ap}
+\umlobject[class=]{Client}
 \umlobject[class=]{Server}
-\umlobject[class=]{Ap1}
+\umlobject[class=]{Client1}
 \umlactor[class=]{UserS}
-\begin{umlcall}[op={AddNewUser()}]{Admin}{Ap} \end{umlcall}
-\begin{umlcall}[op={SendAddNewUser()}]{Ap}{Server} \end{umlcall}
-\begin{umlcall}[op={TransAddNewUser()}]{Server}{Ap1} \end{umlcall}
-\begin{umlcall}[op={SendMess()}]{Ap1}{UserS} \end{umlcall}
+\begin{umlcall}[op={AddNewUser()}]{Admin}{Client} \end{umlcall}
+\begin{umlcall}[op={SendAddNewUser()}]{Client}{Server} \end{umlcall}
+\begin{umlcall}[op={TransAddNewUser()}]{Server}{Client1} \end{umlcall}
+\begin{umlcall}[op={SendMess()}]{Client1}{UserS} \end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
