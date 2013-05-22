@@ -161,6 +161,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frontmatter
 \pagestyle{fancy}
+\large
 \chapter{Introduction}
 
 
@@ -257,6 +258,136 @@ Le choix des langages pour réaliser le projet sont le C pour la réalisation du
 Pour la partie sécurisé on a choisi la bibliothèque OpensSSL pour les raisons vues ci-dessus.
 
 \section{Résultat}
+
+Le résultat a été réparti en trois livraisons dont voici les contenus.
+
+\subsection{Partie non-sécurisée}
+La première partie consistait en le développement d'un client et d'un serveur de chat. Dans cette partie, les fonctionnalités ayant été développées sont :
+\begin{itemize}
+\item se connecter à un serveur de chat;
+\item créer, rejoindre et quitter un salon de chat;
+\item envoyer des messages privés aux utilisateurs connectés sur le serveur;
+\item se déconnecter d'un serveur de chat.
+\end{itemize}
+
+Pour la communication entre les clients et le serveur, une structure C a été mise en place :
+
+\begin{verbatim}
+typedef struct {
+        int code;
+        char sender[MAX_NAME_SIZE];         // MAX_NAME_SIZE = 64
+        char content[MAX_MESS_SIZE];        // MAX_MESS_SIZE = 512
+        char receiver[MAX_ROOM_NAME_SIZE];  // MAX_ROOM_NAME_SIZE = 64
+} message;
+\end{verbatim}
+
+Chaque action est représentée par un code (\verb+CONNECT, CREATE_ROOM, MESSAGE...+). Le champ \verb+sender+ représente l'émetteur du message, \verb+receiver+ le destinataire. Enfin le champ \verb+content+ contient le(s) argument(s) associé(s) à l'action souhaitée. Côté client, pour envoyer une telle structure, il suffit d'appeler la fonction \verb+int send_message(const char *mess,+\\ \verb+char **error_mess)+ avec \verb+mess+ de la forme : \verb+"/<ACTION> <ARGS>"+ et \verb+err_mess+ le message d'erreur, si une erreur survient. L'affichage de message reçu se fait à la couche supérieur, dans l'interface graphique ou en lignes de commandes en appelant la fonction \verb+int receive_message(+\\\verb+message *m)+. Ces fonctions se trouvent dans une librairie écrite pour le client (\verb+libclient.a+) afin de les utiliser dans l'interface graphique et en préparation à la surcouche sécurisée de la troisième livraison. 
+
+L'interface du client de chat a été développée en Vala à l'aide de la bibliothèque graphique GTK. La fenêtre a été dessinée à l'aide de Glade qui est un User Interface Designer produisant un fichier \verb+.xml+, ce dernier étant utilisé dans le code Vala.
+
+Côté serveur, les clients sont gérés dans des fils d'exécution séparés. Chaque message reçu est filtré selon son code d'action et le traitement correspondant est effectué. Si la connexion avec un client est perdue, le fil d'exécution s'arrête en déconnectant l'utilisateur.
+
+\subsection{Certification}
+La seconde livraison consistait en la mise en place d'une infrastructure à clefs publiques (PKI). Pour cela nous avons utilisé EJBCA (Enterprise Java Bean Certificate Authority) qui est une application utilisant un serveur JBoss. L'installation s'est faite en quelques étapes :
+
+\begin{paragraph}{Récupération de JBoss et d'EJBCA}
+\small{
+\begin{verbatim}
+$ wget http://sourceforge.net/projects/jboss/files/JBoss/JBoss-5.1.0.GA/jboss-5.1.0.GA-jdk6.zip
+$ wget http://sourceforge.net/projects/ejbca/files/ejbca4/ejbca_4_0_10/ejbca_4_0_10.zip
+$ unzip jboss-5.1.0.GA-jdk6.zip
+$ unzip ejbca_4_0_10.zip
+\end{verbatim}
+}
+\end{paragraph}
+
+\begin{paragraph}{Configuration et construction d'EJBCA}
+\small{
+\begin{verbatim}
+$ echo "appserver.home=/home/user/jboss-5.1.0.GA" >> ejbca_4_0_10/conf/ejbca.properties
+$ cd ejbca_4_0_10; ant bootstrap 
+\end{verbatim}
+}
+\end{paragraph}
+
+\begin{paragraph}{Installation et déploiement d'EJBCA}
+\small{
+\begin{verbatim}
+$ /home/user/jboss-5.1.0.GA/bin/run.sh &
+$ ant install
+$ ant deploy
+\end{verbatim}
+}
+\end{paragraph}
+\newpage
+
+Pour la configuration des autorités de certification et des différents profils, EJBCA met à disposition une interface web. Il faut tout d'abord récupérer le certificat administrateur qui a été généré lors de l'installation se trouvant dans \verb+/home/user/ejbca_4_0_10/p12/superadmin.p12+ puis de l'ajouter dans les certificats du navigateur comme suit (Firefox) :
+
+\begin{center}
+\includegraphics[width=30em]{import_superadmin.png}
+\end{center}
+
+On peut alors accéder à la partie administration à partir de l'adresse:
+
+\verb+https://adresse_serveur:8443/ejbca/adminweb/index.jsp+
+\newpage
+La page obtenue est la suivante :
+\begin{center}
+\includegraphics[width=40em]{admin_ejbca.png}
+\end{center}
+
+Les parties importantes ont été entourées en rouge et voici leurs descriptions.
+
+\begin{paragraph}{Profils de certificats}
+C'est dans cette section que l'ont créer les différents profils de certificats :
+\begin{itemize}
+\item \verb+BAVARDAGESERVER+ : profil pour le serveur sécurisé ;
+\item \verb+BAVARDAGEUSER+ : profil pour les utilisateurs sécurisés.
+\end{itemize}
+
+Ces profils sont décrits en détail dans le document annexe : Politique de certification
+\end{paragraph}
+
+\begin{paragraph}{Éditer/créer des AC}
+Une AC (autorité de certification) est une entité dont la mission est de vérifier les données du demandeur de certificat, de signer et de maintenir une liste des certificats et une liste des révocations. Sur la capture d'écran ci-dessus, on voit la liste des AC contenant celle relative à notre projet : \verb+CABavardage+
+\end{paragraph}
+
+
+\begin{paragraph}{Profils d'entités}
+Chaque type d'entité a un profil associé:
+\begin{itemize}
+\item \verb+BAVARDAGE_SERVER+ : profil pour le serveur sécurisé ;
+\item \verb+BAVARDAGE_USER+ : profil pour les utilisateurs sécurisés.
+\end{itemize}
+\end{paragraph}
+
+
+\begin{paragraph}{Ajouter une entité}
+Lorsqu'un utilisateur désire obtenir un certificat, un administrateur doit au préalable lui crée une entité associée. Il pourra ensuite récupérer son certificat pour sa clef RSA.
+\end{paragraph}
+
+
+\subsection{Partie sécurisée}
+La troisième livraison consistait en la surcouche sécurisée du client de chat et d'un serveur « sécurisé » dont le rôle est de gérer les utilisateurs sécurisés.
+
+Il a tout d'abord fallu ouvrir une connexion SSL entre le client sécurisé et le serveur sécurisé grâce aux fonctions d'OpenSSL. Ensuite, nous avons créer des codes d'actions spécifiques à l'utilisation sécurisée du chat comme \verb+CONNECT_SEC, CREATE_ROOM_SEC+... La gestion des clients dans le serveur sécurisé est similaire au serveur classique avec un fil d'exécution par client et une socket SSL.
+
+Côté client, la surcouche sécurisée se base sur la librairie du client classique et utilise la même logique. Ainsi nous avons deux fonctions principales : 
+\begin{itemize}
+\item \verb+int send_message_sec (const char *mess, char **err_mess)+
+\item \verb+int receive_message_sec (message *m)+
+\end{itemize}
+
+On rajoute également des fonctions de chiffrement/déchiffrement de messages :
+\small{
+\begin{itemize}
+\item \verb+char *aes_encrypt (unsigned char *key, unsigned char *iv, char *plaintext, int *len)+
+\item \verb+char *aes_decrypt (unsigned char *key, unsigned char *iv, char *ciphertext, int *len)+
+\end{itemize}
+}
+
+Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffrer les messages envoyés (champ \verb+content+)
+
 
 \section{Problèmes rencontrés}
 
