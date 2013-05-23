@@ -384,11 +384,15 @@ On rajoute également des fonctions de chiffrement/déchiffrement de messages :
 \small{
 \begin{itemize}
 \item \verb+char *aes_encrypt (unsigned char *key, unsigned char *iv, char *plaintext, int *len)+
+
 \item \verb+char *aes_decrypt (unsigned char *key, unsigned char *iv, char *ciphertext, int *len)+
 \end{itemize}
 }
 
-Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffrer les messages envoyés (champ \verb+content+)
+Pour le chiffrement et le déchiffrement nous utilisons une fonction 
+ \verb+char *gen_keyiv(key_iv keyiv, unsigned char *key_data, int key_data_len)+ qui génère la clé et l'IV. C'est cette paire de clé et iv qui est utilisée par les fonctions \verb+aes_encrypt+ et \verb+aes_decrypt+ pour chiffrer et déchiffrer les messages.
+
+Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffrer les messages envoyés (champ \verb+content+). AES est un chiffrement par bloc qui supporte des clés et des blocs de 128, 192 et 256 bits. Le mode de chiffrement CBC consiste à diviser les données en plusieurs blocs de même taille et à les chiffrer de manière chaînée (le résultat précédent est utilisé lors du chiffrement suivant). L'IV est utilisé pour le chiffrement du premier bloc. Avec le mode CBC l'IV est unique et aléatoire,ce qui rend la clé réutilisable sans risque, et il n'y a pas de risque de répétition de bloc. Nous avons choisi AES-256-CBC pour avoir une plus grande taille des clés et la sécurité qu'offre le mode de chiffrement CBC. 
 
 
 \section{Problèmes rencontrés}
