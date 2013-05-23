@@ -15,12 +15,12 @@
 \usepackage{tabularx, longtable}
 \usepackage{color, colortbl}
 \usepackage{lscape}
-\usepackage[hidelinks]{hyperref}
+
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{rotating}
-\usepackage{pgfgantt}
-\usepackage{gensymb}
+
+
 \usepackage[toc,page]{appendix} 
 \usepackage{pgfplots}
 \usepackage{eurosym}
@@ -442,8 +442,126 @@ Les commandes suivantes doivent être exécuter dans le dossier du projet git ba
 \end{verbatim}
 
 \section{Exécution}
+\subsection{Serveur non sécurisé}
+Pour lancer le serveur non sécurisé, il faut d'abord se rendre dans le répertoire "server" du répertoire build et taper les instructions suivantes:
+
+\begin{verbatim}
+    $ ./server ADRESSE_SERVEUR PORT_SERVEUR
+\end{verbatim}
+
+\verb+ADRESSE_SERVEUR+: l'adresse IP ou le nom de domaine du serveur non sécurisé
+
+\verb+PORT_SERVEUR:+ le numéro du port d'écoute du serveur
+
+\subsection{Serveur sécurisé}
+Pour lancer le serveur sécurisé, il faut d'abord se rendre dans le répertoire "serversec" du répertoire "build" et taper les instructions suivantes:
+\begin{verbatim}
+    $ ./serversec ADRESSE_SERVEUR_SEC PORT_SERVEUR_SEC
+\end{verbatim}
+
+\verb+ADRESSE_SERVEUR_SEC+: l'adresse IP ou le nom de domaine du serveur sécurisé
+
+\verb+PORT_SERVEUR_SEC+: le numéro du port d'écoute du serveur sécurisé
+
+\subsection{Client}
+Pour lancer le client, il faut se rendre dans le répertoire "client" du répertoire "build" et lancer les instrutions suivantes:
+\begin{itemize}
+\item Client console : 
+\begin{verbatim}
+    $ ./clientsec-cli ADRESSE_SERVEUR PORT_SERVEUR ADRESSE_SERVEUR_SEC PORT_SERVEUR_SEC CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE]
+    $ ./clientsec-cli CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE]
+\end{verbatim}
+\item Client Graphique :
+\begin{verbatim}
+    $ ./Client
+\end{verbatim}
+\end{itemize}
+
+\verb+ADRESSE_SERVEUR+: l'adresse ip ou le nom de domaine du serveur non sécurisé.
+
+\verb+PORT_SERVEUR+: le numéro du port d'écoute du serveur.
+
+\verb+ADRESSE_SERVEUR_SEC+: l'adresse IP ou le nom de domaine du serveur sécurisé.
+
+\verb+PORT_SERVEUR_SEC+: le numéro du port d'écoute du serveur sécurisé.
+
+\verb+CERTIFICAT+: le chemin d'accès au certificat délivré par l'autorité de certification.
+
+\verb+CLE_PRIVE+: la clé privée générée par l'utilisateur
+
+\verb+MOT_DE_PASSE_CLE+: le mot de passe de la clé privée si elle a été généré avec un mot de passe.
+
+	Concernant le client console, la deuxième commande est utilisée lorsque l'adresse et le port du serveur sécurisé/non sécurisé sont celles par défaut (adresse/port serveur: localhost/10000, adresse/port serveur sécurisé: localhost/11000).
+	
+\subsection{Utilisation du client console}
+	
+	La forme générale des commandes est : 
+	
+\verb+ /NOM_COMMANDE [paramètre_1 [Paramètre_2 [Paramètre_3 Paramètre_4]]]+
+
+La commande de base de l'application est /HELP. Elle permet de lister toutes les autres commandes de l'application.
+\subsubsection{Commandes du client classic et les actions}
+
+\verb+	/CREATE_ROOM room_name+  : Permet de créer un salon ayant le nom "room\_name"
+
+\verb+	/DELETE_ROOM room_name+ :  Permet de supprimer le salon du nom de "room\_name"
+
+\verb+	/QUIT_ROOM room_name+ :  Permet de quitter le salon du nom de "room\_name"
+
+\verb+	/JOIN_ROOM room_name+:  Rejoindre un salon du nom de "room\_name"
+
+\verb+	/DISCONNECT+: Se déconnecter du serveur non sécurisé
+
+\verb+	/CONNECT user+:  Se connecter avec l'identifiant "user"
+
+\verb+	/MP user message+: Envoyer un message privé à l'utilisateur "user"
+			
+\subsubsection{Commandes du client sécurisé et les actions}
+
+\verb+	/CONNECT_SEC user user_certif user_key+: Connexion au serveur sécurisé avec le nom d'utilisateur "user" avec le certificat "user\_certif" et la clé privée "user\_key" (Si la clé privée a été crée avec un mot de passe, il faut ajouter le mot de passe après "user\_key")
+
+\verb+	/CREATE_ROOM_SEC room_name+: Permet de créer un salon sécurisé du nom de "room\_name"
+
+\verb+	/DELETE_ROOM_SEC room_name+: Permet de supprimer le salon sécurisé du nom "room\_name"
+
+\verb+	/DISCONNECT_SEC+: Se déconnecter du serveur sécurisé et du serveur non sécurisé
+
+\verb+	/QUIT_ROOM_SEC room_name+: Quitter le salon sécurisé du nom de "room\_name"
+
+\verb+	/JOIN_ROOM_SEC room_name+: Rejoindre le salon sécurisé du nom de "room\_name"
+
+\verb+	/DEL_ACCOUNT_SEC+: Supprimer le compte utilisateur sécurisé
+
+\verb+	/MP_SEC user message+: Envoyer un message privé sécurisé
+
+\verb+	/MESSAGE room_name message+: Envoyer le message "message" à "user" ou sur le salon "room\_name"
+
+\verb+	/ACCEPT_JOIN_ROOM_SEC room_name user+: Accepter la requête d'ajout qu'un utilisateur a envoyé pour rejoindre un salon
+
+\verb+	/REFUSE_JOIN_ROOM_SEC room_name user+: Refuser la requête d'ajout qu'un utilisateur a envoyé pour rejoindre un salon
+
+\verb+	/EJECT_FROM_ROOM_SEC room_name user+: Supprimer un utilisateur "user" du salon "room\_name"
 
 
+\subsection{Utilisation du client graphique}
+
+Le client graphique permet d'effectuer les mêmes opérations que le client console mais avec l'intuitivité que nous offre l'interface graphique.
+
+\subsubsection{Connexion non sécurisée}
+
+\subsubsection{Connexion sécurisée}
+
+\subsubsection{Création d'un salon (sécurisé ou non sécurisé)}
+
+\subsubsection{Suppression d'un salon}
+
+\subsubsection{Rejoindre un salon}
+
+\subsubsection{Accepter une requête utilisateur}
+
+\subsubsection{Envoyer un message privé (sécurisé ou non sécurisé)}
+
+\subsubsection{Envoyer un message publique}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
