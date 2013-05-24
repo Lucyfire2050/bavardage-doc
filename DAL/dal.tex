@@ -977,55 +977,40 @@ Les principales parties à développer:
 	\end{tabularx}
 \end{center}
 
+Cas d'un utilisateur classique:\\
 
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
 \begin{umlseqdiag} 
-\umlactor[class=]{S}
-\umlobject[class=]{Server}
+\umlactor[class=]{User}
 \umlobject[class=]{Client}
-\umlobject[class=]{BDD}
-\umlactor[class=]{User} 
-\begin{umlcall}[op={interruption()},padding=4]{S}{Server} \end{umlcall}
-\begin{umlcall}[op={AlertInterrup()}]{Server}{Client} 
-\begin{umlcall}[op={showAlert()}]{Client}{User} \end{umlcall}
-\end{umlcall}
-\begin{umlcall}[op={DeleteUserRooms()}, return=notifyDeleteUser()]{Server}{BDD} 
-\begin{umlcallself}[op={closeRooms()}]{Server} \end{umlcallself}
-\end{umlcall}
+\umlobject[class=]{Server}
+\begin{umlcall}[op={Click()}, padding=4]{User}{Client} \end{umlcall}
+\begin{umlcall}[op={CreatePrivateRoom()}, return=Notifyuser(), padding=4]{Client}{Server}
+\begin{umlcallself}[op={CreatePrivateRoom()}]{Server} \end{umlcallself}
+\begin{umlcallself}[op={ConnectUserRoom()}]{Server}\end{umlcallself}\end{umlcall}
 \end{umlseqdiag}
-\end{tikzpicture}
+\end{tikzpicture} \\
 
-% before %
-\begin{tikzpicture}[remember picture,transform shape,scale=0.6]
-\begin{umlseqdiag}
-\umlactor[class=S]{User}
+%\vspace{.9cm}
+Cas d'un utilisateur sécurisé:
+
+\begin{tikzpicture}[remember picture,transform shape,scale=0.6] 
+\begin{umlseqdiag} 
+\umlactor[class=]{UserS}
 \umlobject[class=]{Client}
 \umlobject[class=]{ClientS}
 \umlobject[class=]{Server}
 \umlobject[class=]{ServerS}
-\umlobject[class=]{LDD}
-\umlactor[class=S]{User1}
-\umlactor[class=]{Admin}
-\begin{umlcall}[op={Click()}, return=ShowRoom(), padding=7]{User}{Client}
-\begin{umlcall}[op={ActiveModuleSec()}]{Client}{ClientS} \end{umlcall}
-\begin{umlcall}[op={CreateRoomSec()}]{Client}{Server} \end{umlcall}
-\begin{umlcall}[op={showForm()}, return=ValidForm(), padding=7]{ClientS}{User} 
+\umlobject[class=]{BDD}
+\umlobject[class=]{Admin}
+\begin{umlcall}[op={Click()}, padding=4]{UserS}{ClientS} \end{umlcall}
+\begin{umlcall}[op={CreatePrivateRoom()}, return=Notifyuser(), padding=4]{ClientS}{ServerS}
+\begin{umlcall}[op={VerifyUser()}, return=VerifyUserOK(), padding=4]{ServerS}{BDD}\end{umlcall}
+\begin{umlcall}[op={SendKeysRom()}, padding=4]{ServerS}{ClientS} \end{umlcall}
 \end{umlcall}
-\begin{umlcall}[op={SendForm()}]{ClientS}{ServerS} 
-\begin{umlfragment}[type=alt, label=FormOK, inner xsep=5] 
-\begin{umlcallself}[op={FillInForm()}]{ServerS} \end{umlcallself}
-\begin{umlcall}[op={CheckCertificate()}, return=CheckCertificateOK(), padding=6]{ServerS}{LDD}\end{umlcall}
-\begin{umlcallself}[op={GenerateKeys()}]{ServerS} \end{umlcallself}
-\begin{umlcall}[op={BroadcastKeys()}]{ServerS}{ClientS1} \end{umlcall}
-\begin{umlcall}[op={AlertInvit()}]{ClientS1}{User1} \end{umlcall}
-\begin{umlcallself}[op={GenerateAdminKeys()}]{ServerS} \end{umlcallself} 
-\begin{umlcallself}[op={CreateRoom()}]{ServerS} \end{umlcallself} 
-\begin{umlcall}[op={ConnectRoom()}]{ServerS}{ClientS} \end{umlcall}
-\begin{umlcall}[op={NotifyAdmin()}]{ServerS}{Admin} \end{umlcall}
-\begin{umlcall}[op={ShowRoom()}]{ClientS}{Admin}\end{umlcall}
-\end{umlfragment}
-\end{umlcall}
-\end{umlcall}
+\begin{umlcall}[op={CreatePrivateRoom()}, padding=4]{ClientS}{Client} \end{umlcall}
+\begin{umlcall}[op={CreatePrivateRoom()}, padding=4]{Client}{Server} \begin{umlcallself}[op={CreatePrivateRoom()}]{Server} \end{umlcallself}\end{umlcall}
+\begin{umlcall}[op={ChangeStatus()}, padding=4]{ClientS}{Admin} \end{umlcall}
 \end{umlseqdiag}
 \end{tikzpicture}
 
