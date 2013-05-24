@@ -20,6 +20,8 @@
 \usepackage{multirow}
 \usepackage{rotating}
 \usepackage{pgfgantt}
+\usepackage{pgfcalendar}
+\usepackage{ifthen}
 \usepackage{gensymb}
 \usepgflibrary{arrows} % for pgf-umlsd
 
@@ -45,10 +47,14 @@
 \newcommand{\hmwkSubject}{Conduite de projet} % Subject
 \newcommand{\hmwkDocName}{Plan de développement détaillé} % Document name
 
-\newcommand{\version}{1.2} % Document version
-\newcommand{\docDate}{26 avril 2013} % Document date
+\newcommand{\version}{1.3} % Document version
+\newcommand{\docDate}{24 mai 2013} % Document date
 \newcommand{\checked}{} % Checker name
 \newcommand{\approved}{} % Approver name
+
+\makeatletter
+\newcommand{\resettranslate}{\let\translate\@firstofone}
+\makeatother
 
 \definecolor{gris}{rgb}{0.95, 0.95, 0.95}
 
@@ -65,6 +71,9 @@
 
 
 \begin{document}
+\newcount\startdate
+\newcount\daynum
+\pgfcalendardatetojulian{2013-01-021}{\startdate}
 \pagestyle{fancy}
 
 \vspace*{5cm}
@@ -111,6 +120,8 @@
 	1.1 & 21/02/2013 & Correction du document d'après le retour de Karim ABDELLAH GODARD\\
 	\hline
 	1.2 & 26/04/2013 & Mise à jour du planning réel de développement et des réunions hebdomadaires\\
+	\hline
+	1.3 & 24/05/2013 & Mise à jour du Gantt\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -312,60 +323,143 @@ Pour minimiser le risque de perte de sources, nous avons mis en place un dépôt
 
 
 \begin{landscape}
+\protected\def\zzz{\ {\pgfcalendarjuliantodate{\numexpr\startdate\relax}{\year}{\month}{\day}\day/\month\global\advance\startdate1}}
 \begin{tikzpicture}[x = 0.5cm]
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
-\gantttitle{Sprint 1 : Serveur et client de chat}{20}\\
-\gantttitlelist{1,...,20}{1}\\
-\ganttbar[bar/.style={fill=green!50}]{10.1}{1}{5}
-\ganttbar[bar/.style={fill=green!50}]{10.2}{11}{14}\\
-\ganttbar{1}{1}{4}\\
-\ganttbar[bar/.style={fill=green!50}]{6}{1}{3}\\
-\ganttbar{2}{5}{7}\\
-\ganttbar{3}{6}{8}\\
-\ganttbar[bar/.style={fill=green!50}]{8}{6}{8}\\
-\ganttbar{4}{8}{10}\\
-\ganttbar[bar/.style={fill=green!50}]{7}{8}{10}\\
-\ganttbar{5}{9}{11}\\
-\ganttbar[bar/.style={fill=green!50}]{9}{9}{11}\\
-\ganttbar[bar/.style={fill=red!50}]{Tests}{12}{20}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+\gantttitle{Sprint 1 : Serveur et client de chat }{14}\\
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
+
+\ganttbar[bar/.style={fill=green!50}]{10.1 (CA, JL)}{1}{5}
+\ganttbar[bar/.style={fill=green!50}]{10.2 (JL)}{11}{12}\\
+\ganttbar{1 (IK, YN)}{1}{5}\\
+\ganttbar[bar/.style={fill=green!50}]{6 (JBS)}{1}{3}\\
+
+\ganttbar{2 (YN,JBS)}{8}{10}\\
+\ganttbar{3 (IK,JL)}{8}{10}\\
+\ganttbar[bar/.style={fill=green!50}]{8 (CA)}{8}{10}\\
+\ganttbar{4 (JBS)}{11}{12}\\
+\ganttbar[bar/.style={fill=green!50}]{7 (YN)}{11}{12}\\
+\ganttbar{5 (CA)}{11}{12}\\
+\ganttbar[bar/.style={fill=green!50}]{9 (IK)}{11}{12}
+
+\end{ganttchart}
+\end{tikzpicture}
+\\
+
+\begin{tikzpicture}[x = 0.5cm]
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{10.2 (JL)}{1}{3}\\
+\\
+\\
+\\
+\\
+\ganttbar{4 (JBS)}{1}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{7 (YN)}{1}{1}\\
+\ganttbar{5 (CA)}{1}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{9 (IK)}{1}{1}\\
+\ganttbar[bar/.style={fill=red!50}]{Tests}{2}{5}
+\ganttbar[bar/.style={fill=red!50}]{Tests}{8}{12}
+\end{ganttchart}
+\end{tikzpicture}
+
+\newpage
+
+\begin{tikzpicture}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+\gantttitle{Sprint 2 : Certificats}{14}\\
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{1.1 (IK, YN)}{1}{4}\\
+\ganttbar[bar/.style={fill=yellow!50}]{3 (JL, JBS)}{1}{4}\\
+\ganttbar[bar/.style={fill=yellow!50}]{2 (CA,IK)}{5}{5}
+\ganttbar[bar/.style={fill=yellow!50}]{2 (CA,IK)}{8}{9}\\
+
+\ganttbar[bar/.style={fill=yellow!50}]{4 (CA, JL)}{10}{12}\\
+\ganttbar[bar/.style={fill=yellow!50}]{5 (YN, JBS)}{10}{12}\\
+
+\end{ganttchart}
+\end{tikzpicture}
+\\
+
+\begin{tikzpicture}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{1.2 (IK)}{1}{3}\\
+\\
+\\
+\\
+\\
+\ganttbar[bar/.style={fill=yellow!50}]{6 (YN)}{1}{3}\\
+\ganttbar[bar/.style={fill=yellow!50}]{7 (CA, IK)}{1}{3}\\
+\ganttbar[bar/.style={fill=red!50}]{Tests}{8}{12}
+\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 1}{1}{5}
+\end{ganttchart}
+\end{tikzpicture}
+
+
+
+\newpage
+
+
+
+\begin{tikzpicture}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+\gantttitle{Sprint 3 : Serveur et client de chat sécurisés}{14}\\
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
+\ganttbar{Apprentissage SSL}{1}{5}\\
+\ganttbar{3 (CA, IK)}{8}{12}\\
+\ganttbar{4 (YN, JBS)}{8}{12}\\
+
+
+
+\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 2}{1}{5}
+\ganttbar[bar/.style={fill=red!50}]{Configuration serveur EJBCA (JL)}{8}{12}
+
 \end{ganttchart}
 \end{tikzpicture}
 
 \begin{tikzpicture}
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
-\gantttitle{Sprint 2 : Certificats}{20}\\
-\gantttitlelist{1,...,20}{1}\\
-\ganttbar[bar/.style={fill=green!50}]{1.1}{1}{4}
-\ganttbar[bar/.style={fill=green!50}]{1.2}{11}{13}\\
-\ganttbar[bar/.style={fill=yellow!50}]{3}{1}{4}\\
-\ganttbar[bar/.style={fill=yellow!50}]{2}{5}{7}\\
-\ganttbar[bar/.style={fill=yellow!50}]{4}{8}{10}\\
-\ganttbar[bar/.style={fill=yellow!50}]{5}{8}{10}\\
-\ganttbar[bar/.style={fill=yellow!50}]{6}{11}{13}\\
-\ganttbar[bar/.style={fill=yellow!50}]{7}{11}{13}\\
-\ganttbar[bar/.style={fill=red!50}]{Tests}{14}{20}
-\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 1}{1}{10}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
+\ganttbar{3 (CA, IK)}{1}{5}\\
+\ganttbar{4 (YN, JBS)}{1}{5}\\
+\ganttbar[bar/.style={fill=red!50}]{Configuration serveur EJBCA (JL)}{1}{5}
+
+\ganttbar{Apprentissage EVP}{8}{12}\\
+\ganttbar[bar/.style={fill=green!50}]{9 (JL)}{8}{10}\\
+
 \end{ganttchart}
 \end{tikzpicture}
 
 \begin{tikzpicture}
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
-\gantttitle{Sprint 3 : Serveur et client de chat sécurisés}{20}\\
-\gantttitlelist{1,...,20}{1}\\
-\ganttbar{3}{1}{4}\\
-\ganttbar{4}{1}{4}\\
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{14}
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,14}{1}\\
 
-\ganttbar{1}{5}{8}\\
-\ganttbar[bar/.style={fill=green!50}]{6}{5}{7}\\
-\ganttbar[bar/.style={fill=green!50}]{7}{5}{6}\\
+\ganttbar[bar/.style={fill=green!50}]{5 (CA)}{8}{11}\\
 
-\ganttbar{2}{8}{10}\\
-\ganttbar[bar/.style={fill=green!50}]{8}{9}{10}\\
+\ganttbar{1 (JL, JBS)}{8}{11}\\
 
-\ganttbar[bar/.style={fill=green!50}]{5}{11}{14}\\
+\ganttbar[bar/.style={fill=green!50}]{7 (C, I)}{12}{12}\\
 
-\ganttbar[bar/.style={fill=red!50}]{Tests}{11}{20}
-\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 2}{1}{10}
+\ganttbar{2 (IK, YN)}{8}{11}\\
+
+
+
+\end{ganttchart}
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+\begin{ganttchart}[vgrid, bar top shift=0., bar height=1, y unit chart=0.5cm, x unit=1.5cm,inline]{7}
+\gantttitlelist[title list options={var=\y, evaluate=\y as \x using "\zzz"}]{1,...,7}{1}\\
+
+\ganttbar[bar/.style={fill=green!50}]{7 (C, I)}{1}{1}\\
+\ganttbar[bar/.style={fill=green!50}]{8 (C, J)}{2}{3}\\
+\ganttbar[bar/.style={fill=green!50}]{6 (YN, JBS)}{1}{2}\\
+
+\ganttbar[bar/.style={fill=red!50}]{Tests}{1}{5}
+
 \end{ganttchart}
 \end{tikzpicture}
 \end{landscape}
@@ -579,80 +673,5 @@ L’ordre du jour de la réunion était : coordination des tâches par rapport a
 
 Les tâches de la semaine : 1, 2, 5, 7, 8
 \end{paragraph}
-
-\section{Planning réel de développement}
-
-\begin{landscape}
-\begin{tikzpicture}[x = 0.5cm]
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
-\gantttitle{Sprint 1 : Serveur et client de chat}{20}\\
-\gantttitlelist{1,...,20}{1}\\
-\ganttbar[bar/.style={fill=green!50}]{10.1}{1}{5}
-\ganttbar[bar/.style={fill=green!50}]{10.2}{11}{15}\\
-\ganttbar{1}{1}{5}\\
-\ganttbar[bar/.style={fill=green!50}]{6}{1}{3}\\
-\ganttbar{2}{6}{8}\\
-\ganttbar{3}{6}{8}\\
-\ganttbar[bar/.style={fill=green!50}]{8}{6}{8}\\
-\ganttbar{4}{9}{11}\\
-\ganttbar[bar/.style={fill=green!50}]{7}{9}{11}\\
-\ganttbar{5}{9}{11}\\
-\ganttbar[bar/.style={fill=green!50}]{9}{9}{11}\\
-\ganttbar[bar/.style={fill=red!50}]{Tests}{12}{20}
-\end{ganttchart}
-\end{tikzpicture}
-
-\begin{tikzpicture}
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{20}
-\gantttitle{Sprint 2 : Certificats}{20}\\
-\gantttitlelist{1,...,20}{1}\\
-\ganttbar[bar/.style={fill=green!50}]{1.1}{1}{4}
-\ganttbar[bar/.style={fill=green!50}]{1.2}{11}{13}\\
-\ganttbar[bar/.style={fill=yellow!50}]{3}{1}{4}\\
-\ganttbar[bar/.style={fill=yellow!50}]{2}{5}{7}\\
-\ganttbar[bar/.style={fill=yellow!50}]{4}{8}{10}\\
-\ganttbar[bar/.style={fill=yellow!50}]{5}{8}{10}\\
-\ganttbar[bar/.style={fill=yellow!50}]{6}{11}{13}\\
-\ganttbar[bar/.style={fill=yellow!50}]{7}{11}{13}\\
-\ganttbar[bar/.style={fill=red!50}]{Tests}{14}{20}
-\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 1}{1}{10}
-\end{ganttchart}
-\end{tikzpicture}
-\end{landscape}
-\begin{tikzpicture}
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{15}
-\gantttitle{Sprint 3 : Serveur et client de chat sécurisés}{15}\\
-\gantttitlelist{1,...,15}{1}\\
-\ganttbar{Apprentissage SSL}{1}{5}\\
-\ganttbar{3}{6}{15}\\
-\ganttbar{4}{6}{15}\\
-
-
-
-\ganttbar[bar/.style={fill=red!50}]{Correction bugs sprint 2}{1}{10}
-
-\end{ganttchart}
-\end{tikzpicture}
-
-\begin{tikzpicture}
-\begin{ganttchart}[vgrid, bar top shift=0., bar height=.8, y unit chart=0.5cm, x unit=1cm,inline]{15}
-\gantttitlelist{16,...,30}{1}\\
-
-\ganttbar{Apprentissage EVP}{1}{5}\\
-\ganttbar[bar/.style={fill=green!50}]{Interface}{3}{5}\\
-\ganttbar{1}{6}{10}\\
-
-\ganttbar[bar/.style={fill=green!50}]{7}{6}{10}\\
-
-\ganttbar{2}{6}{10}\\
-\ganttbar[bar/.style={fill=green!50}]{8}{6}{10}\\
-
-\ganttbar[bar/.style={fill=green!50}]{5}{6}{10}\\
-
-
-\end{ganttchart}
-\end{tikzpicture}
-
-
 
 \end{document}
