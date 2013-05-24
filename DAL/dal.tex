@@ -660,7 +660,7 @@ Les principales parties à développer:
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
-	\multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item L'User S tape son message dans le Client \item Le Client S chiffre son message grace à sa clé privée \item Le Client S transmet le message au client \item Le Client envoi son message au server avec l'identité du/des destinataire(s) \item Le Server transmet le message \item Le Client destinataire transmet le message à son Client S \item Le Client S déchiffre le message grace à la clé publique de l'User S \item Le Client affiche le message re\c cu par le(s) destinataire(s) \end{enumerate}}\\
+	\multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item L'User S tape son message dans le Client \item Le Client S chiffre son message grace à sa clé symétrique \item Le Client S transmet le message au client \item Le Client envoi son message au server avec l'identité du/des destinataire(s) \item Le Server transmet le message \item Le Client S destinataire déchiffre le message avec la clé publique du salon \item Le Client affiche le message re\c cu par le(s) destinataire(s) \end{enumerate}}\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -764,7 +764,7 @@ Les principales parties à développer:
 \begin{umlcall}[op={Click()}, return=ShowRoom()]{User}{Client}
 \begin{umlcall}[op={Connect()}]{Client}{Server} \end{umlcall}
 \begin{umlcall}[padding=4, op={CheckUser()}]{Server}{LDD}
-\begin{umlfragment}[type=alt, label=CertifOK, inner xsep=5]
+\begin{umlfragment}[type=alt, label=CheckUserOK, inner xsep=5]
 \begin{umlcall}[padding=8,op={Register()}, return=RegisterOK()]{Server}{LDD}
 \begin{umlcallself}[op={Connect()}]{Server} \end{umlcallself}
 \begin{umlcall}[op={NotifyNewConnected()}, return=NotifyOK(), padding=6]{Server}{Client1} 
@@ -804,7 +804,7 @@ Les principales parties à développer:
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
-	\multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Demande de déconnexion de l'User dans le Client \item Demande de déconnexion du Client au Server \item Suppression de l'User dans la BDD par le Server S\item Déconnexion de l'utilisateur \item Notification à l'User \end{enumerate}}\\
+	\multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Demande de déconnexion de l'User dans le Client \item Demande de déconnexion du Client au Server \item Suppression de l'User dans la BDD par le Server S\item Déconnexion de l'User \item Notification à l'User \end{enumerate}}\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -970,7 +970,7 @@ Les principales parties à développer:
 	\hline
 	\multicolumn{2}{|l|}{\textbf{Processus de mise en \oe uvre}}\\
 	\hline
-	\multicolumn{2}{|p{15cm}|}{\begin{enumerate}\item Demande de création par l'User sur le Client \item Envoi de la demande au Server S \item Vérification verification du formulaire par l'AR \item Envoi de demande de clé à l'AC \item génération des clés par l'AC \item Envoi des clés générés au Client S \item Demande de création par le Client S au Server S \item Création du salon et connexion de l'User S \end{enumerate}}\\
+	\multicolumn{2}{|p{15cm}|}{\begin{enumerate} \item Demande de création par le Client S au Server S \item Connexion de l'User dans le salon crée\item Création du salon et distribution des clés pour la communication à l'User S\end{enumerate}}\\
 	\hline
 	\end{tabularx}
 \end{center}
@@ -978,14 +978,16 @@ Les principales parties à développer:
 \begin{tikzpicture}[remember picture,transform shape,scale=0.6]
 \begin{umlseqdiag}
 \umlactor[class=S]{User}
-\umlactor[class=]{Admin}
+\umlobject[class=]{Client}
 \umlobject[class=]{ClientS}
+\umlobject[class=]{Server}
 \umlobject[class=]{ServerS}
 \umlobject[class=]{LDD}
-\umlobject[class=]{ClientS1}
 \umlactor[class=S]{User1}
-\begin{umlcall}[op={Click()}, return=ShowRoom(), padding=7]{User}{ClientS}
-\begin{umlcallself}[op={Form()}]{ClientS} \end{umlcallself} 
+\umlactor[class=]{Admin}
+\begin{umlcall}[op={Click()}, return=ShowRoom(), padding=7]{User}{Client}
+\begin{umlcall}[op={ActiveModuleSec()}]{Client}{ClientS} \end{umlcall}
+\begin{umlcall}[op={CreateRoomSec()}]{Client}{Server} \end{umlcall}
 \begin{umlcall}[op={showForm()}, return=ValidForm(), padding=7]{ClientS}{User} 
 \end{umlcall}
 \begin{umlcall}[op={SendForm()}]{ClientS}{ServerS} 

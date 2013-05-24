@@ -180,17 +180,19 @@
 Dans le cadre de notre projet, il nous à été demandé de réaliser un chat sécurisé. Pour le mener à bien, le travail à été découpé en deux grandes phases qui sont l'analyse des besoins du client et les solutions proposées.
 
 \section{Besoins du client}
-Les besoins du logiciel sont les points indispensables, nécessaires et imposés par le client. Ce sont ces exigences qui détermineront les fonctionnalités du logiciel. Les exigences sont les suivantes:
-\vspace{.5cm}
-\begin{itemize}\item gestion de la création et de la suppression d’un compte utilisateur;\item création par un utilisateur d’une salle de discussion privée;\item ajout et suppression d’un utilisateur autorisé dans une salle privée;\item confidentialité, intégrité et authentification sur les messages échangés;\item non répudiation des messages;\item création d’une autorité de certification;\item demande de certificat pour l’accès à un salon privé et la communication sécurisée.\end{itemize}
+Les besoins du logiciel sont les points indispensables, nécessaires et imposés par le client. Ce sont ces exigences qui détermineront les fonctionnalités du logiciel. Dans notre sujet, on le résume de la manière suivante:\\ 
+
+\textbf{\'Etudier les protocoles cryptographiques permettant à plusieurs utilisateurs de s’authentifier et de communiquer de manière s'écurisée à travers un outil de messagerie instantanée.}\\
+
+\'A l'a fin du développement, l'outil de messagerie instantanée devra répondre aux besoins de la garantie que les messages soient échangés entre utilisateurs, de la preuve de la mise en place du système de sécrurité ainsi que les protocoles déployés pour parvenir à la fin du développement.
 
 \section{Solutions proposées}
-\`A l'issue de l'analyse des besoins du client, il a été convenu de traiter la demande du client en décomposant la réalisation du logiciel en trois phases de développement qui sont:
-\begin{enumerate}\item la mise en place du système de bavardage;\item l'installation d'une PKI (infrastructure de clés publiques);\item la mise en place d'une couche sécurisée pour permettre une communication chiffrée.\end{enumerate}
+\`A l'issue de l'analyse des besoins du client, il a été convenu de traiter sa demande en décomposant la réalisation du logiciel en trois phases de développement.
+\begin{itemize}\item \textbf{Phase 1:} Mise en place du système de bavardage modèle client-serveur;\item \textbf{Phase 2:} Installation d'une PKI (infrastructure de clés publiques);\item \textbf{Phase 3:} Mise en place d'une couche sécurisée pour permettre une communication chiffrée.\end{itemize}
 \vspace{.5cm}
 
 \subsection{Structure du logiciel}
-Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque partie puisse \^etre utilisée de manière indépendante. L'architecture du logiciel est la suivante:\\
+Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque partie puisse \^etre utilisée de manière indépendante. Son architecture se présente ainsi:\\
 
 \begin{center}
 \begin{tikzpicture}[node distance=-.01cm,font=\tiny,scale=1.8,every node/.style={transform shape}]
@@ -235,25 +237,24 @@ Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque p
 		\end{center} 
 		\vspace{.3cm}
 		
-La partie 1 met en place le coté client de l'application. Elle est constituée de deux grandes parties qui sont l'application cliente et le module client sécurisé. L'application cliente permettra de réaliser toute la partie communication non sécurisé dont les principales fonctionnalités sont décrites ci-dessous.
+Sur le schéma précendent on voit bien la séparation de la partie logicielle de la partie sécuritée, mais aussi les différentes ccouches qui interviennent dans le développement du logicielle. Ces couches sont la partie logicielle, la partie réseaux et la partie base de données.\\
+
+La partie logicielle met en place le coté client de l'application. Elle comporte deux modules qui sont l'application cliente et le module client sécurisé. L'application cliente permet à l'utilisateur de pourvoir communiquer avec d'autres utilisateurs de manière non sécurisée. Ce qui veut dire que chaque message pourra être lu par tout utilisateur présent dans un salon.\\Quant au module client sécurisé, il permet d'établir une communication sécurisée entre plusieurs utilisateurs. Une communication sécurisée masque le message à tout utilisateur n'etant pas destinataire du message en question. \\Cette partie implémente les principales fonctionnalités suivantes:
 \begin{itemize}\item création d’un compte sécurisé; \item envoi de message sur salon privé; \item envoi de message sur salon général;\item rejoindre un serveur de chat sans authentification;\item quitter un serveur de chat;\item envoi d’un message privé non sécurisé;\item créer un salon privé; \item joindre un salon privé; \item fermeture d’un salon privé.\end{itemize}
-\vspace{.12cm}
-Quant à la partie module client sécurisé, elle permettra d'établir une communication sécurisée dont les fonctionnalités seront décrites dans la partie relative à la mise en place de sécurité. La partie 1 est la partie applicative de l'application.\\
+\vspace{.6cm}
 
-La partie 2 permet de mettre en place une pki (infrastructure de clés publiques). Cette infrastructure permettra de délivrer les clés nécessaire pour la communication entre les utilisateurs connectés, mais aussi de d'authentifier des utilisateurs présent sur le système de bavardage. Nous avons opté pour une pki déjà existante EJBCA qui remplira les fonctionnalités suivantes.
+La partie réseaux est décomposée en trois éléments qui sont le serveur, le serveur sécurisé et la PKI. Chacun de ces éléments ont un rôle bien définis et tous distincts. \\Le role du serveur est de distribuer les messages aux destinataires.\\Le role du serveur sécurisé est de distribuer les clés symétriques permettant le chiffrement et le déchiffrement des messages des utilisateurs sécurisés.\\La PKI est une autorité de confiance qui permet d'établir l'authenticité et l'identité d'un utilisateur sécurisé. Nous avons opté pour une pki déjà existante EJBCA qui remplira les fonctionnalités suivantes.
 \begin{itemize}\item ajout certificat à un utilisateur;\item révocation d’un certificat;\item renouvellement des clefs des salons privés.\end{itemize}
-Dans cette partie, on retrouve les serveurs sécurisés et non sécurisés qui ont pour respectivement pour rôle de permettre la communication entre deux clients et délivrer les clefs symétriques aux utilisateurs pour pouvoir établir une communication privée entre deux utilisateurs sécurisés. L'ensemble de ces trois éléments constitue la partie réseaux de l'application.\\
+\vspace{.6cm}
 
-La partie 3 décrit les bases de données utilent à l'application. Ces bases sont au nombres de trois.\\
-Le premier permet la gestion des utilisateurs non sécurisés. Cette gestion se fait via le serveur non sécurisé. Les utilisateurs seront gérés par une base de donnée temporaire (liste chainée) pour déterminer l'existance d'un utilisateur déjà présent.\\ 
-Le second permet le stockage des certificats générés par la PKI. Ces certifcats seront stockés dans une base de données interne à l'application EJBCA.\\ 
-La dernière base de données permet le stockage des utilisateurs sécurisés qui se fera via le serveur sécurisé dans une base de données embarquée où seront répertoriés les pseudonymes des utilisateurs et le champ "subject" correspondant au certificat qui leur sera attribué.
+La partie base de données décrit les données manipulées et utilent à l'application. L'application en possède trois.\\
+La première permet la gestion des utilisateurs non sécurisés. Cette base de données est rattachée au serveur non sécurisé. Elle est non persistante, ce qui veut dire que lors de la fin de l'utilisation du logiciel par un utilisateur, celui-ci ne sera pas conservé en base. Cette base à pour role de lister tout utilisateur déjà présent sur le service de chat.\\
+La seconde permet la gestion des utilisateurs sécurisés. Contrairement à la première, cette base est persistante car tout utilisateur sécurisé pourra se reconnecter au service de chat autant de fois qu'il le souhaite.\\ La dernière permet le stockage des certificats générés par la PKI. Ces certifcats définissent l'identité d'un utilisateur et sont stockés dans une base de données interne à l'application EJBCA.
 
 \subsection{Détail de la couche sécurisée}
-La couche sécurisée est nécessaire pour echanger des messages sécurisés sans que celui-ci ne puisse être lu par un autre utilisateur. Dans cette partie, l'utilisation de la bibliothèque OpenSSL a été choisie pour assurer la mise en place d'un canal de communication sécurisé entre deux utilisateurs sécurisés.\\La PKI et le serveur sécurisé intervienent dans la couche sécurisée car la PKI permet de délivrer des certificats aux utilisateurs sécurisés et le serveur sécurisé permet de délivrer les clefs de communication nécessaire entre deux utilisateurs sécurisés. Pour garantir que l'application fourni respecte bien les exigences du client, l'application réalise les exigences fonctionnelles suivantes:
-\begin{itemize}\item création d’un compte sécurisé;\item suppression compte sécurisé par l’utilisateur sécurisé;\item rejoindre un serveur de chat sécurisé avec authentification; \item quitter un serveur de chat sécurisé;\item exclure utilisateur sécurisé d’un salon privé;\item invitation d’un utilisateur sécurisé dans un salon privé;\item envoi d’un message privé sécurisé.\end{itemize}
-\vspace{.6cm}
-Il est à souligner que toutes les fonctionnalités réalisées par un utilisateur non sécurisé peuvent \^etre réalisées par un utilisateur sécurisé.\\
+La couche sécurisée contient le module sécurisé, la PKI, le serveur sécurisé et la base de données qui lui est jointe. Cette couche est nécessaire pour échanger et garantir l'échange des messages sécurisés sans que celui-ci ne puisse être lu par un autre utilisateur. Pour mettre en place cette partie, on utilise la bibliothèque OpenSSL pour assurer la mise en place d'un canal de communication sécurisé entre deux utilisateurs sécurisés.\\Comme dit ci-dessus, la PKI, autorité de confiance, permettra de garantir et d'identifier les utilisateurs présent sur le système de chat. On a aussi vu précédemment quel role joue le serveur sécurisé. Toute la mise en \oe uvre ainsi décrite permet de garantir un système de chat respectant les normes et les exigences du client. \\
+
+Pour se rassurer que l'application fourni respecte bien les exigences du client, l'application implante des exigences fonctionnelles que l'on peut retrouver dans le cachier de recette, ou on peut voir les différents test garantissant de la mise en place de la couche sécurisée.
 
 \subsection{Choix des langages}
 Le choix des langages pour réaliser le projet sont le C pour la réalisation du serveur non sécurisé et du serveur sécurisé ainsi que des client, sécurisé et non sécurisés.\\La réalisation de la base de données embarquée s'est faite en sqlite.\\La partie graphique quant à été faite en Vala, car ce langag s'exporte en C très facilement.\\
