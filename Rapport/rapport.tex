@@ -20,7 +20,7 @@
 \usepackage{multirow}
 \usepackage{rotating}
 %\usepackage{pgfgantt}
-\usepackage{gensymb}
+%\usepackage{gensymb}
 \usepackage[toc,page]{appendix} 
 \usepackage{pgfplots}
 \usepackage{eurosym}
@@ -164,21 +164,21 @@
 \large
 \chapter{Introduction}
 
-Les outils de messagerie instantanée sont de nos jours largement utilisés par les particuliers et entreprises. Ces communications donnent 
-parfois lieu à des échanges de données confidentielles or, la sécurité des données et l'authentification des utilisateurs n'y est géneralement pas assurée. Il est donc important 
+Les outils de messagerie instantanée sont de nos jours largement utilisés par les particuliers et entreprises. Ces communications donnent 
+parfois lieu à des échanges de données confidentielles. Or, la sécurité des données et l'authentification des utilisateurs n'y est généralement pas assurée. Il est donc important 
 d'avoir à disposition des outils permettant d'assurer la confidentialité d'une 
 communication. C'est donc dans le cadre de notre projet annuel de première année 
-de master en sécurité des systèmes d'information que nous avons étudier les protocoles cryptographiques permettant a plusieurs utilisateurs de s'authentifier et de communiquer de manière securisée a travers un
-outil de messagerie instantanée permettant la confidentialité et l'intégrité 
-des données échangées.
+de master en sécurité des systèmes d'information que nous avons étudié les protocoles cryptographiques permettant à plusieurs utilisateurs de s'authentifier et de communiquer de manière sécurisée à travers un
+outil de messagerie instantanée permettant la confidentialité et l'intégrité 
+des données échangées.\\
 
-La couche de sécurité mis en place sur un outil de 
-messageris instantanée va permettre de pouvoir dialoguer avec des utilisateurs 
+La couche de sécurité mise en place sur un outil de 
+messagerie instantanée va permettre de pouvoir dialoguer avec des utilisateurs 
 authentifiés dont l'identité est connue, d'avoir la certitude de l'intégrité des 
 messages reçus, c'est à dire que le message n'a pas été modifié entre deux 
 interlocuteurs puis une confidentialité assurée des contenus échangés grâce à 
-des outils cryptographique forts mis en place empêchant toute lisibilité des 
-données transitant entre utilisateurs.
+des outils cryptographiques forts mis en place empêchant toute lisibilité des 
+données transitant entre utilisateurs.\\
 
 Dans un premier temps nous allons faire une présentation plus détaillé du sujet 
 en analysant les besoins du client puis nous présenterons les solutions proposées afin 
@@ -206,11 +206,15 @@ Les besoins du logiciel sont les points indispensables, nécessaires et imposés
 
 \textbf{\'Etudier les protocoles cryptographiques permettant à plusieurs utilisateurs de s’authentifier et de communiquer de manière s'écurisée à travers un outil de messagerie instantanée.}\\
 
-\'A l'a fin du développement, l'outil de messagerie instantanée devra répondre aux besoins de la garantie que les messages soient échangés entre utilisateurs, de la preuve de la mise en place du système de sécrurité ainsi que les protocoles déployés pour parvenir à la fin du développement.
+\'A l'a fin du développement, l'outil de messagerie instantanée devra répondre aux besoins du client, garantir que les messages soient échangés entre utilisateurs, prouver la mise en place du système de sécrurité ainsi que les protocoles déployés pour parvenir à un système de bavardage totalement sûr.
 
 \section{Solutions proposées}
 \`A l'issue de l'analyse des besoins du client, il a été convenu de traiter sa demande en décomposant la réalisation du logiciel en trois phases de développement.
-\begin{itemize}\item \textbf{Phase 1:} Mise en place du système de bavardage modèle client-serveur;\item \textbf{Phase 2:} Installation d'une PKI (infrastructure de clés publiques);\item \textbf{Phase 3:} Mise en place d'une couche sécurisée pour permettre une communication chiffrée.\end{itemize}
+\begin{itemize}
+\item \textbf{Phase 1:} Mise en place du système de bavardage modèle client-serveur;
+\item \textbf{Phase 2:} Installation d'une PKI (infrastructure de clés publiques);
+\item \textbf{Phase 3:} Mise en place d'une couche sécurisée pour permettre une communication chiffrée.
+\end{itemize}
 \vspace{.5cm}
 
 \subsection{Structure du logiciel}
@@ -262,7 +266,17 @@ Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque p
 Sur le schéma précendent on voit bien la séparation de la partie logicielle de la partie sécuritée, mais aussi les différentes ccouches qui interviennent dans le développement du logicielle. Ces couches sont la partie logicielle, la partie réseaux et la partie base de données.\\
 
 La partie logicielle met en place le coté client de l'application. Elle comporte deux modules qui sont l'application cliente et le module client sécurisé. L'application cliente permet à l'utilisateur de pourvoir communiquer avec d'autres utilisateurs de manière non sécurisée. Ce qui veut dire que chaque message pourra être lu par tout utilisateur présent dans un salon.\\Quant au module client sécurisé, il permet d'établir une communication sécurisée entre plusieurs utilisateurs. Une communication sécurisée masque le message à tout utilisateur n'etant pas destinataire du message en question. \\Cette partie implémente les principales fonctionnalités suivantes:
-\begin{itemize}\item création d’un compte sécurisé; \item envoi de message sur salon privé; \item envoi de message sur salon général;\item rejoindre un serveur de chat sans authentification;\item quitter un serveur de chat;\item envoi d’un message privé non sécurisé;\item créer un salon privé; \item joindre un salon privé; \item fermeture d’un salon privé.\end{itemize}
+\begin{itemize}
+\item création d’un compte sécurisé;
+\item envoi de message sur salon privé;
+\item envoi de message sur salon général;
+\item rejoindre un serveur de chat sans authentification;
+\item quitter un serveur de chat;
+\item envoi d’un message privé non sécurisé;
+\item créer un salon privé;
+\item joindre un salon privé;
+\item fermeture d’un salon privé.
+\end{itemize}
 \vspace{.6cm}
 
 La partie réseaux est décomposée en trois éléments qui sont le serveur, le serveur sécurisé et la PKI. Chacun de ces éléments ont un rôle bien définis et tous distincts. \\Le role du serveur est de distribuer les messages aux destinataires.\\Le role du serveur sécurisé est de distribuer les clés symétriques permettant le chiffrement et le déchiffrement des messages des utilisateurs sécurisés.\\La PKI est une autorité de confiance qui permet d'établir l'authenticité et l'identité d'un utilisateur sécurisé. Nous avons opté pour une pki déjà existante EJBCA qui remplira les fonctionnalités suivantes.
@@ -706,18 +720,18 @@ Pour se déconnecter,
 
 Ce projet a été découpé en deux parties distinctes, l'analyse et l'étude d'un sujet associé à une gestion de projet
 afin de proposer une solution au client puis une deuxième phase qui a été 
-l'implémentation de la solution proposée également accompagné d'une gestion de 
-projet.
+l'implémentation de la solution proposée également accompagnée d'une gestion de 
+projet.\\
 
 L'étude et l'analyse théorique du sujet lors de la première phase de projet nous a permis
-d'apprendre à mettre en place des documents spécifique et détaillés sur chaque fonctionnalités en utilisant des méthodes de conception 
+d'apprendre à mettre en place des documents spécifiques et détaillés sur chaque fonctionnalités en utilisant des méthodes de conception 
 professionnelle. La méthode agile, scrum, que nous avons choisi a permis d'établir un planning de gestion et un découpage astucieux du projet en plusieurs
-étapes et ainsi proposer une solution structurée respectant au mieux les besoins du client.
+étapes et ainsi proposer une solution structurée respectant au mieux les besoins du client.\\
 
-La deuxième phase, d'implémentation, a été un moyen de mettre en pratique 
+La deuxième phase d'implémentation, a été un moyen de mettre en pratique 
 nos techniques de programmation acquise au cours de nos formations antérieur, nos connaissances théorique en cryptographie
-mais également d'apprendre de nouvelles technologie en particulier pour la mise en place des techniques de cryptographie 
-et la gestion d'une autorité de certification avec certificats dans une application concrète et fonctionnelle.
+mais également d'apprendre de nouvelles technologies, en particulier pour la mise en place des techniques de cryptographie 
+et la gestion d'une autorité de certification avec certificats dans une application concrète et fonctionnelle.\\
 
 La méthode agile, scrum, utilisé pour ce projet, a simplifié les phases afin d’en raccourcir la durée.
 Les méthodes agiles, se basent sur la notion de communauté de projet dans laquelle les développeurs
