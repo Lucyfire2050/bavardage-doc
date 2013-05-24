@@ -496,6 +496,35 @@ Les commandes suivantes doivent être exécuter dans le dossier racine du projet
 
 \section{Exécution}
 
+\subsection{Demande de certificat}
+
+Pour faire une demande de création de compte sécurisé, l'utilisateur doit envoyer un e-mail à julien.legras@etu.univ-rouen.fr . Il faut renseigner les informations suivantes:
+\begin{itemize}
+\item les noms et prénoms
+\item le pays
+\item la ville
+\item l'organisation
+\item l'adresse mail
+\item le département
+\end{itemize}
+
+Après avoir reçu le message de confirmation de compte créé par l'administrateur, il faut générer une clé RSA 2048 avec la commande:
+
+\verb+ $ openssl genrsa -out maclef.pem 2048+
+
+Puis on crée la requête:
+
+\verb+ $ openssl req -new -key maclef.pem -out marequete.req+
+
+Pour récupérer son certificat, il faut aller dans la partie publique du site web à l'adresse \url{http://inf-srv-securechat:8080/ejbca/enrol/server.jsp} puis :
+\begin{itemize}
+\item Entrez les identifiants (login/mot de passe) fournis par l'administrateur;
+\item Selectionner le fichier "marequete.req" généré sur votre ordinateur;
+\item Valider avec le bouton "OK".
+\end{itemize}
+
+\newpage
+\includegraphics[scale=0.35]{capture/ejbca_cert.png}
 \subsection{Serveur non sécurisé}
 Pour lancer le serveur non sécurisé, il faut d'abord se rendre dans le répertoire "server" du répertoire build et taper les instructions suivantes:
 
@@ -612,7 +641,6 @@ Pour effectuer une connexion non sécurisée, il faut:
     \item Cliquer sur le bouton "Se connecter" pour lancer la connexion;
     \item Cliquer sur le bouton "Annuler" pour annuler la connexion;
 \end{enumerate}
-\newpage
 
 \subsubsection{Connexion sécurisée}
 
@@ -704,6 +732,7 @@ Pour exclure un utilisateur,
     \item Sélectionner le pseudo de l'utilisateur dans la liste des contacts connectés;
     \item Cliquer sur "Exclure".
 \end{enumerate}
+\newpage
 
 \subsubsection{Quitter un salon}
 
