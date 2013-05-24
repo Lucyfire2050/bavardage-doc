@@ -15,11 +15,11 @@
 \usepackage{tabularx, longtable}
 \usepackage{color, colortbl}
 \usepackage{lscape}
-\usepackage[hidelinks]{hyperref}
+%\usepackage[hidelinks]{hyperref}
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{rotating}
-\usepackage{pgfgantt}
+%\usepackage{pgfgantt}
 \usepackage{gensymb}
 \usepackage[toc,page]{appendix} 
 \usepackage{pgfplots}
@@ -448,7 +448,228 @@ Les commandes suivantes doivent être exécuter dans le dossier du projet git ba
 
 \section{Exécution}
 
+\subsection{Serveur non sécurisé}
+Pour lancer le serveur non sécurisé, il faut d'abord se rendre dans le répertoire "server" du répertoire build et taper les instructions suivantes:
 
+\begin{verbatim}
+    $ ./server ADRESSE_SERVEUR PORT_SERVEUR
+\end{verbatim}
+
+\verb+ADRESSE_SERVEUR+: l'adresse IP ou le nom de domaine du serveur non sécurisé
+
+\verb+PORT_SERVEUR:+ le numéro du port d'écoute du serveur
+
+\subsection{Serveur sécurisé}
+Pour lancer le serveur sécurisé, il faut d'abord se rendre dans le répertoire "serversec" du répertoire "build" et taper les instructions suivantes:
+\begin{verbatim}
+    $ ./serversec ADRESSE_SERVEUR_SEC PORT_SERVEUR_SEC
+\end{verbatim}
+
+\verb+ADRESSE_SERVEUR_SEC+: l'adresse IP ou le nom de domaine du serveur sécurisé
+
+\verb+PORT_SERVEUR_SEC+: le numéro du port d'écoute du serveur sécurisé
+
+\subsection{Client}
+Pour lancer le client, il faut se rendre dans le répertoire "client" du répertoire "build" et lancer les instrutions suivantes:
+\begin{itemize}
+\item Client console : 
+\begin{verbatim}
+    $ ./clientsec-cli ADRESSE_SERVEUR PORT_SERVEUR ADRESSE_SERVEUR_SEC PORT_SERVEUR_SEC CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE]
+    $ ./clientsec-cli CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE]
+\end{verbatim}
+\item Client Graphique :
+\begin{verbatim}
+    $ ./Client
+\end{verbatim}
+\end{itemize}
+
+\verb+ADRESSE_SERVEUR+: l'adresse IP ou le nom de domaine du serveur non sécurisé.
+
+\verb+PORT_SERVEUR+: le numéro du port d'écoute du serveur.
+
+\verb+ADRESSE_SERVEUR_SEC+: l'adresse IP ou le nom de domaine du serveur sécurisé.
+
+\verb+PORT_SERVEUR_SEC+: le numéro du port d'écoute du serveur sécurisé.
+
+\verb+CERTIFICAT+: le chemin d'accès au certificat délivré par l'autorité de certification.
+
+\verb+CLE_PRIVE+: la clé privée générée par l'utilisateur
+
+\verb+MOT_DE_PASSE_CLE+: le mot de passe de la clé privée si elle a été généré avec un mot de passe.
+
+	Concernant le client console, la deuxième commande est utilisée lorsque l'adresse et le port du serveur sécurisé/non sécurisé sont celles par défaut (adresse/port serveur: localhost/10000, adresse/port serveur sécurisé: localhost/11000).
+	
+\subsection{Utilisation du client console}
+	
+	La forme générale des commandes est : 
+	
+\verb+ /NOM_COMMANDE [paramètre_1 [Paramètre_2 [Paramètre_3 Paramètre_4]]]+
+
+La commande de base de l'application est /HELP. Elle permet de lister toutes les autres commandes de l'application.
+\subsubsection{Commandes du client classique et les actions}
+
+\verb+	/CREATE_ROOM room_name+  : Permet de créer un salon ayant le nom "room\_name"
+
+\verb+	/DELETE_ROOM room_name+ :  Permet de supprimer le salon du nom de "room\_name"
+
+\verb+	/QUIT_ROOM room_name+ :  Permet de quitter le salon du nom de "room\_name"
+
+\verb+	/JOIN_ROOM room_name+:  Rejoindre un salon du nom de "room\_name"
+
+\verb+	/DISCONNECT+: Se déconnecter du serveur non sécurisé
+
+\verb+	/CONNECT user+:  Se connecter avec l'identifiant "user"
+
+\verb+	/MP user message+: Envoyer un message privé à l'utilisateur "user"
+			
+\subsubsection{Commandes du client sécurisé et les actions}
+
+\verb+	/CONNECT_SEC user user_certif user_key+: Connexion au serveur sécurisé avec le nom d'utilisateur "user" avec le certificat "user\_certif" et la clé privée "user\_key" (Si la clé privée a été crée avec un mot de passe, il faut ajouter le mot de passe après "user\_key")
+
+\verb+	/CREATE_ROOM_SEC room_name+: Permet de créer un salon sécurisé du nom de "room\_name"
+
+\verb+	/DELETE_ROOM_SEC room_name+: Permet de supprimer le salon sécurisé du nom "room\_name"
+
+\verb+	/DISCONNECT_SEC+: Se déconnecter du serveur sécurisé et du serveur non sécurisé
+
+\verb+	/QUIT_ROOM_SEC room_name+: Quitter le salon sécurisé du nom de "room\_name"
+
+\verb+	/JOIN_ROOM_SEC room_name+: Rejoindre le salon sécurisé du nom de "room\_name"
+
+\verb+	/DEL_ACCOUNT_SEC+: Supprimer le compte utilisateur sécurisé
+
+\verb+	/MP_SEC user message+: Envoyer un message privé sécurisé
+
+\verb+	/MESSAGE room_name message+: Envoyer le message "message" à "user" ou sur le salon "room\_name"
+
+\verb+	/ACCEPT_JOIN_ROOM_SEC room_name user+: Accepter la requête d'ajout qu'un utilisateur a envoyé pour rejoindre un salon. Seul l'administrateur du salon a les droits pour effectuer cette opération.
+
+\verb+	/REFUSE_JOIN_ROOM_SEC room_name user+: Refuser la requête d'ajout qu'un utilisateur a envoyé pour rejoindre un salon. Seul l'administrateur du salon a les droits pour effectuer cette opération.
+
+\verb+	/EJECT_FROM_ROOM_SEC room_name user+: Supprimer un utilisateur "user" du salon "room\_name". Seul l'administrateur du salon a les droits pour effectuer cette opération.
+
+
+\subsection{Utilisation du client graphique}
+
+Le client graphique permet d'effectuer les mêmes opérations que le client console mais avec l'intuitivité que nous offre l'interface graphique.
+
+\subsubsection{Connexion non sécurisée}
+\includegraphics[width=45em]{capture/con_n_sec.png}
+
+Pour effectuer une connexion non sécurisée, il faut:
+\begin{enumerate}
+    \item Entrer l'adresse du serveur non sécurisé;
+    \item Entrer le port d'écoute du serveur non sécurisé;
+    \item Entrer le login voulu pour se connecter;
+    \item Cliquer sur le bouton "Se connecter" pour lancer la connexion;
+    \item Cliquer sur le bouton "Annuler" pour annuler la connexion;
+\end{enumerate}
+\subsubsection{Connexion sécurisée}
+
+\includegraphics[width=45em]{capture/con_sec.png}
+
+Pour effectuer une connexion sécurisée, il faut:
+
+\begin{enumerate}
+    \item Entrer l'adresse du serveur non sécurisé;
+    \item Entrer le port d'écoute du serveur non sécurisé;
+    \item Entrer le login voulu pour se connecter;
+    \item Cocher l'option de connexion sécurisée;
+    \item Entrer l'adresse du serveur sécurisé;
+    \item Entrer le port d'écoute du serveur sécurisé;
+    \item Sélectionner le fichier du certificat délivré par l'autorité de certification;
+    \item Sélectionner le fichier de la clé privée;
+    \item Entrer le mot de passe correspondant à la clé privée (Si aucun mot de passe n'a été utilisé pour générer la clé privée, ne rien entrer dans ce champ);
+    \item Cliquer sur le bouton "Se connecter" pour lancer la connexion;
+    \item Cliquer sur le bouton "Annuler" pour annuler la connexion;
+\end{enumerate}
+
+\subsubsection{Création d'un salon (sécurisé ou non sécurisé)}
+
+\includegraphics[width=45em]{capture/cre_room.png}
+
+Pour effectuer la création d'un salon (sécurisé ou non sécurisé), il faut:
+\begin{enumerate}
+    \item Cliquer sur le bouton "Créer un salon";
+    \item Entrer le nom du salon à créer dans le champ;
+    \item Cocher le champ "salon sécurisé" s'il s'agit d'un salon sécurisé;
+    \item Cliquer sur le bouton "Nouveau" pour créer le salon;
+    \item Cliquer sur le bouton "Annuler" pour annuler la création du salon.
+\end{enumerate}
+
+\subsubsection{Rejoindre un salon (sécurisé ou non sécurisé)}
+
+\includegraphics[width=45em]{capture/rej_sal.png}
+
+Pour rejoindre un salon (sécurisé ou non sécurisé), il faut:
+
+\begin{enumerate}
+    \item Cliquer sur le bouton rejoindre un salon;
+    \item Entrer le nom du salon à rejoindre;
+    \item Cocher la case "salon sécurisé";
+    \item Cliquer sur le bouton "Se connecter" pour rejoindre le salon s'il n'est pas sécurisé ou envoyer une demande à l'administrateur du salon si le salon est sécurisé;
+    \item Cliquer sur le bouton "Annuler" pour annuler la connexion.
+\end{enumerate}
+
+\subsubsection{Envoyer un message dans un salon}
+
+\includegraphics[width=45em]{capture/mess_room.png}
+
+Pour envoyer un message dans un salon, il faut:
+\begin{enumerate}
+    \item Sélectionner le salon dans lequel on veut envoyer le message dans la liste des salons ouverts;
+    \item Saisir le message dans la zone puis appuyer sur la touche "Entrée" pour envoyer le message.
+\end{enumerate}
+
+\subsubsection{Envoyer un message privé à un utilisateur}
+
+\includegraphics[width=45em]{capture/mp_nsec.png}
+
+Pour envoyer des messages en mode privé à un utilisateur, il faut:
+
+\begin{enumerate}
+    \item Sélectionner l'utilisateur dans la liste des contacts connectés;
+    \item Cliquer sur le bouton "Envoyer message privé".
+    \item Une boite de dialogue s'afficher pour demander si l'on veut une discussion sécurisée avec l'utilisateur 
+\end{enumerate}
+
+\subsubsection{Accepter la requête d'un utilisateur qui souhaite rejoindre un salon}
+
+\includegraphics[width=45em]{capture/invit_room.png}
+
+Pour accepter une demande d'invitation reçu,
+\begin{enumerate}
+    \item Cliquer le bouton "Envoyer une invitation";
+    \item Entrer le pseudo de l'utilisateur ayant envoyé la demande;
+    \item Cliquer le bouton "Ajouter" pour rajouter l'utilisateur au salon sécurisé
+    \item Cliquer sur le bouton "Annuler" pour annuler l'ajout de l'utilisateur
+\end{enumerate}
+
+\subsubsection{Exclure un utilisateur}
+Pour exclure un utilisateur,
+\begin{enumerate}
+    \item Sélectionner le pseudo de l'utilisateur dans la liste des contacts connectés;
+    \item Cliquer sur "Exclure".
+\end{enumerate}
+
+\subsubsection{Quitter un salon}
+
+\includegraphics[width=45em]{capture/quit_room.png}
+
+Pour quitter un salon, il faut:
+
+\begin{enumerate}
+    \item Sélectionner le salon que l'on veut quitter dans la liste des salons ouverts;
+    \item Cliquer sur le bouton "Quitter salon".
+
+\end{enumerate}
+
+\subsubsection{Se déconnecter}
+Pour se déconnecter,
+\begin{enumerate}
+    \item Aller dans le menu "Fichier";
+    \item Cliquer sur "Déconnecter".
+\end{enumerate}
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
