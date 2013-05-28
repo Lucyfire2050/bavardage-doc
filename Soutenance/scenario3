@@ -1,0 +1,15 @@
+Alice et Bob se connectent (S) (WIRESHARK -> handshake SSL) et Oscar se connecte
+Alice dit salut sur le salon d'accueil
+Bob et Oscar répondent salut
+
+Alice crée un salon sécurisé SNASA
+Alice envoie un MP_SEC à bob : "Je t'envoie une invitation pour rejoindre mon salon SNASA"
+
+Bob rejoint le salon SNASA et envoie "Je suis là" (WIRESHARK -> renouvellement des clefs)
+
+Oscar rejoint le salon par hasard
+
+Alice envoie un message sur le salon SNASA "voici les codes secrets :" (WIRESHARK -> chiffrement, Oscar ne voit rien)
+
+Alice se déconnecte
+

@@ -1,0 +1,14 @@
+Alice génère une clef RSA chiffré :
+openssl genrsa -aes128 -out maclefchiffree.pem 2048
+Mot de passe : bavardage
+
+Elle génère une requête de certificat :
+openssl req -new -key maclefchiffree.pem -out marequete.req
+
+Bob génère une clef RSA :
+openssl genrsa  -out maclef.pem 2048
+
+il génère une requête de certificat :
+openssl req -new -key maclef.pem -out marequete.req
+
+Ils récupèrent leur certificat sur http://inf-srv-securechat:8080/ejbca/
