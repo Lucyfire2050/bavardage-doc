@@ -1,0 +1,310 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel} 
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{pgfgantt}
+\usepackage{pgfcalendar}
+\usepackage{ifthen}
+\usepackage{etex}
+
+\usetikzlibrary{trees,shapes.geometric,arrows,decorations.pathmorphing,backgrounds,fit,positioning,shapes.symbols,chains	}
+ \tikzset{
+    %Define standard arrow tip
+    >=stealth',
+    %Define style for boxes
+    punkt/.style={
+           rectangle, dashed,
+           rounded corners,
+           draw=black, very thin,
+           minimum height=2em,
+           minimum width = 2cm,
+           text centered},
+    square/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height=.5cm,
+           minimum width = 1cm,
+           text centered},
+    data/.style={
+           rectangle,
+           draw=black, thick,
+           minimum height= 2cm,
+           minimum width = 2cm,
+           text centered},
+    % Define arrow style
+    pil/.style={
+           ->,
+           thick,
+           shorten <=1pt,
+           shorten >=1pt,},
+    asym/.style={
+           <->,
+           thin,
+           shorten <=1pt,
+           shorten >=1pt,
+           red!100},
+    sym/.style={
+           <->,
+           thin,
+           shorten <=1pt,
+           shorten >=1pt,
+           blue!100}
+}
+\usepackage{pgfplots}
+\usepackage{eurosym}
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{tikz-uml}
+\usepackage{color, colortbl}
+\usetheme{Antibes}
+\usecolortheme{beaver}
+\setbeamertemplate{sections/subsections in toc}[square]
+\setbeamertemplate{blocks}[square]%
+
+\author{Charles Ango - Ismaël Kabore - Julien Legras - Yves Nouafo - Jean-Baptiste Souchal}
+\title{Soutenance projet annuel - Chat sécurisé}
+\titlegraphic{\includegraphics[height=3em]{logo_univ.png}}
+\institute{Master 1 Sécurité des Systèmes Informatiques}
+
+\date{31/05/2013}
+
+\begin{document}
+\newcount\startdate
+\pgfcalendardatetojulian{2013-01-021}{\startdate}
+
+\protected\def\zzz{\ {\pgfcalendarjuliantodate{\numexpr\startdate\relax}{\year}{\month}{\day}\day/\month\global\advance\startdate1}}
+
+{
+\setbeamertemplate{headline}[default] 
+\begin{frame}
+  \titlepage
+\end{frame}
+}
+
+\frame{
+\frametitle{Sommaire}
+\tableofcontents
+}
+
+\section{Présentation du projet}
+\frame{
+\frametitle{Présentation du projet}
+\begin{block}{Sujet proposé par Magali Bardet}
+	Réaliser un logiciel de messagerie instantanée \textbf{sécurisée} : client et serveur.\\
+	S'inspirer des fonctionnalités d'IRC (Internet Relay Chat).
+	Fonctionnalités demandées :
+	\begin{itemize}
+		\item gestion de la création et la suppression d'un compte sécurisé;
+		\item création par un utilisateur d'une salle de discussion pour un groupe de personnes ;
+		\item ajout/suppression d'un utilisateur autorisé dans une salle;
+		\item assurance de confidentialité, d'intégrité et d'authentification sur les messages échangés;
+		\item non-répudiation des messages.
+	\end{itemize}
+\end{block}
+}
+
+\section{Déroulement des sprints}
+\subsection{Sprint 1}
+\frame{
+\frametitle[allowframebreaks=1.0]{Sprint 1}
+\begin{block}{Tâches}
+Retard cumulé : 1 jour
+
+Raison(s): prise en main de SQLite
+\end{block}
+
+\begin{exampleblock}{Livraison}
+Tests : OK
+
+Délai respecté  (15 février 2013)
+
+Réunion avec Mme Bardet post livraison le 19 février pour validation
+\end{exampleblock}
+}
+
+
+\subsection{Sprint 2}
+\frame{
+\frametitle[allowframebreaks=1.0]{Sprint 2}
+
+\begin{exampleblock}{Livraison}
+Tests: OK
+
+Délai respecté (15 mars 2013) : livraison d'une machine virtuelle
+
+$\hookrightarrow$ mise à disposition d'une machine par Mr Macadré (configurée lors du sprint 3)
+
+Réunion avec Mme Bardet post livraison le 3 avril pour validation
+\end{exampleblock}
+
+}
+
+\subsection{Sprint 3}
+\frame{
+\frametitle[allowframebreaks=1.0]{Sprint 3}
+
+\begin{block}{Tâches}
+Retard : 3 semaines
+
+Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
+\end{block}
+
+\begin{exampleblock}{Livraison}
+Tests: OK
+
+Délai réajusté avec Mme Bardet (3 mai 2013)
+
+Réunions avec Mme Bardet pré livraison le 29 avril et post livraison le 22 mai
+\end{exampleblock}
+
+}
+
+\section{Technique}
+\frame{
+\frametitle{Schéma global}
+
+\begin{center}
+\begin{tikzpicture}[node distance=-.01cm,font=\tiny,scale=1.05,every node/.style={transform shape}]
+		\node[square, text width=1.5cm, fill=white!100] (appclient) at (0,0) {Application client};
+		\node[square, text width=2cm, fill=white!100] (modclientsec) at (4,0) {Module client sécurisé};
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(appclient)(modclientsec), fill=blue!20] (groupclient) {};
+		\end{pgfonlayer}
+		
+		\node[square, text width=1cm, fill=white!100] (PKI) at (2.5,-1.5) {PKI};
+		\node[square, text width=1cm, fill=white!100] (serveur) at (0,-2.5) {Serveur};
+		\node[square, text width=1.5cm, fill=white!100] (serveurs) at (4,-2.5) {Serveur sécurisé};
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(PKI)(serveur)(serveurs), fill=green!20] (groupserveur) {};
+		\end{pgfonlayer}
+
+		\node[text width=.7cm] (imgbd1) at (0,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.5cm, below=of imgbd1, fill=white!100] (bd1){BDD};
+		\node[text width=.7cm] (imgfichiers) at (2.5,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.7cm, below=of imgfichiers, fill=white!100] (fichiers){BDD};
+		\node[text width=.7cm] (imgbd2) at (4,-4) {\includegraphics[height=3em]{computer-database.png}};
+		\node[square, text width=.5cm, below=of imgbd2, fill=white!100] (bd2){BDD};
+
+		\begin{pgfonlayer}{background} 
+		\node[punkt, fit=(imgbd1) (bd1) (imgbd2) (bd2) (imgfichiers) (fichiers), fill=orange!20] (stock) {};
+		\end{pgfonlayer}
+
+
+		\draw (appclient.east) edge[<->] (modclientsec.west);
+		\draw (appclient.south) edge[<->] (serveur.north);
+		\draw (modclientsec.south) edge[<->] (serveurs.north);
+		
+		\draw (serveur.south) edge[<->] (imgbd1.north);
+		\draw (serveurs.south) edge[<->] (imgbd2.north);
+		\draw (PKI.south) edge[<->] (imgfichiers.north);
+		\draw (PKI.south east) edge[<->] (serveurs.north);
+		
+		\draw (PKI.west) edge[->, loop left = 90] (PKI.west);
+
+		\begin{pgfonlayer}{background} 
+		\node[minimum width=2.5cm, minimum height=6.3cm,rectangle, draw=black!60!green, very thick, fit=(appclient) (serveur) (imgbd1) (bd1)] (groupeclassic) {};
+		\node[minimum width=4cm, minimum height=6.3cm,rectangle, draw=black!30!red, very thick, fit=(modclientsec) (PKI) (serveurs) (imgbd2) (bd2) (imgfichiers) (fichiers)] (groupesec) {};
+		\end{pgfonlayer}
+		
+		\node[below=of groupeclassic, color=black!60!green] (legendgpeclassic) {Chat classique};		
+		\node[below=of groupesec, color=black!30!red] (legendgpesec) {Partie sécurisée};
+
+		\node[right=of modclientsec, minimum width=3cm] (lgdappcl) {Application client};
+		
+		\node[right=of groupserveur, minimum width=3cm] (lgsrv) {Serveurs};
+		
+		\node[right=of stock, minimum width=4cm, anchor=west] (lgbdd) {Bases de données};
+
+		\end{tikzpicture}
+\end{center}
+
+}
+
+\section{Certificats}
+\frame{
+\frametitle{Certificats}
+\begin{block}{Génération de requête}
+\$ openssl genrsa -out maclef.pem 2048\\
+\$ openssl req -new -key maclef.pem -out marequete.req
+\end{block}
+
+\begin{block}{Récupération du certificat}
+\begin{enumerate}
+\item Faire une demande à l'administrateur de la PKI (julien.legras@etu.univ-rouen.fr)
+\item Se rendre sur :\\
+\url{http://inf-srv-securechat:8080/ejbca/enrol/server.jsp}
+\end{enumerate}
+\end{block}
+}
+
+\section{Module sécurisé}
+\frame{
+\frametitle{Module sécurisé}
+\begin{block}{Authentification}
+Clef RSA 2048 bits certifié par notre PKI\\
+$\hookrightarrow$ tunnel SSL entre serveur sécurisé et client sécurisé\\
+$\hookrightarrow$ vérification chaîne de certification
+\end{block}
+
+\begin{block}{Chiffrement des messages}
+AES-256-CBC (Cipher Block Chaining)\\
+Clef AES générée et transmises aux destinataires lors de :
+\begin{itemize}
+\item création de salon
+\item ajout/retrait/déconnexion d'utilisateur d'un salon
+\end{itemize}
+Clef/IV générées à partir d'un mot et d'un sel pseudo-aléatoires (EVP\_BytesToKey + rand)
+\end{block}
+}
+
+\section{Difficultés rencontrées}
+\frame{
+\frametitle{Difficultés rencontrées}
+\begin{block}{Gestion de projet}
+\begin{itemize}
+\item format livraison PKI
+\item surcharge de travail 
+\item difficulté d'intégration des tests de sécurité dans le cahier de recettes
+\end{itemize}
+\end{block}
+
+\begin{block}{Techniques}
+\begin{itemize}
+\item apprentissage OpenSSL
+\item GTK et threads
+\end{itemize}
+\end{block}
+}
+
+\section{Conclusion}
+\frame[allowframebreaks=1.0]{
+\frametitle{Conclusion}
+\begin{block}{Bilan}
+\begin{itemize}
+\item Utilisation des documents de projets $\rightarrow$ meilleure planification du développement et actions systématiques
+
+\item Communication, confrontation d'idées dans l'équipe de développement grâce à la méthode agile scrum
+
+\item Apprentissage techniques en sécurité : certification (EJBCA), OpenSSL (bibliothèque et commandes)
+
+\item Interface graphique du C grâce au Vala
+\end{itemize}
+\end{block}
+\framebreak
+\begin{exampleblock}{Améliorations envisageables}
+\begin{itemize}
+\item Gestion de plusieurs serveurs par le client
+\item Renouvellement régulier des clefs de chiffrement symétrique
+\item Internationalisation de l'application
+\item Portage multi-plateformes
+\item Amélioration client lignes de commandes (NCurses)
+\end{itemize}
+\end{exampleblock}
+
+
+}
+
+\end{document}

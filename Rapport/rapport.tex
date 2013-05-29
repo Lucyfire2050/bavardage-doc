@@ -176,11 +176,11 @@ des données échangées.\\
 
 La couche de sécurité mise en place sur un outil de 
 messagerie instantanée va permettre de dialoguer avec des utilisateurs 
-authentifiés dont l'identité est connue, d'assurer l'intégrité des 
+authentifiés, d'assurer l'intégrité des 
 messages reçus, c'est-à-dire que le message n'a pas été modifié entre deux 
 interlocuteurs puis une confidentialité assurée des contenus échangés grâce à 
 des outils cryptographiques forts mis en place empêchant toute intelligibilité des 
-données transitant entre utilisateurs.\\
+données transitant entre utilisateurs pour quelqu'un de non autorisé.\\
 
 Dans un premier temps nous allons faire une présentation plus détaillée du sujet 
 en analysant les besoins du client puis nous présenterons les solutions proposées. Nous détaillerons ensuite les résultats obtenus après 
@@ -200,21 +200,21 @@ bonne prise en main de l'outil de messagerie instantanée par le client.
 % Yves & Julien
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Présentation du projet}
-Dans le cadre de notre projet, il nous à été demandé de réaliser un chat sécurisé. Pour le mener à bien, le travail à été découpé en deux grandes phases qui sont l'analyse des besoins du client et les solutions proposées.
+Dans le cadre de notre projet, il nous à été demandé de réaliser un système de bavardage sécurisé. Pour le mener à bien, le travail à été découpé en deux grandes phases qui sont l'analyse des besoins du client et les solutions proposées.
 
 \section{Besoins du client}
 Les fonctionnalités du logiciel sont les points indispensables, nécessaires et imposés par le client. Dans notre sujet, on le résume de la manière suivante:\\ 
 
-\textbf{\'Etudier les protocoles cryptographiques permettant à plusieurs utilisateurs de s’authentifier et de communiquer de manière sécurisée à travers un outil de messagerie instantanée.}\\
+\textbf{\'Etudier les protocoles cryptographiques permettant à plusieurs utilisateurs de s’authentifier et de communiquer de manière sécurisée à travers un outil de messagerie instantanée répondant au standards IRC.}\\
 
-\'A l'a fin du développement, l'outil de messagerie instantanée devra répondre aux besoins du client, garantir que les messages soient échangés entre utilisateurs, prouver la mise en place du système de sécurité ainsi que les protocoles déployés pour parvenir à un système de bavardage sûr.
+\`A la fin du développement, l'outil de messagerie instantanée devra répondre aux besoins du client, garantir que les messages soient échangés entre utilisateurs, prouver la mise en place du système de sécurité ainsi que les protocoles déployés pour parvenir à un système de bavardage sûr.
 
 \section{Solutions proposées}
 \`A l'issue de l'analyse des besoins du client, il a été convenu de traiter sa demande en décomposant la réalisation du logiciel en trois phases de développement :
 \begin{itemize}
 \item \textbf{Phase 1:} Mise en place du système de bavardage modèle client-serveur;
 \item \textbf{Phase 2:} Installation d'une PKI (infrastructure à clés publiques);
-\item \textbf{Phase 3:} Mise en place d'une couche sécurisée pour permettre une communication chiffrée.
+\item \textbf{Phase 3:} Mise en place d'une couche sécurisée pour permettre une communication chiffrée, authentifiée et d'en garantir l'intégrité.
 \end{itemize}
 \vspace{.5cm}
 
@@ -278,9 +278,9 @@ Le logiciel est conçu et pensé de manière modulable de tel sorte que chaque p
 		\end{center} 
 		\vspace{.3cm}
 		
-Sur le schéma précédent on voit bien la séparation de la partie logicielle de la partie sécurisée, mais aussi les différentes couches qui interviennent dans le développement du logiciel. Ces couches sont la partie client, la partie serveurs et la partie base de données.\\
+Sur le schéma précédent on voit bien la séparation de la partie couche classique de la partie couche sécurisée, mais aussi les différentes couches qui interviennent dans le développement du logiciel. Ces couches sont la partie client, la partie serveurs et la partie base de données.\\
 
-La partie Application client comporte deux modules qui sont l'application client et le module client sécurisé. L'application client permet à l'utilisateur de pourvoir communiquer avec d'autres utilisateurs de manière non sécurisée. Autrement dit, chaque message pourra être lu par tout utilisateur présent dans un salon.\\Quant au module client sécurisé, il permet d'établir une communication sécurisée entre plusieurs utilisateurs. Une communication sécurisée masque le message à tout utilisateur n'étant pas destinataire du message en question. \\Cette partie implémente les principales fonctionnalités suivantes:
+La partie Application client comporte deux modules qui sont l'application client et le module client sécurisé. L'application client permet à l'utilisateur de pouvoir communiquer avec d'autres utilisateurs de manière classique. Autrement dit, chaque message pourra être lu par tout utilisateur présent dans un salon.\\Quant au module client sécurisé, il permet d'établir une communication sécurisée entre plusieurs utilisateurs. Une communication sécurisée masque le message à tout utilisateur n'étant pas destinataire du message en question. \\Cette partie implémente les principales fonctionnalités suivantes:
 \begin{itemize}
 \item création d’un compte sécurisé;
 \item envoi de message sur salon privé;
@@ -294,7 +294,7 @@ La partie Application client comporte deux modules qui sont l'application client
 \end{itemize}
 \vspace{.6cm}
 
-La partie serveurs est décomposée en trois éléments qui sont le serveur, le serveur sécurisé et la PKI. Chacun de ces éléments ont un rôle bien défini. \\Le rôle du serveur est de distribuer les messages aux destinataires.\\Le rôle du serveur sécurisé est d'authentifier les utilisateurs sécurisés et de distribuer les clés symétriques permettant le chiffrement et le déchiffrement des messages entre utilisateurs sécurisés.\\La PKI est une autorité de confiance qui permet d'établir l'authenticité et l'identité d'un utilisateur sécurisé. Nous avons opté pour une PKI clé en main EJBCA qui remplira les fonctionnalités suivantes :
+La partie serveurs est décomposée en trois éléments qui sont le serveur, le serveur sécurisé et la PKI. Chacun de ces éléments ont un rôle bien défini. \\Le rôle du serveur est de distribuer les messages aux destinataires.\\Le rôle du serveur sécurisé est d'authentifier les utilisateurs sécurisés et de distribuer les clés symétriques permettant le chiffrement, le déchiffrement et l'intégrité des messages entre utilisateurs sécurisés.\\La PKI est une autorité de confiance qui permet d'établir l'authenticité d'un utilisateur sécurisé. Nous avons opté pour une PKI clé en main EJBCA qui remplira les fonctionnalités suivantes :
 \begin{itemize}
 \item ajout d'un certificat à un utilisateur;
 \item révocation d’un certificat.
@@ -303,16 +303,16 @@ La partie serveurs est décomposée en trois éléments qui sont le serveur, le 
 
 La partie base de données décrit les données manipulées et utiles à l'application. L'application globale en possède trois.\\
 La première permet la gestion des utilisateurs non sécurisés. Cette base de données est rattachée au serveur non sécurisé. Elle est non persistante, ce qui veut dire que lors de la fin de l'utilisation du logiciel par un utilisateur, celui-ci ne sera pas conservé en base. Cette base à pour rôle de lister tout utilisateur déjà présent sur le service de chat.\\
-La seconde permet la gestion des utilisateurs sécurisés. Contrairement à la première, cette base est persistante car tout utilisateur sécurisé pourra se reconnecter au service de chat autant de fois qu'il le souhaite.\\ La dernière permet le stockage des certificats générés par la PKI. Ces certifcats définissent l'identité d'un utilisateur et sont stockés dans une base de données interne à l'application EJBCA.
+La seconde permet la gestion des utilisateurs sécurisés. Contrairement à la première, cette base est persistante, ce qui permet à tout utilisateur sécurisé de réserver son nom et de pouvoir l'utiliser pour les prochaines connections à venir sur le service.\\ La dernière permet le stockage des certificats générés par la PKI. Ces certifcats définissent l'identité d'un utilisateur et sont stockés dans une base de données interne à l'application EJBCA.
 
 \subsection{Détail de la couche sécurisée}
-La couche sécurisée contient le module sécurisé, la PKI, le serveur sécurisé et la base de données qui lui est jointe. Cette couche est nécessaire pour échanger et garantir l'échange des messages sécurisés sans que celui-ci ne puisse être lu par un autre utilisateur. Pour mettre en place cette partie, on utilise la bibliothèque OpenSSL pour assurer la mise en place d'un canal de communication sécurisé entre deux utilisateurs sécurisés.\\Comme dit ci-dessus, la PKI, autorité de confiance, permettra de garantir et d'identifier les utilisateurs présents sur le système de chat. On a aussi vu précédemment quel rôle joue le serveur sécurisé. Toute la mise en \oe uvre ainsi décrite permet de garantir un système de chat respectant les normes et les exigences du client. \\
+La couche sécurisée contient le module sécurisé, la PKI, le serveur sécurisé et la base de données qui lui est jointe. Cette couche est nécessaire pour échanger et garantir l'échange des messages sécurisés sans que celui-ci ne puisse être lu par un autre utilisateur. Pour mettre en place cette partie, on utilise la bibliothèque OpenSSL pour assurer la création d'un canal de communication sécurisé entre deux utilisateurs sécurisés.\\Comme dit ci-dessus, la PKI, autorité de confiance, permettra de garantir et d'identifier les utilisateurs présents sur le système de chat. On a aussi vu précédemment quel rôle joue le serveur sécurisé. Toute la mise en \oe uvre ainsi décrite permet de garantir un système de chat respectant les normes et les exigences du client. \\
 
-Pour s'assurer que l'application fourni respecte bien les exigences du client, elle implante des exigences fonctionnelles que l'on peut retrouver dans le cahier de recette, ou on peut voir les différents tests garantissant la mise en place de la couche sécurisée.
+Pour s'assurer que l'application fournie respecte bien les exigences du client, elle implémente des exigences fonctionnelles que l'on peut retrouver dans le {cahier de recette}, où on peut voir les différents tests garantissant la mise en place de la couche sécurisée.
 
 \subsection{Choix des langages}
-Le choix des langages pour réaliser le projet sont le C pour la réalisation du serveur non sécurisé et du serveur sécurisé ainsi que des clients, sécurisé et non sécurisés.\\La réalisation de la base de données embarquée s'est faite en sqlite.\\La partie graphique quant à été faite en Vala, car ce langage s'interface avec le C très facilement.\\
-Pour la partie sécurisé on a choisi la bibliothèque OpensSSL pour les raisons vues ci-dessus.
+Le choix des langages pour réaliser le projet sont le C pour la réalisation du serveur non sécurisé et du serveur sécurisé ainsi que des clients, sécurisé et non sécurisés.\\La réalisation de la base de données embarquée s'est faite en sqlite.\\La partie graphique quant à elle a été faite en Vala, car ce langage s'interface avec le C très facilement.\\
+Pour la partie sécurisée on a choisi la bibliothèque OpensSSL car elle fourni une bibliothèque riche en fonctions cryptographiques.
 
 \section{Partie technique}
 
@@ -331,14 +331,14 @@ typedef struct {
 } message;
 \end{verbatim}
 
-Chaque action est représentée par un code (\verb+CONNECT, CREATE_ROOM, MESSAGE...+). Le champ \verb+sender+ représente l'émetteur du message, \verb+receiver+ le destinataire. Enfin le champ \verb+content+ contient le(s) argument(s) associé(s) à l'action souhaitée. Côté client, pour envoyer une telle structure, il suffit d'appeler la fonction \verb+int send_message(const char *mess,+\\ \verb+char **error_mess)+ avec \verb+mess+ de la forme : \verb+"/<ACTION> <ARGS>"+ et \verb+err_mess+ le message d'erreur, si une erreur survient. L'affichage de message reçu se fait à la couche supérieur, dans l'interface graphique ou en lignes de commandes en appelant la fonction \verb+int receive_message(+\\\verb+message *m)+. Ces fonctions se trouvent dans une librairie écrite pour le client (\verb+libclient.a+) afin de les utiliser dans l'interface graphique et en préparation à la surcouche sécurisée de la troisième livraison. 
+Chaque action est représentée par un code (\verb+CONNECT, CREATE_ROOM, MESSAGE...+). Le champ \verb+sender+ représente l'émetteur du message, \verb+receiver+ le destinataire. Enfin le champ \verb+content+ contient le(s) argument(s) associé(s) à l'action souhaitée. Côté client, pour envoyer une telle structure, il suffit d'appeler la fonction \verb+int send_message(const char *mess,+\\ \verb+char **error_mess)+ avec \verb+mess+ de la forme : \verb+"/<ACTION> <ARGS>"+ et \verb+err_mess+ le message d'erreur, si une erreur survient. L'affichage de message reçu se fait à la couche supérieure, dans l'interface graphique ou en lignes de commandes en appelant la fonction \verb+int receive_message(+\\\verb+message *m)+. Ces fonctions se trouvent dans une bibliothèque écrite pour le client (\verb+libclient.a+) afin de les utiliser dans l'interface graphique et en préparation à la surcouche sécurisée de la troisième livraison. 
 
 L'interface du client de chat a été développée en Vala à l'aide de la bibliothèque graphique GTK. La fenêtre a été dessinée à l'aide de Glade qui est un User Interface Designer produisant un fichier \verb+.xml+, ce dernier étant utilisé dans le code Vala.
 
 Côté serveur, les clients sont gérés dans des fils d'exécution séparés. Chaque message reçu est filtré selon son code d'action et le traitement correspondant est effectué. Si la connexion avec un client est perdue, le fil d'exécution s'arrête en déconnectant l'utilisateur.
 
 \subsection{Certification}
-La seconde livraison consistait en la mise en place d'une infrastructure à clefs publiques (PKI). Pour cela nous avons utilisé EJBCA (Enterprise Java Bean Certificate Authority) qui est une application utilisant un serveur JBoss. L'installation s'est faite en quelques étapes :
+La seconde livraison consistait en la mise en place d'une infrastructure à clefs publiques (PKI). Cette infrastructure permet de garantir l'identité d'un utilisateur en lui délivrant un certicat numérique qui permet d'effectuer des opérations cryptographiques. Pour cela nous avons utilisé EJBCA (Enterprise Java Bean Certificate Authority) qui est une application utilisant un serveur JBoss. L'installation s'est faite en quelques étapes :
 
 \begin{paragraph}{Récupération de JBoss et d'EJBCA}
 \small{
@@ -379,29 +379,22 @@ Pour la configuration des autorités de certification et des différents profils
 
 On peut alors accéder à la partie administration à partir de l'adresse:
 
-\verb+https://adresse_serveur:8443/ejbca/adminweb/index.jsp+
+\verb+https://inf-srv-securechat:8443/ejbca/adminweb/index.jsp+
 \newpage
 La page obtenue est la suivante :
 \begin{center}
 \includegraphics[width=40em]{admin_ejbca.png}
 \end{center}
 
-Les parties importantes ont été entourées en rouge et voici leurs descriptions.
+Les parties importantes ont été entourées en rouge et voici leurs descriptions.\\
 
+Les profils contiennent les informations nécessaires et utiles qui permettent de générer les certificats. Comme on peut voir sur le schéma précédent, il en existe deux sortes.
 \begin{paragraph}{Profils de certificats}
-C'est dans cette section que l'ont créer les différents profils de certificats :
+C'est dans cette section que l'on crée les différents profils de certificats :
 \begin{itemize}
 \item \verb+BAVARDAGESERVER+ : profil pour le serveur sécurisé ;
 \item \verb+BAVARDAGEUSER+ : profil pour les utilisateurs sécurisés.
 \end{itemize}
-
-Ces profils sont décrits en détail dans le document annexe : Politique de certification
-\end{paragraph}
-
-\begin{paragraph}{Éditer/créer des AC}
-Une AC (autorité de certification) est une entité dont la mission est de vérifier les données du demandeur de certificat, de signer et de maintenir une liste des certificats et une liste des révocations. Sur la capture d'écran ci-dessus, on voit la liste des AC contenant celle relative à notre projet : \verb+CABavardage+
-\end{paragraph}
-
 
 \begin{paragraph}{Profils d'entités}
 Chaque type d'entité a un profil associé:
@@ -409,20 +402,29 @@ Chaque type d'entité a un profil associé:
 \item \verb+BAVARDAGE_SERVER+ : profil pour le serveur sécurisé ;
 \item \verb+BAVARDAGE_USER+ : profil pour les utilisateurs sécurisés.
 \end{itemize}
+On utilise deux profils d'entités différents car les rôles de chacun sont différents. Le premier pour déterminer l'entité du server et le second l'entité de l'utilisateur.
+\end{paragraph}
+\end{paragraph}
+\\
+Ces profils sont décrits en détail dans le document annexe : Politique de certification
+
+
+\begin{paragraph}{Éditer/créer des AC}
+Une AC (autorité de certification) est une entité dont la mission est de vérifier les données du demandeur de certificat, de signer et de maintenir une liste des certificats et une liste des révocations. Sur la capture d'écran ci-dessus, on voit la liste des AC contenant celle relative à notre projet : \verb+CABavardage+
 \end{paragraph}
 
 
 \begin{paragraph}{Ajouter une entité}
-Lorsqu'un utilisateur désire obtenir un certificat, un administrateur doit au préalable lui crée une entité associée. Il pourra ensuite récupérer son certificat pour sa clef RSA.
+Lorsqu'un utilisateur désire obtenir un certificat, un administrateur doit au préalable lui créer une entité associée. Il pourra ensuite récupérer son certificat pour sa clef RSA.
 \end{paragraph}
 
 
 \subsection{Partie sécurisée}
-La troisième livraison consistait en la surcouche sécurisée du client de chat et d'un serveur « sécurisé » dont le rôle est de gérer les utilisateurs sécurisés.
+La troisième livraison consistait en la surcouche sécurisée du client de chat et un serveur « sécurisé » dont le rôle est de gérer les utilisateurs sécurisés et la sécurité des messages.
 
-Il a tout d'abord fallu ouvrir une connexion SSL entre le client sécurisé et le serveur sécurisé grâce aux fonctions d'OpenSSL. Ensuite, nous avons créer des codes d'actions spécifiques à l'utilisation sécurisée du chat comme \verb+CONNECT_SEC, CREATE_ROOM_SEC+... La gestion des clients dans le serveur sécurisé est similaire au serveur classique avec un fil d'exécution par client et une socket SSL.
+Nous avons choisi tout d'abord d'ouvrir une connexion SSL entre le client sécurisé et le serveur sécurisé grâce aux fonctions d'OpenSSL. Ensuite, nous avons crée des codes d'actions spécifiques à l'utilisation sécurisée du chat comme \verb+CONNECT_SEC, CREATE_ROOM_SEC+... La gestion des clients dans le serveur sécurisé est similaire au serveur classique avec un fil d'exécution par client et une socket SSL.
 
-Côté client, la surcouche sécurisée se base sur la librairie du client classique et utilise la même logique. Ainsi nous avons deux fonctions principales : 
+Côté client, la surcouche sécurisée se base sur la bibliothèque du client classique et utilise la même logique. Ainsi nous avons deux fonctions principales : 
 \begin{itemize}
 \item \verb+int send_message_sec (const char *mess, char **err_mess)+
 \item \verb+int receive_message_sec (message *m)+
@@ -447,8 +449,7 @@ Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffr
 \section{Problèmes rencontrés}
 Nous avons rencontré un problème pour la livraison du sprint 2. En effet, nous devions configurer un serveur, ce que nous avions fait dans une machine virtuelle. Cependant, le format de livraison utilisé jusqu'alors n'était plus utilisable car la machine faisait plusieurs giga octets de données. Nous avons alors convenu avec Mme Bardet de livrer sur une clef USB dans un premier temps et de configurer une machine mise à disposition par Mr Macadré en début du sprint 3.
 
-Pour le sprint 3, nous avons eu également eu des problèmes au niveau de l'apprentissage d'OpenSSL. En effet, nous n'avions aucune expérience avec cette bibliothèque et les exemples sont nombreux mais très différents. Finalement, Mme Bardet nous a conseillé un très bon ouvrage : Network Security with OpenSSL.
-OpenSSL
+Pour le sprint 3, nous avons également eu des problèmes au niveau de l'apprentissage d'OpenSSL. En effet, nous n'avions aucune expérience avec cette bibliothèque et les exemples sont nombreux mais très différents. Finalement, Mme Bardet nous a conseillé un très bon ouvrage : Network Security with OpenSSL.
 
 
 
@@ -488,7 +489,7 @@ Pour la compilation du projet il faut d'abord vérifier si toutes les dépendanc
 
 \subsection{Compilation des sources}
 
-Les commandes suivantes doivent être exécuter dans le dossier racine du projet git bavardage : 
+Les commandes suivantes doivent être exécutées dans le dossier racine du projet git bavardage : 
 \begin{verbatim}
     $ mkdir src/build 
     $ cd src/build 
@@ -510,9 +511,10 @@ Pour faire une demande de création de compte sécurisé, l'utilisateur doit env
 \item le département
 \end{itemize}
 
+L'utilisateur peut entrer ce qu'il veut dans les différents champs. Seul les éléments entrés par l'administrateur sur EJBCA seront pris en compte.
 Après avoir reçu le message de confirmation de compte créé par l'administrateur, il faut générer une clé RSA 2048 avec la commande:
 
-\verb+ $ openssl genrsa -out maclef.pem 2048+
+\verb+ $ openssl genrsa -out maclef.pem 2048 -aes256+
 
 Puis on crée la requête:
 
@@ -520,7 +522,7 @@ Puis on crée la requête:
 
 Pour récupérer son certificat, il faut aller dans la partie publique du site web à l'adresse \url{http://inf-srv-securechat:8080/ejbca/enrol/server.jsp} puis :
 \begin{itemize}
-\item Entrez les identifiants (login/mot de passe) fournis par l'administrateur;
+\item Entrer les identifiants (login/mot de passe) fournis par l'administrateur;
 \item Selectionner le fichier "marequete.req" généré sur votre ordinateur;
 \item Valider avec le bouton "OK".
 \end{itemize}
@@ -547,6 +549,12 @@ Pour lancer le serveur sécurisé, il faut d'abord se rendre dans le répertoire
 \verb+ADRESSE_SERVEUR_SEC+: l'adresse IP ou le nom de domaine du serveur sécurisé
 
 \verb+PORT_SERVEUR_SEC+: le numéro du port d'écoute du serveur sécurisé
+\\
+\vspace{1.4cm}
+
+\textbf{Contraintes:}\\ Le certificat client obtenu lors de la demande devra être placé dans le dossier client dont le chemin est: src/build/client.\\
+Le certificat server devra être placé dans le dossier server\_sec dont le chemin est: src/build/server\_sec.\\
+Le certificat racine root.pem devra être placé à la fois dans le dossier client et dans le dossier server\_sec.
 
 \subsection{Client}
 Pour lancer le client, il faut se rendre dans le répertoire "client" du répertoire "build" et lancer les instrutions suivantes:
@@ -603,7 +611,7 @@ La commande de base de l'application est /HELP. Elle permet de lister toutes les
 			
 \subsubsection{Commandes du client sécurisé et les actions}
 
-\verb+	/CONNECT_SEC user user_certif user_key+: Connexion au serveur sécurisé avec le nom d'utilisateur "user" avec le certificat "user\_certif" et la clé privée "user\_key" (Si la clé privée a été crée avec un mot de passe, il faut ajouter le mot de passe après "user\_key")
+\verb+	/CONNECT_SEC user user_certif user_key+: Connexion au serveur sécurisé avec le nom d'utilisateur "user" avec le certificat "user\_certif" et la clé privée "user\_key" (Si la clé privée a été créée avec un mot de passe, il faut ajouter le mot de passe après "user\_key")
 
 \verb+	/CREATE_ROOM_SEC room_name+: Permet de créer un salon sécurisé du nom de "room\_name"
 
@@ -619,9 +627,9 @@ La commande de base de l'application est /HELP. Elle permet de lister toutes les
 
 \verb+	/MP_SEC user message+: Envoyer un message privé sécurisé
 
-\verb+	/MESSAGE room_name message+: Envoyer le message "message" à "user" ou sur le salon "room\_name"
+\verb+	/MESSAGE room_name message+: Envoyer le message "message" sur le salon "room\_name"
 
-\verb+	/ACCEPT_JOIN_ROOM_SEC room_name user+: Accepter la requête d'ajout qu'un utilisateur a envoyé pour rejoindre un salon. Seul l'administrateur du salon a les droits pour effectuer cette opération.
+\verb+	/ACCEPT_JOIN_ROOM_SEC room_name user+: Accepter l'ajout d'un utilisateur qui fait la demande pour rejoindre le salon "room\_name". Seul l'administrateur du salon a les droits pour effectuer cette opération.
 
 \verb+	/REFUSE_JOIN_ROOM_SEC room_name user+: Refuser la requête d'ajout qu'un utilisateur a envoyé pour rejoindre un salon. Seul l'administrateur du salon a les droits pour effectuer cette opération.
 
@@ -770,19 +778,19 @@ projet.\\
 
 L'étude et l'analyse théorique du sujet lors de la première phase de projet nous a permis
 d'apprendre à mettre en place des documents spécifiques et détaillés sur chaque fonctionnalités en utilisant des méthodes de conception 
-professionnelle. La méthode agile scrum que nous avons choisi a permis d'établir un planning de gestion et un découpage astucieux du projet en plusieurs
+professionnelle. La méthode agile scrum que nous avons choisie a permis d'établir un planning de gestion et un découpage astucieux du projet en plusieurs
 étapes et ainsi proposer une solution structurée respectant au mieux les besoins du client.\\
 
-La deuxième phase d'implémentation, a été un moyen de mettre en pratique 
+La deuxième phase d'implémentation a été un moyen de mettre en pratique 
 nos techniques de programmation acquises au cours de nos formations antérieures, nos connaissances théoriques en cryptographie
 mais également d'apprendre de nouvelles technologies, en particulier pour la mise en place des techniques de cryptographie 
 et la gestion d'une autorité de certification avec certificats dans une application concrète et fonctionnelle.\\
 
-La méthode agile scrum utilisée pour ce projet, a simplifié les phases afin d’en raccourcir la durée.
+La méthode agile scrum utilisée pour ce projet a simplifié les phases afin d’en raccourcir la durée.
 Les méthodes agiles, se basent sur la notion de communauté de projet dans laquelle les développeurs
 et les utilisateurs sont présents en permanence pour exprimer ou répondre à une question liée au projet. 
 C'est une communication permanente entre les membres du groupe de projet, et le client qui a fait que 
-nous avons su rapidement, prendre en compte les opinions et idées de chacun et de réagir aux 
+nous avons su rapidement prendre en compte les opinions et idées de chacun et de réagir aux 
 différents problèmes que ce soit lors de l'analyse ou de l'implémentation du 
 projet. Nous en tirons donc une expérience très enrichissante sur la gestion et 
 la communication au sein d'un groupe de projet dans un cadre orienté professionnel.
