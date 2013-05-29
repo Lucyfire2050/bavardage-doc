@@ -84,6 +84,7 @@
 \end{frame}
 }
 
+%% JULIEN
 \frame{
 \frametitle{Sommaire}
 \tableofcontents
@@ -106,16 +107,12 @@
 \end{block}
 }
 
+
+%% JB
 \section{Déroulement des sprints}
 \subsection{Sprint 1}
 \frame{
 \frametitle[allowframebreaks=1.0]{Sprint 1}
-\begin{block}{Tâches}
-Retard cumulé : 1 jour
-
-Raison(s): prise en main de SQLite
-\end{block}
-
 \begin{exampleblock}{Livraison}
 Tests : OK
 
@@ -123,6 +120,14 @@ Délai respecté  (15 février 2013)
 
 Réunion avec Mme Bardet post livraison le 19 février pour validation
 \end{exampleblock}
+
+\begin{block}{Tâches}
+Retard cumulé : 1 jour
+
+Raison(s): prise en main de SQLite
+\end{block}
+
+
 }
 
 
@@ -146,12 +151,6 @@ Réunion avec Mme Bardet post livraison le 3 avril pour validation
 \frame{
 \frametitle[allowframebreaks=1.0]{Sprint 3}
 
-\begin{block}{Tâches}
-Retard : 3 semaines
-
-Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
-\end{block}
-
 \begin{exampleblock}{Livraison}
 Tests: OK
 
@@ -160,8 +159,17 @@ Délai réajusté avec Mme Bardet (3 mai 2013)
 Réunions avec Mme Bardet pré livraison le 29 avril et post livraison le 22 mai
 \end{exampleblock}
 
+\begin{block}{Tâches}
+Retard : 3 semaines
+
+Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
+\end{block}
+
+
 }
 
+
+%% YVES
 \section{Technique}
 \frame{
 \frametitle{Schéma global}
@@ -223,6 +231,8 @@ Réunions avec Mme Bardet pré livraison le 29 avril et post livraison le 22 mai
 
 }
 
+
+%% ISMAEL
 \section{Certificats}
 \frame{
 \frametitle{Certificats}
@@ -244,22 +254,23 @@ Réunions avec Mme Bardet pré livraison le 29 avril et post livraison le 22 mai
 \frame{
 \frametitle{Module sécurisé}
 \begin{block}{Authentification}
-Clef RSA 2048 bits certifié par notre PKI\\
-$\hookrightarrow$ tunnel SSL entre serveur sécurisé et client sécurisé\\
+Clef RSA 2048 bits certifiée par notre PKI\\
+$\hookrightarrow$ tunnel SSL entre serveur sécurisé et client sécurisé (double authentification)\\
 $\hookrightarrow$ vérification chaîne de certification
 \end{block}
 
 \begin{block}{Chiffrement des messages}
 AES-256-CBC (Cipher Block Chaining)\\
-Clef AES générée et transmises aux destinataires lors de :
+Master key générée et transmise aux destinataires lors de :
 \begin{itemize}
 \item création de salon
 \item ajout/retrait/déconnexion d'utilisateur d'un salon
 \end{itemize}
-Clef/IV générées à partir d'un mot et d'un sel pseudo-aléatoires (EVP\_BytesToKey + rand)
+Clef/IV générées à partir de la master key et d'un sel pseudo-aléatoires (EVP\_BytesToKey + RAND)
 \end{block}
 }
 
+%% CHARLES
 \section{Difficultés rencontrées}
 \frame{
 \frametitle{Difficultés rencontrées}
@@ -279,6 +290,8 @@ Clef/IV générées à partir d'un mot et d'un sel pseudo-aléatoires (EVP\_Byte
 \end{block}
 }
 
+
+
 \section{Conclusion}
 \frame[allowframebreaks=1.0]{
 \frametitle{Conclusion}
@@ -294,12 +307,13 @@ Clef/IV générées à partir d'un mot et d'un sel pseudo-aléatoires (EVP\_Byte
 \end{itemize}
 \end{block}
 \framebreak
+%% JULIEN
 \begin{exampleblock}{Améliorations envisageables}
 \begin{itemize}
 \item Gestion de plusieurs serveurs par le client
 \item Renouvellement régulier des clefs de chiffrement symétrique
-\item Internationalisation de l'application
-\item Portage multi-plateformes
+\item Internationalisation de l'application (POT)
+\item Portage multi-plateformes (couche réseau)
 \item Amélioration client lignes de commandes (NCurses)
 \end{itemize}
 \end{exampleblock}
