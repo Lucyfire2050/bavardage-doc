@@ -379,15 +379,16 @@ Pour la configuration des autorités de certification et des différents profils
 
 On peut alors accéder à la partie administration à partir de l'adresse:
 
-\verb+https://adresse_serveur:8443/ejbca/adminweb/index.jsp+
+\verb+https://inf-srv-securechat:8443/ejbca/adminweb/index.jsp+
 \newpage
 La page obtenue est la suivante :
 \begin{center}
 \includegraphics[width=40em]{admin_ejbca.png}
 \end{center}
 
-Les parties importantes ont été entourées en rouge et voici leurs descriptions.
+Les parties importantes ont été entourées en rouge et voici leurs descriptions.\\
 
+Les profils contiennent les informations nécessaires et utiles qui permettent de générer les certificats. Comme on peut voir sur le schéma précédent, il en existe deux sortes.
 \begin{paragraph}{Profils de certificats}
 C'est dans cette section que l'on crée les différents profils de certificats :
 \begin{itemize}
@@ -395,20 +396,21 @@ C'est dans cette section que l'on crée les différents profils de certificats :
 \item \verb+BAVARDAGEUSER+ : profil pour les utilisateurs sécurisés.
 \end{itemize}
 
-Ces profils sont décrits en détail dans le document annexe : Politique de certification
-\end{paragraph}
-
-\begin{paragraph}{Éditer/créer des AC}
-Une AC (autorité de certification) est une entité dont la mission est de vérifier les données du demandeur de certificat, de signer et de maintenir une liste des certificats et une liste des révocations. Sur la capture d'écran ci-dessus, on voit la liste des AC contenant celle relative à notre projet : \verb+CABavardage+
-\end{paragraph}
-
-
 \begin{paragraph}{Profils d'entités}
 Chaque type d'entité a un profil associé:
 \begin{itemize}
 \item \verb+BAVARDAGE_SERVER+ : profil pour le serveur sécurisé ;
 \item \verb+BAVARDAGE_USER+ : profil pour les utilisateurs sécurisés.
 \end{itemize}
+On utilise deux profils d'entités différents car les rôles de chacun sont différents. Le premier pour déterminer l'entité du server et le second l'entité de l'utilisateur.
+\end{paragraph}
+\end{paragraph}
+\\
+Ces profils sont décrits en détail dans le document annexe : Politique de certification
+
+
+\begin{paragraph}{Éditer/créer des AC}
+Une AC (autorité de certification) est une entité dont la mission est de vérifier les données du demandeur de certificat, de signer et de maintenir une liste des certificats et une liste des révocations. Sur la capture d'écran ci-dessus, on voit la liste des AC contenant celle relative à notre projet : \verb+CABavardage+
 \end{paragraph}
 
 
@@ -509,9 +511,10 @@ Pour faire une demande de création de compte sécurisé, l'utilisateur doit env
 \item le département
 \end{itemize}
 
+L'utilisateur peut entrer ce qu'il veut dans les différents champs. Seul les éléments entrés par l'administrateur sur EJBCA seront pris en compte.
 Après avoir reçu le message de confirmation de compte créé par l'administrateur, il faut générer une clé RSA 2048 avec la commande:
 
-\verb+ $ openssl genrsa -out maclef.pem 2048+
+\verb+ $ openssl genrsa -out maclef.pem 2048 -aes256+
 
 Puis on crée la requête:
 
@@ -546,6 +549,12 @@ Pour lancer le serveur sécurisé, il faut d'abord se rendre dans le répertoire
 \verb+ADRESSE_SERVEUR_SEC+: l'adresse IP ou le nom de domaine du serveur sécurisé
 
 \verb+PORT_SERVEUR_SEC+: le numéro du port d'écoute du serveur sécurisé
+\\
+\vspace{1.4cm}
+
+\textbf{Contraintes:}\\ Le certificat client obtenu lors de la demande devra être placé dans le dossier client dont le chemin est: src/build/client.\\
+Le certificat server devra être placé dans le dossier server\_sec dont le chemin est: src/build/server\_sec.\\
+Le certificat racine root.pem devra être placé à la fois dans le dossier client et dans le dossier server\_sec.
 
 \subsection{Client}
 Pour lancer le client, il faut se rendre dans le répertoire "client" du répertoire "build" et lancer les instrutions suivantes:
@@ -602,7 +611,7 @@ La commande de base de l'application est /HELP. Elle permet de lister toutes les
 			
 \subsubsection{Commandes du client sécurisé et les actions}
 
-\verb+	/CONNECT_SEC user user_certif user_key+: Connexion au serveur sécurisé avec le nom d'utilisateur "user" avec le certificat "user\_certif" et la clé privée "user\_key" (Si la clé privée a été crée avec un mot de passe, il faut ajouter le mot de passe après "user\_key")
+\verb+	/CONNECT_SEC user user_certif user_key+: Connexion au serveur sécurisé avec le nom d'utilisateur "user" avec le certificat "user\_certif" et la clé privée "user\_key" (Si la clé privée a été créée avec un mot de passe, il faut ajouter le mot de passe après "user\_key")
 
 \verb+	/CREATE_ROOM_SEC room_name+: Permet de créer un salon sécurisé du nom de "room\_name"
 
