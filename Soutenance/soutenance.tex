@@ -26,7 +26,6 @@
            rectangle,
            draw=black, thick,
            minimum height=.5cm,
-           minimum width = 1cm,
            text centered},
     data/.style={
            rectangle,
@@ -252,7 +251,7 @@ Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
 
 \section{Module sécurisé}
 \frame{
-\frametitle{Module sécurisé}
+\frametitle[allowframebreaks=1.0]{Module sécurisé}
 \begin{block}{Authentification}
 Clef RSA 2048 bits certifiée par notre PKI\\
 $\hookrightarrow$ tunnel SSL entre serveur sécurisé et client sécurisé (double authentification)\\
@@ -268,6 +267,72 @@ Master key générée et transmise aux destinataires lors de :
 \end{itemize}
 Clef/IV générées à partir de la master key et d'un sel pseudo-aléatoires (EVP\_BytesToKey + RAND)
 \end{block}
+
+
+}
+
+\frame{
+\begin{center}
+\begin{tikzpicture}[node distance=0cm,font=\tiny]
+\node[rectangle,draw, minimum width=1.5cm] (hmac) at (0, 0) {HMAC};
+\node[rectangle,draw, right=of hmac, minimum width=1.5cm] (salt) {SALT};
+\node[rectangle,draw, right=of salt, minimum width=5cm] (mc) {M'};
+\node[left=of hmac] (content) {content};
+
+
+% PARTIE ENVOI
+\node (M1) at (3, 3) {M};
+
+\node (HK1) at (-1, 1.5) {HK};
+\node[square,draw] (H) at (0,1.5) {H};
+\node[square,draw] (RAND) at (1.5,1.5) {RAND};
+\node[square,draw] (genkeyiv1) at (3,1.5) {gen\_keyiv};
+\node (K1) at (3, 0.5) {K};
+\node (kiv1) at (4.7,1.5) {k, iv};
+\node[square,draw] (E) at (6,1.5) {E};
+
+\draw (HK1.east) edge[->] (H.west);
+\draw (H.south) edge[->] (hmac.north);
+
+\draw (RAND.south) edge[->] (salt.north);
+\draw (RAND.east) edge[->] (genkeyiv1.west);
+\draw (K1.north) edge[->] (genkeyiv1.south);
+\draw (genkeyiv1.east) edge[->] (kiv1.west);
+\draw (kiv1.east) edge[->] (E.west);
+\draw (E.south) edge[->] (mc.north);
+
+\draw (M1) edge[->, bend right=20] (H.north);
+\draw (M1) edge[->, bend left=20] (E.north);
+
+% PARTIE RECEPTION
+\node (HK2) at (-1, -1.5) {HK};
+\node[square,draw] (check) at (0,-1.5) {check};
+\node[square,draw] (genkeyiv2) at (1.5,-1.5) {gen\_keyiv};
+\node (K2) at (3, -1.5) {K};
+\node (kiv2) at (1.5,-2.5) {k, iv};
+\node[square,draw] (D) at (3,-2.5) {D};
+\node (md) at (3, -3.5) {M"};
+
+\draw (HK2) edge[->] (check);
+\draw (hmac) edge[->] (check);
+\draw (md) edge[->, bend left=30] (check);
+
+\draw (salt) edge[->] (genkeyiv2);
+\draw (K2) edge[->] (genkeyiv2);
+\draw (genkeyiv2) edge[->] (kiv2);
+\draw (kiv2) edge[->] (D);
+\draw (mc) edge[->, bend left=30] (D);
+\draw (D) edge[->] (md);
+
+
+%\node[] (masterkey1) at (6, 3.5) {K, SALT}; 
+%\node[square, draw] (genkeyiv1) at (6, 2) {gen\_keyiv};
+%\node[minimum width=2cm, left=of genkeyiv1] (keyiv1) {k, iv}; 
+
+%\draw (masterkey1.south) edge[pil,->] (genkeyiv1.north);
+
+\end{tikzpicture}
+\end{center}
 }
 
 %% CHARLES
