@@ -561,8 +561,8 @@ Pour lancer le client, il faut se rendre dans le répertoire "client" du répert
 \begin{itemize}
 \item Client console : 
 \begin{verbatim}
-    $ ./clientsec-cli ADRESSE_SERVEUR PORT_SERVEUR ADRESSE_SERVEUR_SEC PORT_SERVEUR_SEC CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE]
-    $ ./clientsec-cli CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE]
+    $ ./clientsec-cli ADRESSE_SERVEUR PORT_SERVEUR ADRESSE_SERVEUR_SEC 
+        PORT_SERVEUR_SEC CERTIFICAT CLE_PRIVEE [MOT_DE_PASSE_CLE] 
 \end{verbatim}
 \item Client Graphique :
 \begin{verbatim}
@@ -584,7 +584,6 @@ Pour lancer le client, il faut se rendre dans le répertoire "client" du répert
 
 \verb+MOT_DE_PASSE_CLE+: le mot de passe de la clé privée si elle a été généré avec un mot de passe.
 
-	Concernant le client console, la deuxième commande est utilisée lorsque l'adresse et le port du serveur sécurisé/non sécurisé sont celles par défaut (adresse/port serveur: localhost/10000, adresse/port serveur sécurisé: localhost/11000).
 	
 \subsection{Utilisation du client console}
 	
