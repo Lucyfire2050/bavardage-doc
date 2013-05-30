@@ -106,68 +106,6 @@
 \end{block}
 }
 
-
-%% JB
-\section{Déroulement des sprints}
-\subsection{Sprint 1}
-\frame{
-\frametitle[allowframebreaks=1.0]{Sprint 1}
-\begin{exampleblock}{Livraison}
-Tests : OK
-
-Délai respecté  (15 février 2013)
-
-Réunion avec Mme Bardet post livraison le 19 février pour validation
-\end{exampleblock}
-
-\begin{block}{Tâches}
-Retard cumulé : 1 jour
-
-Raison(s): prise en main de SQLite
-\end{block}
-
-
-}
-
-
-\subsection{Sprint 2}
-\frame{
-\frametitle[allowframebreaks=1.0]{Sprint 2}
-
-\begin{exampleblock}{Livraison}
-Tests: OK
-
-Délai respecté (15 mars 2013) : livraison d'une machine virtuelle
-
-$\hookrightarrow$ mise à disposition d'une machine par Mr Macadré (configurée lors du sprint 3)
-
-Réunion avec Mme Bardet post livraison le 3 avril pour validation
-\end{exampleblock}
-
-}
-
-\subsection{Sprint 3}
-\frame{
-\frametitle[allowframebreaks=1.0]{Sprint 3}
-
-\begin{exampleblock}{Livraison}
-Tests: OK
-
-Délai réajusté avec Mme Bardet (3 mai 2013)
-
-Réunions avec Mme Bardet pré livraison le 29 avril et post livraison le 22 mai
-\end{exampleblock}
-
-\begin{block}{Tâches}
-Retard : 3 semaines
-
-Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
-\end{block}
-
-
-}
-
-
 %% YVES
 \section{Technique}
 \frame{
@@ -231,6 +169,66 @@ Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
 }
 
 
+%% JB
+\section{Déroulement des sprints}
+\frame{
+\frametitle[allowframebreaks=1.0]{Sprint 1}
+\begin{exampleblock}{Livraison}
+Tests : OK
+
+Délai respecté  (15 février 2013)
+
+Réunion avec Mme Bardet post livraison le 19 février pour validation
+\end{exampleblock}
+
+\begin{block}{Tâches}
+Retard cumulé : 1 jour
+
+Raison(s): prise en main de SQLite
+\end{block}
+
+
+}
+
+
+\frame{
+\frametitle[allowframebreaks=1.0]{Sprint 2}
+
+\begin{exampleblock}{Livraison}
+Tests: OK
+
+Délai respecté (15 mars 2013) : livraison d'une machine virtuelle
+
+$\hookrightarrow$ mise à disposition d'une machine par Mr Macadré (configurée lors du sprint 3)
+
+Réunion avec Mme Bardet post livraison le 3 avril pour validation
+\end{exampleblock}
+
+}
+
+\frame{
+\frametitle[allowframebreaks=1.0]{Sprint 3}
+
+\begin{exampleblock}{Livraison}
+Tests: OK
+
+Délai réajusté avec Mme Bardet (3 mai 2013)
+
+Réunions avec Mme Bardet pré livraison le 29 avril et post livraison le 22 mai
+\end{exampleblock}
+
+\begin{block}{Tâches}
+Retard : 3 semaines
+
+Raison(s): contrôles continus pendant 2 semaines + 1 semaine \emph{off}
+\end{block}
+
+
+}
+
+
+
+
 %% ISMAEL
 \section{Certificats}
 \frame{
@@ -274,22 +272,25 @@ Clef/IV générées à partir de la master key et d'un sel pseudo-aléatoires (E
 \frame{
 \begin{center}
 \begin{tikzpicture}[node distance=0cm,font=\tiny]
-\node[rectangle,draw, minimum width=1.5cm] (hmac) at (0, 0) {HMAC};
-\node[rectangle,draw, right=of hmac, minimum width=1.5cm] (salt) {SALT};
-\node[rectangle,draw, right=of salt, minimum width=5cm] (mc) {M'};
-\node[left=of hmac] (content) {content};
+
+\draw [dashed] (-2,0) -- (8.5,0);
+
+\node[square,draw, minimum width=1.5cm, color=black!50!green, fill=white] (hmac) at (0, 0) {HMAC};
+\node[square,draw, right=of hmac, minimum width=1.5cm, color=black!50!green, fill=white] (salt) {SALT};
+\node[square,draw, right=of salt, minimum width=5cm, color=black!50!green, fill=white] (mc) {C};
+%\node[left=of hmac] (content) {content};
 
 
 % PARTIE ENVOI
-\node (M1) at (3, 3) {M};
+\node[color=black!30!red] (M1) at (3, 3) {M};
 
-\node (HK1) at (-1, 1.5) {HK};
-\node[square,draw] (H) at (0,1.5) {H};
-\node[square,draw] (RAND) at (1.5,1.5) {RAND};
-\node[square,draw] (genkeyiv1) at (3,1.5) {gen\_keyiv};
-\node (K1) at (3, 0.5) {K};
-\node (kiv1) at (4.7,1.5) {k, iv};
-\node[square,draw] (E) at (6,1.5) {E};
+\node[color=black!30!red] (HK1) at (-1, 1.5) {HK};
+\node[square,draw, color=black!50!green] (H) at (0,1.5) {H};
+\node[square,draw, color=black!50!green] (RAND) at (1.5,1.5) {RAND};
+\node[square,draw, color=black!50!green] (genkeyiv1) at (3,1.5) {gen\_keyiv};
+\node[color=black!30!red] (K1) at (3, 0.5) {K};
+\node[color=black!30!red] (kiv1) at (4.7,1.5) {k, iv};
+\node[square,draw, color=black!50!green] (E) at (6,1.5) {E};
 
 \draw (HK1.east) edge[->] (H.west);
 \draw (H.south) edge[->] (hmac.north);
@@ -305,13 +306,13 @@ Clef/IV générées à partir de la master key et d'un sel pseudo-aléatoires (E
 \draw (M1) edge[->, bend left=20] (E.north);
 
 % PARTIE RECEPTION
-\node (HK2) at (-1, -1.5) {HK};
-\node[square,draw] (check) at (0,-1.5) {check};
-\node[square,draw] (genkeyiv2) at (1.5,-1.5) {gen\_keyiv};
-\node (K2) at (3, -1.5) {K};
-\node (kiv2) at (1.5,-2.5) {k, iv};
-\node[square,draw] (D) at (3,-2.5) {D};
-\node (md) at (3, -3.5) {M"};
+\node[color=black!30!red] (HK2) at (-1, -1.5) {HK};
+\node[square,draw, color=black!50!green] (check) at (0,-1.5) {check};
+\node[square,draw, color=black!50!green] (genkeyiv2) at (1.5,-1.5) {gen\_keyiv};
+\node[color=black!30!red] (K2) at (3, -1.5) {K};
+\node[color=black!30!red] (kiv2) at (1.5,-2.5) {k, iv};
+\node[square,draw, color=black!50!green] (D) at (3,-2.5) {D};
+\node[color=black!30!red] (md) at (3, -3.5) {M'};
 
 \draw (HK2) edge[->] (check);
 \draw (hmac) edge[->] (check);
@@ -324,7 +325,11 @@ Clef/IV générées à partir de la master key et d'un sel pseudo-aléatoires (E
 \draw (mc) edge[->, bend left=30] (D);
 \draw (D) edge[->] (md);
 
+\draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=4pt},yshift=0pt]
+(7.5,0.5) -- (7.5,3) node [black,midway,xshift=0.8cm] {Envoi};
 
+\draw [decorate,decoration={brace,amplitude=5pt,mirror,raise=4pt},yshift=0pt]
+(7.5,-4) -- (7.5,-0.5) node [black,midway,xshift=0.9cm] {Réception};
 %\node[] (masterkey1) at (6, 3.5) {K, SALT}; 
 %\node[square, draw] (genkeyiv1) at (6, 2) {gen\_keyiv};
 %\node[minimum width=2cm, left=of genkeyiv1] (keyiv1) {k, iv}; 
@@ -377,6 +382,7 @@ Clef/IV générées à partir de la master key et d'un sel pseudo-aléatoires (E
 \begin{itemize}
 \item Gestion de plusieurs serveurs par le client
 \item Renouvellement régulier des clefs de chiffrement symétrique
+\item Avertissement des nouveaux messages
 \item Internationalisation de l'application (POT)
 \item Portage multi-plateformes (couche réseau)
 \item Amélioration client lignes de commandes (NCurses)
