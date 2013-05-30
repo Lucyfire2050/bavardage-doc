@@ -439,9 +439,9 @@ On rajoute également des fonctions de chiffrement/déchiffrement de messages :
 \end{itemize}
 }
 \large
-Pour le chiffrement et le déchiffrement le serveur sécurisé génère aléatoirement un "master key" K, avec la fonction \verb+unsigned char *gen_master_key () +, et une clé HMAC HK, avec la fonction \verb+unsigned char *gen_hash_key () +qui sont transmis aux clients d'un salon chaque fois qu'une personne quitte ou intègre le salon. 
-Les clients pour chiffrer les messages utilisent la "master key" et génère un sel qu'ils utilisent avec la fonction  \verb+key_iv gen_keyiv (unsigned char *master_key, unsigned char *salt) +  pour générer une clé k et un IV. Pour le contrôle de l'integrité des messages, un HMAC du message est générer en utilisant la fonction \verb+unsigned char *compute_hmac (HMAC_CTX *hm_ctx, char *text, unsigned int *len) + et la clé HK. La clé k et l'IV sont utilisés dans la fonction  \verb+aes_encrypt+ pour chiffrer le message qui sera concatener avec le HMAC et le sel puis envoyé au destinataire.
-\\ Pour déchiffrer le message le client décompose d'abord le message reçu pour récuperer le HMAC, le sel et le message chiffré. La "master key" K et le sel sont utilisés avec la fonction \verb+gen_keyiv + pour générer la clé k et l'IV qui seront utilisés dans la fonction \verb+aes_decrypt+ pour déchiffrer le message. un HMAC du message reçu est produit avec la clé HK et la fonction  \verb+compute_hmac+ . Le HMAC reçu est comparé avec le HMAC produit pour vérifier l'intégrité du message.
+Pour le chiffrement et le déchiffrement le serveur sécurisé génère aléatoirement une «master key» K, avec la fonction \verb+unsigned char *gen_master_key () +, et une clé HMAC HK, avec la fonction \verb+unsigned char *gen_hash_key () +qui sont transmises aux clients d'un salon chaque fois qu'une personne quitte ou rejoint le salon. 
+Les clients, pour chiffrer les messages, utilisent la «master key» et génèrent un sel qu'ils utilisent avec la fonction  \verb+key_iv gen_keyiv (unsigned char +\\ \verb+*master_key,unsigned char *salt) +  pour générer une clé k et un IV. Pour le contrôle de l'integrité des messages, un HMAC du message est généré en utilisant la fonction \\\verb+unsigned char *compute_hmac (HMAC_CTX *hm_ctx, char *text, unsigned int *len) + \\et la clé HK. La clé k et l'IV sont utilisés dans la fonction  \verb+aes_encrypt+ pour chiffrer le message qui sera concaténé avec le HMAC et le sel, puis envoyé au destinataire.
+\\ Pour déchiffrer le message le client décompose d'abord le message reçu pour récupérer le HMAC, le sel et le message chiffré. La «master key» K et le sel sont utilisés avec la fonction \verb+gen_keyiv + pour générer la clé k et l'IV qui seront utilisés dans la fonction \verb+aes_decrypt+ pour déchiffrer le message. un HMAC du message reçu est produit avec la clé HK et la fonction  \verb+compute_hmac+ . Le HMAC reçu est comparé avec le HMAC produit pour vérifier l'intégrité du message.
 
 
 Comme les noms des fonctions l'indiquent, nous utilisons AES-256-CBC pour chiffrer les messages envoyés (champ \verb+content+). AES est un chiffrement par bloc qui supporte des clés et des blocs de 128, 192 et 256 bits. Le mode de chiffrement CBC consiste à diviser les données en plusieurs blocs de même taille et à les chiffrer de manière chaînée (le résultat précédent est utilisé lors du chiffrement suivant). L'IV est utilisée pour le chiffrement du premier bloc. Avec le mode CBC l'IV est unique et aléatoire, ce qui rend la clé réutilisable sans risque, et il n'y a pas de risque de répétition de bloc. Nous avons choisi AES-256-CBC pour avoir une plus grande taille des clés et la sécurité qu'offre le mode de chiffrement CBC. 
@@ -798,6 +798,31 @@ la communication au sein d'un groupe de projet dans un cadre orienté profession
 
 
 \newpage
+
+\begin{thebibliography}{9}
+\bibitem{sqlite}
+		\url{http://www.sqlite.org/cintro.html}
+
+\bibitem{valadoc}
+		\url{http://valadoc.org}
+		
+\bibitem{ejbca}
+		\url{http://wiki.ejbca.org/}
+		
+\bibitem{hp}
+		\url{http://h71000.www7.hp.com/doc/83final/ba554_90007/ch04s03.html}
+		
+\bibitem{opensslnetwork}
+          Pravir Chandra, Matt Messier, John Viega,
+          \emph{Network Security with OpenSSL}.
+          O'Reilly,
+          2002.
+          
+\bibitem{etuto}
+		\url{http://etutorials.org/Programming/secure+programming/}
+\end{thebibliography}
+
+
 \appendix
 \chapter{Documents de gestion de projet}
 \begin{itemize}
@@ -812,4 +837,6 @@ la communication au sein d'un groupe de projet dans un cadre orienté profession
 \url{https://github.com/legrajul/bavardage-doc/raw/master/DPC/dpc.pdf}
 \chapter{Politique de certification}
 \url{https://github.com/legrajul/bavardage-doc/raw/master/PC/pc.pdf}
+
+
 \end{document}
